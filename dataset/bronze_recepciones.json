@@ -1,5 +1,5 @@
 {
-	"name": "bronze_bja_controles_prenatales",
+	"name": "bronze_recepciones",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "dw_subsidios",
@@ -12,51 +12,67 @@
 		"type": "AzureSqlTable",
 		"schema": [
 			{
-				"name": "control_prenatal_id",
+				"name": "recepcion_id",
 				"type": "int",
 				"precision": 10
 			},
 			{
-				"name": "ci_beneficiaria",
+				"name": "nro_lote",
 				"type": "nvarchar"
 			},
 			{
-				"name": "establecimiento_id",
+				"name": "almacen_id",
 				"type": "int",
 				"precision": 10
 			},
 			{
-				"name": "nro_control",
+				"name": "transportista_id",
 				"type": "int",
 				"precision": 10
 			},
 			{
-				"name": "fecha_control",
+				"name": "vehiculo_id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "fecha_recepcion",
 				"type": "date"
 			},
 			{
-				"name": "semana_gestacion",
-				"type": "int",
-				"precision": 10
-			},
-			{
-				"name": "peso_madre_kg",
+				"name": "cantidad_recibida",
 				"type": "decimal",
-				"precision": 5,
+				"precision": 12,
 				"scale": 2
 			},
 			{
-				"name": "presion_arterial",
+				"name": "unidad",
 				"type": "nvarchar"
 			},
 			{
-				"name": "resultado",
+				"name": "condicion",
+				"type": "nvarchar"
+			},
+			{
+				"name": "estado",
+				"type": "nvarchar"
+			},
+			{
+				"name": "responsable",
+				"type": "nvarchar"
+			},
+			{
+				"name": "nro_guia_remision",
+				"type": "nvarchar"
+			},
+			{
+				"name": "temperatura_llegada",
 				"type": "nvarchar"
 			}
 		],
 		"typeProperties": {
 			"schema": "bronze",
-			"table": "bja_controles_prenatales"
+			"table": "recepciones"
 		}
 	}
 }

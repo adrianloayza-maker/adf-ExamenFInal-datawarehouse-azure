@@ -1,5 +1,5 @@
 {
-	"name": "bronze_bja_controles_prenatales",
+	"name": "bronze_sup_entregas",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "dw_subsidios",
@@ -12,7 +12,12 @@
 		"type": "AzureSqlTable",
 		"schema": [
 			{
-				"name": "control_prenatal_id",
+				"name": "entrega_id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "boleta_id",
 				"type": "int",
 				"precision": 10
 			},
@@ -26,37 +31,36 @@
 				"precision": 10
 			},
 			{
-				"name": "nro_control",
+				"name": "paquete_id",
 				"type": "int",
 				"precision": 10
 			},
 			{
-				"name": "fecha_control",
+				"name": "paquete_nombre",
+				"type": "nvarchar"
+			},
+			{
+				"name": "fecha_entrega",
 				"type": "date"
 			},
 			{
-				"name": "semana_gestacion",
-				"type": "int",
-				"precision": 10
+				"name": "lote_produccion",
+				"type": "nvarchar"
 			},
 			{
-				"name": "peso_madre_kg",
+				"name": "peso_paquete_kg",
 				"type": "decimal",
 				"precision": 5,
 				"scale": 2
 			},
 			{
-				"name": "presion_arterial",
-				"type": "nvarchar"
-			},
-			{
-				"name": "resultado",
-				"type": "nvarchar"
+				"name": "fecha_proxima_entrega",
+				"type": "date"
 			}
 		],
 		"typeProperties": {
 			"schema": "bronze",
-			"table": "bja_controles_prenatales"
+			"table": "sup_entregas"
 		}
 	}
 }

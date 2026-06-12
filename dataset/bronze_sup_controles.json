@@ -1,5 +1,5 @@
 {
-	"name": "bronze_bja_controles_prenatales",
+	"name": "bronze_sup_controles",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "dw_subsidios",
@@ -12,7 +12,7 @@
 		"type": "AzureSqlTable",
 		"schema": [
 			{
-				"name": "control_prenatal_id",
+				"name": "control_id",
 				"type": "int",
 				"precision": 10
 			},
@@ -48,15 +48,11 @@
 			{
 				"name": "presion_arterial",
 				"type": "nvarchar"
-			},
-			{
-				"name": "resultado",
-				"type": "nvarchar"
 			}
 		],
 		"typeProperties": {
 			"schema": "bronze",
-			"table": "bja_controles_prenatales"
+			"table": "sup_controles"
 		}
 	}
 }

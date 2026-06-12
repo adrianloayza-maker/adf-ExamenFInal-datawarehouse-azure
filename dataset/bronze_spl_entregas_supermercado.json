@@ -1,5 +1,5 @@
 {
-	"name": "bronze_bja_controles_prenatales",
+	"name": "bronze_spl_entregas_supermercado",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "dw_subsidios",
@@ -12,7 +12,12 @@
 		"type": "AzureSqlTable",
 		"schema": [
 			{
-				"name": "control_prenatal_id",
+				"name": "entrega_super_id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "asignacion_id",
 				"type": "int",
 				"precision": 10
 			},
@@ -21,42 +26,34 @@
 				"type": "nvarchar"
 			},
 			{
-				"name": "establecimiento_id",
+				"name": "supermercado_id",
 				"type": "int",
 				"precision": 10
 			},
 			{
-				"name": "nro_control",
-				"type": "int",
-				"precision": 10
-			},
-			{
-				"name": "fecha_control",
+				"name": "fecha_retiro",
 				"type": "date"
 			},
 			{
-				"name": "semana_gestacion",
-				"type": "int",
-				"precision": 10
+				"name": "tipo_carne",
+				"type": "nvarchar"
 			},
 			{
-				"name": "peso_madre_kg",
+				"name": "cantidad_kg",
 				"type": "decimal",
-				"precision": 5,
+				"precision": 6,
 				"scale": 2
 			},
 			{
-				"name": "presion_arterial",
-				"type": "nvarchar"
-			},
-			{
-				"name": "resultado",
-				"type": "nvarchar"
+				"name": "monto_bs",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
 			}
 		],
 		"typeProperties": {
 			"schema": "bronze",
-			"table": "bja_controles_prenatales"
+			"table": "spl_entregas_supermercado"
 		}
 	}
 }

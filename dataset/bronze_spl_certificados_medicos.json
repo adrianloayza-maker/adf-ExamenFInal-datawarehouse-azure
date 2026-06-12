@@ -1,5 +1,5 @@
 {
-	"name": "bronze_bja_controles_prenatales",
+	"name": "bronze_spl_certificados_medicos",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "dw_subsidios",
@@ -12,26 +12,17 @@
 		"type": "AzureSqlTable",
 		"schema": [
 			{
-				"name": "control_prenatal_id",
+				"name": "certificado_id",
 				"type": "int",
 				"precision": 10
 			},
 			{
-				"name": "ci_beneficiaria",
-				"type": "nvarchar"
-			},
-			{
-				"name": "establecimiento_id",
+				"name": "afiliacion_id",
 				"type": "int",
 				"precision": 10
 			},
 			{
-				"name": "nro_control",
-				"type": "int",
-				"precision": 10
-			},
-			{
-				"name": "fecha_control",
+				"name": "fecha_emision",
 				"type": "date"
 			},
 			{
@@ -40,23 +31,21 @@
 				"precision": 10
 			},
 			{
-				"name": "peso_madre_kg",
-				"type": "decimal",
-				"precision": 5,
-				"scale": 2
+				"name": "fecha_probable_parto",
+				"type": "date"
 			},
 			{
-				"name": "presion_arterial",
+				"name": "medico_responsable",
 				"type": "nvarchar"
 			},
 			{
-				"name": "resultado",
+				"name": "estado",
 				"type": "nvarchar"
 			}
 		],
 		"typeProperties": {
 			"schema": "bronze",
-			"table": "bja_controles_prenatales"
+			"table": "spl_certificados_medicos"
 		}
 	}
 }

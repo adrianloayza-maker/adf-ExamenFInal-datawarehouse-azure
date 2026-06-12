@@ -1,5 +1,5 @@
 {
-	"name": "bronze_bja_controles_prenatales",
+	"name": "bronze_sup_inscripciones",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "dw_subsidios",
@@ -12,7 +12,7 @@
 		"type": "AzureSqlTable",
 		"schema": [
 			{
-				"name": "control_prenatal_id",
+				"name": "inscripcion_id",
 				"type": "int",
 				"precision": 10
 			},
@@ -26,12 +26,7 @@
 				"precision": 10
 			},
 			{
-				"name": "nro_control",
-				"type": "int",
-				"precision": 10
-			},
-			{
-				"name": "fecha_control",
+				"name": "fecha_inscripcion",
 				"type": "date"
 			},
 			{
@@ -40,23 +35,13 @@
 				"precision": 10
 			},
 			{
-				"name": "peso_madre_kg",
-				"type": "decimal",
-				"precision": 5,
-				"scale": 2
-			},
-			{
-				"name": "presion_arterial",
-				"type": "nvarchar"
-			},
-			{
-				"name": "resultado",
+				"name": "estado",
 				"type": "nvarchar"
 			}
 		],
 		"typeProperties": {
 			"schema": "bronze",
-			"table": "bja_controles_prenatales"
+			"table": "sup_inscripciones"
 		}
 	}
 }

@@ -1,5 +1,5 @@
 {
-	"name": "bronze_bja_controles_prenatales",
+	"name": "bronze_spl_afiliaciones",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "dw_subsidios",
@@ -12,7 +12,7 @@
 		"type": "AzureSqlTable",
 		"schema": [
 			{
-				"name": "control_prenatal_id",
+				"name": "afiliacion_id",
 				"type": "int",
 				"precision": 10
 			},
@@ -21,42 +21,35 @@
 				"type": "nvarchar"
 			},
 			{
-				"name": "establecimiento_id",
+				"name": "empleador_id",
 				"type": "int",
 				"precision": 10
 			},
 			{
-				"name": "nro_control",
+				"name": "caja_id",
 				"type": "int",
 				"precision": 10
 			},
 			{
-				"name": "fecha_control",
+				"name": "fecha_afiliacion",
 				"type": "date"
 			},
 			{
-				"name": "semana_gestacion",
-				"type": "int",
-				"precision": 10
-			},
-			{
-				"name": "peso_madre_kg",
-				"type": "decimal",
-				"precision": 5,
-				"scale": 2
-			},
-			{
-				"name": "presion_arterial",
+				"name": "nro_matricula",
 				"type": "nvarchar"
 			},
 			{
-				"name": "resultado",
+				"name": "tipo_subsidio",
+				"type": "nvarchar"
+			},
+			{
+				"name": "estado",
 				"type": "nvarchar"
 			}
 		],
 		"typeProperties": {
 			"schema": "bronze",
-			"table": "bja_controles_prenatales"
+			"table": "spl_afiliaciones"
 		}
 	}
 }

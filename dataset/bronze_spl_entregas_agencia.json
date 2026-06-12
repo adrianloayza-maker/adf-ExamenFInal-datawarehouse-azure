@@ -1,5 +1,5 @@
 {
-	"name": "bronze_spl_entregas_emergencia",
+	"name": "bronze_spl_entregas_agencia",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "dw_subsidios",

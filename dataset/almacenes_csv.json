@@ -1,0 +1,55 @@
+{
+	"name": "almacenes_csv",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "datalake_subsidios",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "bronze"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "almacenes.csv",
+				"container": "bronze"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "almacen_id",
+				"type": "String"
+			},
+			{
+				"name": "nombre",
+				"type": "String"
+			},
+			{
+				"name": "municipio",
+				"type": "String"
+			},
+			{
+				"name": "departamento",
+				"type": "String"
+			},
+			{
+				"name": "direccion",
+				"type": "String"
+			},
+			{
+				"name": "capacidad_m3",
+				"type": "String"
+			},
+			{
+				"name": "estado",
+				"type": "String"
+			}
+		]
+	}
+}

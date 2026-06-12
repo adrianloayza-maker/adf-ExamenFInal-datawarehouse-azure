@@ -13,8 +13,7 @@
 		"schema": [
 			{
 				"name": "transportista_id",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "razon_social",

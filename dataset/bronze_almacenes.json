@@ -13,8 +13,7 @@
 		"schema": [
 			{
 				"name": "almacen_id",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "nombre",
@@ -34,9 +33,7 @@
 			},
 			{
 				"name": "capacidad_m3",
-				"type": "decimal",
-				"precision": 18,
-				"scale": 2
+				"type": "nvarchar"
 			},
 			{
 				"name": "estado",

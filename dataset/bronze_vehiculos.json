@@ -13,13 +13,11 @@
 		"schema": [
 			{
 				"name": "vehiculo_id",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "transportista_id",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "descripcion",
@@ -35,9 +33,7 @@
 			},
 			{
 				"name": "capacidad_kg",
-				"type": "decimal",
-				"precision": 10,
-				"scale": 2
+				"type": "nvarchar"
 			},
 			{
 				"name": "estado",

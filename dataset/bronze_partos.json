@@ -13,8 +13,7 @@
 		"schema": [
 			{
 				"name": "parto_id",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "ci_madre",
@@ -26,12 +25,11 @@
 			},
 			{
 				"name": "establecimiento_id",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "fecha_parto",
-				"type": "date"
+				"type": "nvarchar"
 			},
 			{
 				"name": "tipo_parto",
@@ -39,15 +37,11 @@
 			},
 			{
 				"name": "peso_nacimiento_kg",
-				"type": "decimal",
-				"precision": 5,
-				"scale": 2
+				"type": "nvarchar"
 			},
 			{
 				"name": "talla_nacimiento_cm",
-				"type": "decimal",
-				"precision": 5,
-				"scale": 2
+				"type": "nvarchar"
 			}
 		],
 		"typeProperties": {

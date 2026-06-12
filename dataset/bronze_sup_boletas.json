@@ -13,13 +13,11 @@
 		"schema": [
 			{
 				"name": "boleta_id",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "control_id",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "ci_beneficiaria",
@@ -31,7 +29,7 @@
 			},
 			{
 				"name": "fecha_emision",
-				"type": "date"
+				"type": "nvarchar"
 			},
 			{
 				"name": "estado",

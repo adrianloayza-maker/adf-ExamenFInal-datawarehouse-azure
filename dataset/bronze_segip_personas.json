@@ -29,7 +29,7 @@
 			},
 			{
 				"name": "fecha_nacimiento",
-				"type": "date"
+				"type": "nvarchar"
 			},
 			{
 				"name": "genero",
@@ -45,8 +45,7 @@
 			},
 			{
 				"name": "numero_hijos",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "ci_padre",
@@ -70,7 +69,7 @@
 			},
 			{
 				"name": "fecha_emision",
-				"type": "date"
+				"type": "nvarchar"
 			}
 		],
 		"typeProperties": {

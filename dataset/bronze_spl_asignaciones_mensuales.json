@@ -13,41 +13,31 @@
 		"schema": [
 			{
 				"name": "asignacion_id",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "afiliacion_id",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "mes",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "gestion",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "monto_bs",
-				"type": "decimal",
-				"precision": 10,
-				"scale": 2
+				"type": "nvarchar"
 			},
 			{
 				"name": "monto_productos",
-				"type": "decimal",
-				"precision": 10,
-				"scale": 2
+				"type": "nvarchar"
 			},
 			{
 				"name": "monto_carnes",
-				"type": "decimal",
-				"precision": 10,
-				"scale": 2
+				"type": "nvarchar"
 			},
 			{
 				"name": "estado",

@@ -13,8 +13,7 @@
 		"schema": [
 			{
 				"name": "pago_id",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "ci_beneficiaria",
@@ -26,13 +25,11 @@
 			},
 			{
 				"name": "monto_bs",
-				"type": "decimal",
-				"precision": 10,
-				"scale": 2
+				"type": "nvarchar"
 			},
 			{
 				"name": "fecha_pago",
-				"type": "date"
+				"type": "nvarchar"
 			},
 			{
 				"name": "estado_pago",

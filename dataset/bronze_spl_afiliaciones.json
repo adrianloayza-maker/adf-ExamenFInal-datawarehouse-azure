@@ -13,8 +13,7 @@
 		"schema": [
 			{
 				"name": "afiliacion_id",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "ci_beneficiaria",
@@ -22,17 +21,15 @@
 			},
 			{
 				"name": "empleador_id",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "caja_id",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "fecha_afiliacion",
-				"type": "date"
+				"type": "nvarchar"
 			},
 			{
 				"name": "nro_matricula",

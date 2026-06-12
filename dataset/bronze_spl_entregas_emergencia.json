@@ -13,13 +13,11 @@
 		"schema": [
 			{
 				"name": "entrega_ag_id",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "asignacion_id",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "ci_beneficiaria",
@@ -27,7 +25,7 @@
 			},
 			{
 				"name": "fecha_entrega",
-				"type": "date"
+				"type": "nvarchar"
 			},
 			{
 				"name": "productos",
@@ -39,9 +37,7 @@
 			},
 			{
 				"name": "peso_kg",
-				"type": "decimal",
-				"precision": 6,
-				"scale": 2
+				"type": "nvarchar"
 			},
 			{
 				"name": "punto_entrega",

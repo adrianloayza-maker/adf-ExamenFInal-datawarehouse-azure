@@ -13,8 +13,7 @@
 		"schema": [
 			{
 				"name": "control_prenatal_id",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "ci_beneficiaria",
@@ -22,28 +21,23 @@
 			},
 			{
 				"name": "establecimiento_id",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "nro_control",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "fecha_control",
-				"type": "date"
+				"type": "nvarchar"
 			},
 			{
 				"name": "semana_gestacion",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "peso_madre_kg",
-				"type": "decimal",
-				"precision": 5,
-				"scale": 2
+				"type": "nvarchar"
 			},
 			{
 				"name": "presion_arterial",

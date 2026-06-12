@@ -13,13 +13,11 @@
 		"schema": [
 			{
 				"name": "entrega_super_id",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "asignacion_id",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "ci_beneficiaria",
@@ -27,12 +25,11 @@
 			},
 			{
 				"name": "supermercado_id",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "fecha_retiro",
-				"type": "date"
+				"type": "nvarchar"
 			},
 			{
 				"name": "tipo_carne",
@@ -40,15 +37,11 @@
 			},
 			{
 				"name": "cantidad_kg",
-				"type": "decimal",
-				"precision": 6,
-				"scale": 2
+				"type": "nvarchar"
 			},
 			{
 				"name": "monto_bs",
-				"type": "decimal",
-				"precision": 10,
-				"scale": 2
+				"type": "nvarchar"
 			}
 		],
 		"typeProperties": {

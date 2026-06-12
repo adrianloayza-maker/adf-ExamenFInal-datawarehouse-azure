@@ -13,8 +13,7 @@
 		"schema": [
 			{
 				"name": "establecimiento_id",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "codigo_snis",

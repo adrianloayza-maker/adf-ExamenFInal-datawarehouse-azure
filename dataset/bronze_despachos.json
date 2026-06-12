@@ -13,13 +13,11 @@
 		"schema": [
 			{
 				"name": "despacho_id",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "recepcion_id",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "nro_lote",
@@ -27,28 +25,23 @@
 			},
 			{
 				"name": "almacen_id",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "transportista_id",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "vehiculo_id",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "fecha_despacho",
-				"type": "date"
+				"type": "nvarchar"
 			},
 			{
 				"name": "cantidad_despachada",
-				"type": "decimal",
-				"precision": 12,
-				"scale": 2
+				"type": "nvarchar"
 			},
 			{
 				"name": "centro_destino",
@@ -68,7 +61,7 @@
 			},
 			{
 				"name": "fecha_llegada",
-				"type": "date"
+				"type": "nvarchar"
 			}
 		],
 		"typeProperties": {

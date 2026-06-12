@@ -13,8 +13,7 @@
 		"schema": [
 			{
 				"name": "paquete_id",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "nombre",
@@ -26,15 +25,11 @@
 			},
 			{
 				"name": "peso_estandar_kg",
-				"type": "decimal",
-				"precision": 5,
-				"scale": 2
+				"type": "nvarchar"
 			},
 			{
 				"name": "costo_estimado_bs",
-				"type": "decimal",
-				"precision": 10,
-				"scale": 2
+				"type": "nvarchar"
 			}
 		],
 		"typeProperties": {

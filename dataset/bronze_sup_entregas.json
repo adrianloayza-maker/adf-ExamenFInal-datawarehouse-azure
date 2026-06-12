@@ -13,13 +13,11 @@
 		"schema": [
 			{
 				"name": "entrega_id",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "boleta_id",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "ci_beneficiaria",
@@ -27,13 +25,11 @@
 			},
 			{
 				"name": "establecimiento_id",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "paquete_id",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "paquete_nombre",
@@ -41,7 +37,7 @@
 			},
 			{
 				"name": "fecha_entrega",
-				"type": "date"
+				"type": "nvarchar"
 			},
 			{
 				"name": "lote_produccion",
@@ -49,13 +45,11 @@
 			},
 			{
 				"name": "peso_paquete_kg",
-				"type": "decimal",
-				"precision": 5,
-				"scale": 2
+				"type": "nvarchar"
 			},
 			{
 				"name": "fecha_proxima_entrega",
-				"type": "date"
+				"type": "nvarchar"
 			}
 		],
 		"typeProperties": {

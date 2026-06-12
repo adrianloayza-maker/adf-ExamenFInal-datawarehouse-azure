@@ -13,8 +13,7 @@
 		"schema": [
 			{
 				"name": "recepcion_id",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "nro_lote",
@@ -22,28 +21,23 @@
 			},
 			{
 				"name": "almacen_id",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "transportista_id",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "vehiculo_id",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "fecha_recepcion",
-				"type": "date"
+				"type": "nvarchar"
 			},
 			{
 				"name": "cantidad_recibida",
-				"type": "decimal",
-				"precision": 12,
-				"scale": 2
+				"type": "nvarchar"
 			},
 			{
 				"name": "unidad",

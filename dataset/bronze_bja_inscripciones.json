@@ -13,8 +13,7 @@
 		"schema": [
 			{
 				"name": "inscripcion_id",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "ci_beneficiaria",
@@ -22,17 +21,15 @@
 			},
 			{
 				"name": "establecimiento_id",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "fecha_inscripcion",
-				"type": "date"
+				"type": "nvarchar"
 			},
 			{
 				"name": "semana_gestacion",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "estado",

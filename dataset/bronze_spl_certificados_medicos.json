@@ -13,26 +13,23 @@
 		"schema": [
 			{
 				"name": "certificado_id",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "afiliacion_id",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "fecha_emision",
-				"type": "date"
+				"type": "nvarchar"
 			},
 			{
 				"name": "semana_gestacion",
-				"type": "int",
-				"precision": 10
+				"type": "nvarchar"
 			},
 			{
 				"name": "fecha_probable_parto",
-				"type": "date"
+				"type": "nvarchar"
 			},
 			{
 				"name": "medico_responsable",

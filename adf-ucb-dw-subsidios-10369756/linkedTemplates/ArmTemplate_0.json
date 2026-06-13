@@ -1,0 +1,1210 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Nombre de instancia de Data Factory",
+			"defaultValue": "adf-ucb-dw-subsidios-10369756"
+		},
+		"datalake_subsidios_connectionString": {
+			"type": "secureString",
+			"metadata": "Cadena protegida para \"connectionString\"de \"datalake_subsidios\""
+		},
+		"dw_subsidios_password": {
+			"type": "secureString",
+			"metadata": "Cadena protegida para \"password\"de \"dw_subsidios\""
+		},
+		"dw_subsidios_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "sql-ucb-sisger-subsidios-10369756.database.windows.net"
+		},
+		"dw_subsidios_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "dw_subsidios"
+		},
+		"dw_subsidios_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "adrian"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/datalake_subsidios')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('datalake_subsidios_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dw_subsidios')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"server": "[parameters('dw_subsidios_properties_typeProperties_server')]",
+					"database": "[parameters('dw_subsidios_properties_typeProperties_database')]",
+					"encrypt": "mandatory",
+					"trustServerCertificate": false,
+					"authenticationType": "SQL",
+					"userName": "[parameters('dw_subsidios_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('dw_subsidios_password')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/almacenes_csv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "datalake_subsidios",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "bronze"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "almacenes.csv",
+						"container": "bronze"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "almacen_id",
+						"type": "String"
+					},
+					{
+						"name": "nombre",
+						"type": "String"
+					},
+					{
+						"name": "municipio",
+						"type": "String"
+					},
+					{
+						"name": "departamento",
+						"type": "String"
+					},
+					{
+						"name": "direccion",
+						"type": "String"
+					},
+					{
+						"name": "capacidad_m3",
+						"type": "String"
+					},
+					{
+						"name": "estado",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/datalake_subsidios')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/bja_controles_pediatricos_csv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "datalake_subsidios",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "bronze"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "bja_controles_pediatricos.csv",
+						"container": "bronze"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "control_pediatrico_id",
+						"type": "String"
+					},
+					{
+						"name": "ci_nino",
+						"type": "String"
+					},
+					{
+						"name": "ci_madre",
+						"type": "String"
+					},
+					{
+						"name": "establecimiento_id",
+						"type": "String"
+					},
+					{
+						"name": "nro_control",
+						"type": "String"
+					},
+					{
+						"name": "fecha_control",
+						"type": "String"
+					},
+					{
+						"name": "peso_nino_kg",
+						"type": "String"
+					},
+					{
+						"name": "talla_nino_cm",
+						"type": "String"
+					},
+					{
+						"name": "vacuna_aplicada",
+						"type": "String"
+					},
+					{
+						"name": "resultado",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/datalake_subsidios')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/bja_controles_prenatales_csv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "datalake_subsidios",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "bronze"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "bja_controles_prenatales.csv",
+						"container": "bronze"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "control_prenatal_id",
+						"type": "String"
+					},
+					{
+						"name": "ci_beneficiaria",
+						"type": "String"
+					},
+					{
+						"name": "establecimiento_id",
+						"type": "String"
+					},
+					{
+						"name": "nro_control",
+						"type": "String"
+					},
+					{
+						"name": "fecha_control",
+						"type": "String"
+					},
+					{
+						"name": "semana_gestacion",
+						"type": "String"
+					},
+					{
+						"name": "peso_madre_kg",
+						"type": "String"
+					},
+					{
+						"name": "presion_arterial",
+						"type": "String"
+					},
+					{
+						"name": "resultado",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/datalake_subsidios')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/bja_inscripciones_csv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "datalake_subsidios",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "bronze"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "bja_inscripciones.csv",
+						"container": "bronze"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "inscripcion_id",
+						"type": "String"
+					},
+					{
+						"name": "ci_beneficiaria",
+						"type": "String"
+					},
+					{
+						"name": "establecimiento_id",
+						"type": "String"
+					},
+					{
+						"name": "fecha_inscripcion",
+						"type": "String"
+					},
+					{
+						"name": "semana_gestacion",
+						"type": "String"
+					},
+					{
+						"name": "estado",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/datalake_subsidios')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/bja_pagos_csv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "datalake_subsidios",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "bronze"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "bja_pagos.csv",
+						"container": "bronze"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "pago_id",
+						"type": "String"
+					},
+					{
+						"name": "ci_beneficiaria",
+						"type": "String"
+					},
+					{
+						"name": "concepto_pago",
+						"type": "String"
+					},
+					{
+						"name": "monto_bs",
+						"type": "String"
+					},
+					{
+						"name": "fecha_pago",
+						"type": "String"
+					},
+					{
+						"name": "estado_pago",
+						"type": "String"
+					},
+					{
+						"name": "canal_pago",
+						"type": "String"
+					},
+					{
+						"name": "nro_comprobante",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/datalake_subsidios')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/bja_partos_csv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "datalake_subsidios",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "bronze"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "bja_partos.csv",
+						"container": "bronze"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "parto_id",
+						"type": "String"
+					},
+					{
+						"name": "ci_madre",
+						"type": "String"
+					},
+					{
+						"name": "ci_recien_nacido",
+						"type": "String"
+					},
+					{
+						"name": "establecimiento_id",
+						"type": "String"
+					},
+					{
+						"name": "fecha_parto",
+						"type": "String"
+					},
+					{
+						"name": "tipo_parto",
+						"type": "String"
+					},
+					{
+						"name": "peso_nacimiento_kg",
+						"type": "String"
+					},
+					{
+						"name": "talla_nacimiento_cm",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/datalake_subsidios')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/boletas_csv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "datalake_subsidios",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "bronze"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "boletas.csv",
+						"container": "bronze"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "boleta_id",
+						"type": "String"
+					},
+					{
+						"name": "control_id",
+						"type": "String"
+					},
+					{
+						"name": "ci_beneficiaria",
+						"type": "String"
+					},
+					{
+						"name": "nro_boleta",
+						"type": "String"
+					},
+					{
+						"name": "fecha_emision",
+						"type": "String"
+					},
+					{
+						"name": "estado",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/datalake_subsidios')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/bronze_almacenes')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "dw_subsidios",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "bronze"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "almacen_id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "nombre",
+						"type": "nvarchar"
+					},
+					{
+						"name": "municipio",
+						"type": "nvarchar"
+					},
+					{
+						"name": "departamento",
+						"type": "nvarchar"
+					},
+					{
+						"name": "direccion",
+						"type": "nvarchar"
+					},
+					{
+						"name": "capacidad_m3",
+						"type": "nvarchar"
+					},
+					{
+						"name": "estado",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "bronze",
+					"table": "almacenes"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/dw_subsidios')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/bronze_bja_controles_pediatricos')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "dw_subsidios",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "bronze"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "control_pediatrico_id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ci_nino",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ci_madre",
+						"type": "nvarchar"
+					},
+					{
+						"name": "establecimiento_id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "nro_control",
+						"type": "nvarchar"
+					},
+					{
+						"name": "fecha_control",
+						"type": "nvarchar"
+					},
+					{
+						"name": "peso_nino_kg",
+						"type": "nvarchar"
+					},
+					{
+						"name": "talla_nino_cm",
+						"type": "nvarchar"
+					},
+					{
+						"name": "vacuna_aplicada",
+						"type": "nvarchar"
+					},
+					{
+						"name": "resultado",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "bronze",
+					"table": "bja_controles_pediatricos"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/dw_subsidios')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/bronze_bja_controles_prenatales')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "dw_subsidios",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "bronze"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "control_prenatal_id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ci_beneficiaria",
+						"type": "nvarchar"
+					},
+					{
+						"name": "establecimiento_id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "nro_control",
+						"type": "nvarchar"
+					},
+					{
+						"name": "fecha_control",
+						"type": "nvarchar"
+					},
+					{
+						"name": "semana_gestacion",
+						"type": "nvarchar"
+					},
+					{
+						"name": "peso_madre_kg",
+						"type": "nvarchar"
+					},
+					{
+						"name": "presion_arterial",
+						"type": "nvarchar"
+					},
+					{
+						"name": "resultado",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "bronze",
+					"table": "bja_controles_prenatales"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/dw_subsidios')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/bronze_bja_establecimientos_salud')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "dw_subsidios",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "bronze"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "establecimiento_id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "codigo_snis",
+						"type": "nvarchar"
+					},
+					{
+						"name": "nombre",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tipo",
+						"type": "nvarchar"
+					},
+					{
+						"name": "nivel_atencion",
+						"type": "nvarchar"
+					},
+					{
+						"name": "municipio",
+						"type": "nvarchar"
+					},
+					{
+						"name": "departamento",
+						"type": "nvarchar"
+					},
+					{
+						"name": "red_salud",
+						"type": "nvarchar"
+					},
+					{
+						"name": "estado",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "bronze",
+					"table": "bja_establecimientos_salud"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/dw_subsidios')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/bronze_bja_inscripciones')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "dw_subsidios",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "bronze"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "inscripcion_id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ci_beneficiaria",
+						"type": "nvarchar"
+					},
+					{
+						"name": "establecimiento_id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "fecha_inscripcion",
+						"type": "nvarchar"
+					},
+					{
+						"name": "semana_gestacion",
+						"type": "nvarchar"
+					},
+					{
+						"name": "estado",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "bronze",
+					"table": "bja_inscripciones"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/dw_subsidios')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/bronze_bja_pagos')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "dw_subsidios",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "bronze"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "pago_id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ci_beneficiaria",
+						"type": "nvarchar"
+					},
+					{
+						"name": "concepto_pago",
+						"type": "nvarchar"
+					},
+					{
+						"name": "monto_bs",
+						"type": "nvarchar"
+					},
+					{
+						"name": "fecha_pago",
+						"type": "nvarchar"
+					},
+					{
+						"name": "estado_pago",
+						"type": "nvarchar"
+					},
+					{
+						"name": "canal_pago",
+						"type": "nvarchar"
+					},
+					{
+						"name": "nro_comprobante",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "bronze",
+					"table": "bja_pagos"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/dw_subsidios')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/bronze_despachos')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "dw_subsidios",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "bronze"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "despacho_id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "recepcion_id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "nro_lote",
+						"type": "nvarchar"
+					},
+					{
+						"name": "almacen_id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "transportista_id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "vehiculo_id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "fecha_despacho",
+						"type": "nvarchar"
+					},
+					{
+						"name": "cantidad_despachada",
+						"type": "nvarchar"
+					},
+					{
+						"name": "centro_destino",
+						"type": "nvarchar"
+					},
+					{
+						"name": "estado",
+						"type": "nvarchar"
+					},
+					{
+						"name": "responsable",
+						"type": "nvarchar"
+					},
+					{
+						"name": "nro_guia_despacho",
+						"type": "nvarchar"
+					},
+					{
+						"name": "fecha_llegada",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "bronze",
+					"table": "despachos"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/dw_subsidios')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/bronze_partos')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "dw_subsidios",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "bronze"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "parto_id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ci_madre",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ci_recien_nacido",
+						"type": "nvarchar"
+					},
+					{
+						"name": "establecimiento_id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "fecha_parto",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tipo_parto",
+						"type": "nvarchar"
+					},
+					{
+						"name": "peso_nacimiento_kg",
+						"type": "nvarchar"
+					},
+					{
+						"name": "talla_nacimiento_cm",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "bronze",
+					"table": "bja_partos"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/dw_subsidios')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/bronze_recepciones')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "dw_subsidios",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "bronze"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "recepcion_id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "nro_lote",
+						"type": "nvarchar"
+					},
+					{
+						"name": "almacen_id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "transportista_id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "vehiculo_id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "fecha_recepcion",
+						"type": "nvarchar"
+					},
+					{
+						"name": "cantidad_recibida",
+						"type": "nvarchar"
+					},
+					{
+						"name": "unidad",
+						"type": "nvarchar"
+					},
+					{
+						"name": "condicion",
+						"type": "nvarchar"
+					},
+					{
+						"name": "estado",
+						"type": "nvarchar"
+					},
+					{
+						"name": "responsable",
+						"type": "nvarchar"
+					},
+					{
+						"name": "nro_guia_remision",
+						"type": "nvarchar"
+					},
+					{
+						"name": "temperatura_llegada",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "bronze",
+					"table": "recepciones"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/dw_subsidios')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/bronze_segip_personas')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "dw_subsidios",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "bronze"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ci",
+						"type": "nvarchar"
+					},
+					{
+						"name": "nombres",
+						"type": "nvarchar"
+					},
+					{
+						"name": "apellido_paterno",
+						"type": "nvarchar"
+					},
+					{
+						"name": "apellido_materno",
+						"type": "nvarchar"
+					},
+					{
+						"name": "fecha_nacimiento",
+						"type": "nvarchar"
+					},
+					{
+						"name": "genero",
+						"type": "nvarchar"
+					},
+					{
+						"name": "estado_civil",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ci_conyuge",
+						"type": "nvarchar"
+					},
+					{
+						"name": "numero_hijos",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ci_padre",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ci_madre",
+						"type": "nvarchar"
+					},
+					{
+						"name": "profesion",
+						"type": "nvarchar"
+					},
+					{
+						"name": "nivel_estudios",
+						"type": "nvarchar"
+					},
+					{
+						"name": "municipio_residencia",
+						"type": "nvarchar"
+					},
+					{
+						"name": "fecha_emision",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "bronze",
+					"table": "segip_personas"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/dw_subsidios')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/bronze_spl_afiliaciones')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "dw_subsidios",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "bronze"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "afiliacion_id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ci_beneficiaria",
+						"type": "nvarchar"
+					},
+					{
+						"name": "empleador_id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "caja_id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "fecha_afiliacion",
+						"type": "nvarchar"
+					},
+					{
+						"name": "nro_matricula",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tipo_subsidio",
+						"type": "nvarchar"
+					},
+					{
+						"name": "estado",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "bronze",
+					"table": "spl_afiliaciones"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/dw_subsidios')]"
+			]
+		}
+	]
+}

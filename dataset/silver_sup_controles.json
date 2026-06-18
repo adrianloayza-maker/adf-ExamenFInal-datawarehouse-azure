@@ -1,0 +1,62 @@
+{
+	"name": "silver_sup_controles",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dw_subsidios",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "silver"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "control_id",
+				"type": "varchar"
+			},
+			{
+				"name": "ci_beneficiaria",
+				"type": "varchar"
+			},
+			{
+				"name": "establecimiento_id",
+				"type": "varchar"
+			},
+			{
+				"name": "nro_control",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "fecha_control",
+				"type": "date"
+			},
+			{
+				"name": "semana_gestacion",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "peso_madre_kg",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 2
+			},
+			{
+				"name": "presion_arterial",
+				"type": "varchar"
+			},
+			{
+				"name": "fecha_carga",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "silver",
+			"table": "sup_controles"
+		}
+	}
+}

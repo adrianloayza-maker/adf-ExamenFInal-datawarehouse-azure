@@ -1,0 +1,54 @@
+{
+	"name": "silver_transportistas",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dw_subsidios",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "silver"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "transportista_id",
+				"type": "varchar"
+			},
+			{
+				"name": "razon_social",
+				"type": "varchar"
+			},
+			{
+				"name": "nit",
+				"type": "varchar"
+			},
+			{
+				"name": "municipio",
+				"type": "varchar"
+			},
+			{
+				"name": "contacto",
+				"type": "varchar"
+			},
+			{
+				"name": "telefono",
+				"type": "varchar"
+			},
+			{
+				"name": "estado",
+				"type": "varchar"
+			},
+			{
+				"name": "fecha_carga",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "silver",
+			"table": "transportistas"
+		}
+	}
+}

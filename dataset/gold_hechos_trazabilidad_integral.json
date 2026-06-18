@@ -1,0 +1,58 @@
+{
+	"name": "gold_hechos_trazabilidad_integral",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dw_subsidios",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "gold"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "trazabilidad_key",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "lote_key",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "persona_key",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "sistema_destino",
+				"type": "varchar"
+			},
+			{
+				"name": "establecimiento_key",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "centro_destino_despacho",
+				"type": "varchar"
+			},
+			{
+				"name": "fecha_despacho_key",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "fecha_entrega_key",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "gold",
+			"table": "hechos_trazabilidad_integral"
+		}
+	}
+}

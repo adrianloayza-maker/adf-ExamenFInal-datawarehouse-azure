@@ -1,0 +1,74 @@
+{
+	"name": "gold_hechos_boletas_entregas_sup",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dw_subsidios",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "gold"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "entrega_key",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "persona_key",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "establecimiento_key",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "producto_key",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "lote_key",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "fecha_emision_boleta_key",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "fecha_entrega_key",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "fecha_proxima_entrega_key",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "nro_boleta",
+				"type": "varchar"
+			},
+			{
+				"name": "estado_boleta",
+				"type": "varchar"
+			},
+			{
+				"name": "peso_paquete_kg",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 2
+			}
+		],
+		"typeProperties": {
+			"schema": "gold",
+			"table": "hechos_boletas_entregas_sup"
+		}
+	}
+}

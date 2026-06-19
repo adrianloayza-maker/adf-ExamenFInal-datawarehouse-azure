@@ -1088,56 +1088,66 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/inscripciones_csv')]",
+			"name": "[concat(parameters('factoryName'), '/gold_dim_establecimiento')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "datalake_subsidios",
+					"referenceName": "dw_subsidios",
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "bronze"
+					"name": "gold"
 				},
 				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "inscripciones.csv",
-						"container": "bronze"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
+				"type": "AzureSqlTable",
 				"schema": [
 					{
-						"name": "inscripcion_id",
-						"type": "String"
+						"name": "establecimiento_key",
+						"type": "int",
+						"precision": 10
 					},
 					{
-						"name": "ci_beneficiaria",
-						"type": "String"
+						"name": "establecimiento_id_origen",
+						"type": "varchar"
 					},
 					{
-						"name": "establecimiento_id",
-						"type": "String"
+						"name": "sistema_origen",
+						"type": "varchar"
 					},
 					{
-						"name": "fecha_inscripcion",
-						"type": "String"
+						"name": "nombre",
+						"type": "varchar"
 					},
 					{
-						"name": "semana_gestacion",
-						"type": "String"
+						"name": "tipo",
+						"type": "varchar"
+					},
+					{
+						"name": "nivel_atencion",
+						"type": "varchar"
+					},
+					{
+						"name": "municipio",
+						"type": "varchar"
+					},
+					{
+						"name": "departamento",
+						"type": "varchar"
+					},
+					{
+						"name": "red_salud",
+						"type": "varchar"
 					},
 					{
 						"name": "estado",
-						"type": "String"
+						"type": "varchar"
 					}
-				]
+				],
+				"typeProperties": {
+					"schema": "gold",
+					"table": "dim_establecimiento"
+				}
 			},
 			"dependsOn": []
 		}

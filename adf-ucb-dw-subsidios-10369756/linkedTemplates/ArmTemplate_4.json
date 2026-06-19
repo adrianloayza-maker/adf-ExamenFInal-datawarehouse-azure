@@ -1,0 +1,5130 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Nombre de instancia de Data Factory",
+			"defaultValue": "adf-ucb-dw-subsidios-10369756"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/gold_hechos_acreditaciones_spl')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "dw_subsidios",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "gold"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "acreditacion_key",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "persona_key",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "mes",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "gestion",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "monto_bs",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					},
+					{
+						"name": "monto_productos",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					},
+					{
+						"name": "monto_carnes",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					},
+					{
+						"name": "estado",
+						"type": "varchar"
+					},
+					{
+						"name": "tipo_subsidio",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "gold",
+					"table": "hechos_acreditaciones_spl"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/gold_hechos_atenciones_bja')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "dw_subsidios",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "gold"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "atencion_key",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "tipo_atencion",
+						"type": "varchar"
+					},
+					{
+						"name": "persona_key",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "establecimiento_key",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "fecha_key",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "nro_control",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "semana_gestacion",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "peso_kg",
+						"type": "decimal",
+						"precision": 6,
+						"scale": 2
+					},
+					{
+						"name": "talla_cm",
+						"type": "decimal",
+						"precision": 6,
+						"scale": 2
+					},
+					{
+						"name": "presion_arterial",
+						"type": "varchar"
+					},
+					{
+						"name": "resultado",
+						"type": "varchar"
+					},
+					{
+						"name": "vacuna_aplicada",
+						"type": "varchar"
+					},
+					{
+						"name": "tipo_parto",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "gold",
+					"table": "hechos_atenciones_bja"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/gold_hechos_boletas_entregas_sup')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "dw_subsidios",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "gold"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "entrega_key",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "persona_key",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "establecimiento_key",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "producto_key",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "lote_key",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "fecha_emision_boleta_key",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "fecha_entrega_key",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "fecha_proxima_entrega_key",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "nro_boleta",
+						"type": "varchar"
+					},
+					{
+						"name": "estado_boleta",
+						"type": "varchar"
+					},
+					{
+						"name": "peso_paquete_kg",
+						"type": "decimal",
+						"precision": 6,
+						"scale": 2
+					}
+				],
+				"typeProperties": {
+					"schema": "gold",
+					"table": "hechos_boletas_entregas_sup"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/gold_hechos_movimientos_agencia')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "dw_subsidios",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "gold"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "movimiento_key",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "tipo_movimiento",
+						"type": "varchar"
+					},
+					{
+						"name": "lote_key",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "almacen_key",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "transportista_id",
+						"type": "varchar"
+					},
+					{
+						"name": "vehiculo_id",
+						"type": "varchar"
+					},
+					{
+						"name": "fecha_key",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "cantidad",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					},
+					{
+						"name": "unidad",
+						"type": "varchar"
+					},
+					{
+						"name": "condicion",
+						"type": "varchar"
+					},
+					{
+						"name": "centro_destino",
+						"type": "varchar"
+					},
+					{
+						"name": "estado",
+						"type": "varchar"
+					},
+					{
+						"name": "responsable",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "gold",
+					"table": "hechos_movimientos_agencia"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/gold_hechos_pagos_bja')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "dw_subsidios",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "gold"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "pago_key",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "persona_key",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "fecha_key",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "concepto_pago",
+						"type": "varchar"
+					},
+					{
+						"name": "monto_bs",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					},
+					{
+						"name": "estado_pago",
+						"type": "varchar"
+					},
+					{
+						"name": "canal_pago",
+						"type": "varchar"
+					},
+					{
+						"name": "nro_comprobante",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "gold",
+					"table": "hechos_pagos_bja"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/gold_hechos_retiros_spl')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "dw_subsidios",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "gold"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "retiro_key",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "canal",
+						"type": "varchar"
+					},
+					{
+						"name": "persona_key",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "establecimiento_key",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "producto_key",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "lote_key",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "fecha_key",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "productos_detalle",
+						"type": "varchar"
+					},
+					{
+						"name": "peso_kg",
+						"type": "decimal",
+						"precision": 10,
+						"scale": 2
+					},
+					{
+						"name": "cantidad_kg",
+						"type": "decimal",
+						"precision": 10,
+						"scale": 2
+					},
+					{
+						"name": "monto_bs",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					}
+				],
+				"typeProperties": {
+					"schema": "gold",
+					"table": "hechos_retiros_spl"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/gold_hechos_trazabilidad_integral')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "dw_subsidios",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "gold"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "trazabilidad_key",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "lote_key",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "persona_key",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "sistema_destino",
+						"type": "varchar"
+					},
+					{
+						"name": "establecimiento_key",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "centro_destino_despacho",
+						"type": "varchar"
+					},
+					{
+						"name": "fecha_despacho_key",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "fecha_entrega_key",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "gold",
+					"table": "hechos_trazabilidad_integral"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_bronze_cargar')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "almacenes_csv",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						},
+						{
+							"dataset": {
+								"referenceName": "bja_controles_pediatricos_csv",
+								"type": "DatasetReference"
+							},
+							"name": "source2"
+						},
+						{
+							"dataset": {
+								"referenceName": "bja_controles_prenatales_csv",
+								"type": "DatasetReference"
+							},
+							"name": "source3"
+						},
+						{
+							"dataset": {
+								"referenceName": "bja_inscripciones_csv",
+								"type": "DatasetReference"
+							},
+							"name": "source4"
+						},
+						{
+							"dataset": {
+								"referenceName": "bja_pagos_csv",
+								"type": "DatasetReference"
+							},
+							"name": "source5"
+						},
+						{
+							"dataset": {
+								"referenceName": "establecimientos_salud_csv",
+								"type": "DatasetReference"
+							},
+							"name": "source6"
+						},
+						{
+							"dataset": {
+								"referenceName": "despachos_csv",
+								"type": "DatasetReference"
+							},
+							"name": "source7"
+						},
+						{
+							"dataset": {
+								"referenceName": "bja_partos_csv",
+								"type": "DatasetReference"
+							},
+							"name": "source8"
+						},
+						{
+							"dataset": {
+								"referenceName": "recepciones_csv",
+								"type": "DatasetReference"
+							},
+							"name": "source9"
+						},
+						{
+							"dataset": {
+								"referenceName": "segip_personas_csv",
+								"type": "DatasetReference"
+							},
+							"name": "source10"
+						},
+						{
+							"dataset": {
+								"referenceName": "spl_afiliaciones_csv",
+								"type": "DatasetReference"
+							},
+							"name": "source11"
+						},
+						{
+							"dataset": {
+								"referenceName": "spl_asignaciones_mensuales_csv",
+								"type": "DatasetReference"
+							},
+							"name": "source12"
+						},
+						{
+							"dataset": {
+								"referenceName": "spl_certificados_medicos_csv",
+								"type": "DatasetReference"
+							},
+							"name": "source13"
+						},
+						{
+							"dataset": {
+								"referenceName": "spl_empleadores_csv",
+								"type": "DatasetReference"
+							},
+							"name": "source14"
+						},
+						{
+							"dataset": {
+								"referenceName": "spl_entregas_agencia_csv",
+								"type": "DatasetReference"
+							},
+							"name": "source15"
+						},
+						{
+							"dataset": {
+								"referenceName": "spl_entregas_supermercado_csv",
+								"type": "DatasetReference"
+							},
+							"name": "source16"
+						},
+						{
+							"dataset": {
+								"referenceName": "boletas_csv",
+								"type": "DatasetReference"
+							},
+							"name": "source17"
+						},
+						{
+							"dataset": {
+								"referenceName": "catalogo_paquetes_csv",
+								"type": "DatasetReference"
+							},
+							"name": "source18"
+						},
+						{
+							"dataset": {
+								"referenceName": "controles_csv",
+								"type": "DatasetReference"
+							},
+							"name": "source19"
+						},
+						{
+							"dataset": {
+								"referenceName": "entregas_csv",
+								"type": "DatasetReference"
+							},
+							"name": "source20"
+						},
+						{
+							"dataset": {
+								"referenceName": "establecimientos_csv",
+								"type": "DatasetReference"
+							},
+							"name": "source21"
+						},
+						{
+							"dataset": {
+								"referenceName": "inscripciones_csv",
+								"type": "DatasetReference"
+							},
+							"name": "source22"
+						},
+						{
+							"dataset": {
+								"referenceName": "transportistas_csv",
+								"type": "DatasetReference"
+							},
+							"name": "source23"
+						},
+						{
+							"dataset": {
+								"referenceName": "vehiculos_csv",
+								"type": "DatasetReference"
+							},
+							"name": "source24"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "bronze_almacenes",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_bja_controles_pediatricos",
+								"type": "DatasetReference"
+							},
+							"name": "sink2"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_bja_controles_prenatales",
+								"type": "DatasetReference"
+							},
+							"name": "sink3"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_bja_inscripciones",
+								"type": "DatasetReference"
+							},
+							"name": "sink4"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_bja_pagos",
+								"type": "DatasetReference"
+							},
+							"name": "sink5"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_bja_establecimientos_salud",
+								"type": "DatasetReference"
+							},
+							"name": "sink6"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_despachos",
+								"type": "DatasetReference"
+							},
+							"name": "sink7"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_partos",
+								"type": "DatasetReference"
+							},
+							"name": "sink8"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_recepciones",
+								"type": "DatasetReference"
+							},
+							"name": "sink9"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_segip_personas",
+								"type": "DatasetReference"
+							},
+							"name": "sink10"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_spl_afiliaciones",
+								"type": "DatasetReference"
+							},
+							"name": "sink11"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_spl_asignaciones_mensuales",
+								"type": "DatasetReference"
+							},
+							"name": "sink12"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_spl_certificados_medicos",
+								"type": "DatasetReference"
+							},
+							"name": "sink13"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_spl_empleadores",
+								"type": "DatasetReference"
+							},
+							"name": "sink14"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_spl_entregas_agencia",
+								"type": "DatasetReference"
+							},
+							"name": "sink15"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_spl_entregas_supermercado",
+								"type": "DatasetReference"
+							},
+							"name": "sink16"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_sup_boletas",
+								"type": "DatasetReference"
+							},
+							"name": "sink17"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_sup_catalogo_paquetes",
+								"type": "DatasetReference"
+							},
+							"name": "sink18"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_sup_controles",
+								"type": "DatasetReference"
+							},
+							"name": "sink19"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_sup_entregas",
+								"type": "DatasetReference"
+							},
+							"name": "sink20"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_sup_establecimientos",
+								"type": "DatasetReference"
+							},
+							"name": "sink21"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_sup_inscripciones",
+								"type": "DatasetReference"
+							},
+							"name": "sink22"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_transportistas",
+								"type": "DatasetReference"
+							},
+							"name": "sink23"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_vehiculos",
+								"type": "DatasetReference"
+							},
+							"name": "sink24"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          almacen_id as string,",
+						"          nombre as string,",
+						"          municipio as string,",
+						"          departamento as string,",
+						"          direccion as string,",
+						"          capacidad_m3 as string,",
+						"          estado as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source1",
+						"source(output(",
+						"          control_pediatrico_id as string,",
+						"          ci_nino as string,",
+						"          ci_madre as string,",
+						"          establecimiento_id as string,",
+						"          nro_control as string,",
+						"          fecha_control as string,",
+						"          peso_nino_kg as string,",
+						"          talla_nino_cm as string,",
+						"          vacuna_aplicada as string,",
+						"          resultado as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source2",
+						"source(output(",
+						"          control_prenatal_id as string,",
+						"          ci_beneficiaria as string,",
+						"          establecimiento_id as string,",
+						"          nro_control as string,",
+						"          fecha_control as string,",
+						"          semana_gestacion as string,",
+						"          peso_madre_kg as string,",
+						"          presion_arterial as string,",
+						"          resultado as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source3",
+						"source(output(",
+						"          inscripcion_id as string,",
+						"          ci_beneficiaria as string,",
+						"          establecimiento_id as string,",
+						"          fecha_inscripcion as string,",
+						"          semana_gestacion as string,",
+						"          estado as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source4",
+						"source(output(",
+						"          pago_id as string,",
+						"          ci_beneficiaria as string,",
+						"          concepto_pago as string,",
+						"          monto_bs as string,",
+						"          fecha_pago as string,",
+						"          estado_pago as string,",
+						"          canal_pago as string,",
+						"          nro_comprobante as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source5",
+						"source(output(",
+						"          establecimiento_id as string,",
+						"          codigo_snis as string,",
+						"          nombre as string,",
+						"          tipo as string,",
+						"          nivel_atencion as string,",
+						"          municipio as string,",
+						"          departamento as string,",
+						"          red_salud as string,",
+						"          estado as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source6",
+						"source(output(",
+						"          despacho_id as string,",
+						"          recepcion_id as string,",
+						"          nro_lote as string,",
+						"          almacen_id as string,",
+						"          transportista_id as string,",
+						"          vehiculo_id as string,",
+						"          fecha_despacho as string,",
+						"          cantidad_despachada as string,",
+						"          centro_destino as string,",
+						"          estado as string,",
+						"          responsable as string,",
+						"          nro_guia_despacho as string,",
+						"          fecha_llegada as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source7",
+						"source(output(",
+						"          parto_id as string,",
+						"          ci_madre as string,",
+						"          ci_recien_nacido as string,",
+						"          establecimiento_id as string,",
+						"          fecha_parto as string,",
+						"          tipo_parto as string,",
+						"          peso_nacimiento_kg as string,",
+						"          talla_nacimiento_cm as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source8",
+						"source(output(",
+						"          recepcion_id as string,",
+						"          nro_lote as string,",
+						"          almacen_id as string,",
+						"          transportista_id as string,",
+						"          vehiculo_id as string,",
+						"          fecha_recepcion as string,",
+						"          cantidad_recibida as string,",
+						"          unidad as string,",
+						"          condicion as string,",
+						"          estado as string,",
+						"          responsable as string,",
+						"          nro_guia_remision as string,",
+						"          temperatura_llegada as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source9",
+						"source(output(",
+						"          ci as string,",
+						"          nombres as string,",
+						"          apellido_paterno as string,",
+						"          apellido_materno as string,",
+						"          fecha_nacimiento as string,",
+						"          genero as string,",
+						"          estado_civil as string,",
+						"          ci_conyuge as string,",
+						"          numero_hijos as string,",
+						"          ci_padre as string,",
+						"          ci_madre as string,",
+						"          profesion as string,",
+						"          nivel_estudios as string,",
+						"          municipio_residencia as string,",
+						"          fecha_emision as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source10",
+						"source(output(",
+						"          afiliacion_id as string,",
+						"          ci_beneficiaria as string,",
+						"          empleador_id as string,",
+						"          caja_id as string,",
+						"          fecha_afiliacion as string,",
+						"          nro_matricula as string,",
+						"          tipo_subsidio as string,",
+						"          estado as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source11",
+						"source(output(",
+						"          asignacion_id as string,",
+						"          afiliacion_id as string,",
+						"          mes as string,",
+						"          gestion as string,",
+						"          monto_bs as string,",
+						"          monto_productos as string,",
+						"          monto_carnes as string,",
+						"          estado as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source12",
+						"source(output(",
+						"          certificado_id as string,",
+						"          afiliacion_id as string,",
+						"          fecha_emision as string,",
+						"          semana_gestacion as string,",
+						"          fecha_probable_parto as string,",
+						"          medico_responsable as string,",
+						"          estado as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source13",
+						"source(output(",
+						"          empleador_id as string,",
+						"          nit as string,",
+						"          razon_social as string,",
+						"          tipo as string,",
+						"          nro_patronal as string,",
+						"          municipio as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source14",
+						"source(output(",
+						"          entrega_ag_id as string,",
+						"          asignacion_id as string,",
+						"          ci_beneficiaria as string,",
+						"          fecha_entrega as string,",
+						"          productos as string,",
+						"          lote as string,",
+						"          peso_kg as string,",
+						"          punto_entrega as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source15",
+						"source(output(",
+						"          entrega_super_id as string,",
+						"          asignacion_id as string,",
+						"          ci_beneficiaria as string,",
+						"          supermercado_id as string,",
+						"          fecha_retiro as string,",
+						"          tipo_carne as string,",
+						"          cantidad_kg as string,",
+						"          monto_bs as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source16",
+						"source(output(",
+						"          boleta_id as string,",
+						"          control_id as string,",
+						"          ci_beneficiaria as string,",
+						"          nro_boleta as string,",
+						"          fecha_emision as string,",
+						"          estado as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source17",
+						"source(output(",
+						"          paquete_id as string,",
+						"          nombre as string,",
+						"          contenido as string,",
+						"          peso_estandar_kg as string,",
+						"          costo_estimado_bs as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source18",
+						"source(output(",
+						"          control_id as string,",
+						"          ci_beneficiaria as string,",
+						"          establecimiento_id as string,",
+						"          nro_control as string,",
+						"          fecha_control as string,",
+						"          semana_gestacion as string,",
+						"          peso_madre_kg as string,",
+						"          presion_arterial as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source19",
+						"source(output(",
+						"          entrega_id as string,",
+						"          boleta_id as string,",
+						"          ci_beneficiaria as string,",
+						"          establecimiento_id as string,",
+						"          paquete_id as string,",
+						"          paquete_nombre as string,",
+						"          fecha_entrega as string,",
+						"          lote_produccion as string,",
+						"          peso_paquete_kg as string,",
+						"          fecha_proxima_entrega as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source20",
+						"source(output(",
+						"          establecimiento_id as string,",
+						"          codigo_snis as string,",
+						"          nombre as string,",
+						"          tipo as string,",
+						"          nivel_atencion as string,",
+						"          municipio as string,",
+						"          departamento as string,",
+						"          red_salud as string,",
+						"          estado as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source21",
+						"source(output(",
+						"          inscripcion_id as string,",
+						"          ci_beneficiaria as string,",
+						"          establecimiento_id as string,",
+						"          fecha_inscripcion as string,",
+						"          semana_gestacion as string,",
+						"          estado as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source22",
+						"source(output(",
+						"          transportista_id as string,",
+						"          razon_social as string,",
+						"          nit as string,",
+						"          municipio as string,",
+						"          contacto as string,",
+						"          telefono as string,",
+						"          estado as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source23",
+						"source(output(",
+						"          vehiculo_id as string,",
+						"          transportista_id as string,",
+						"          descripcion as string,",
+						"          placa as string,",
+						"          tipo as string,",
+						"          capacidad_kg as string,",
+						"          estado as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source24",
+						"source1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          almacen_id as string,",
+						"          nombre as string,",
+						"          municipio as string,",
+						"          departamento as string,",
+						"          direccion as string,",
+						"          capacidad_m3 as string,",
+						"          estado as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          almacen_id,",
+						"          nombre,",
+						"          municipio,",
+						"          departamento,",
+						"          direccion,",
+						"          capacidad_m3,",
+						"          estado",
+						"     )) ~> sink1",
+						"source2 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          control_pediatrico_id as string,",
+						"          ci_nino as string,",
+						"          ci_madre as string,",
+						"          establecimiento_id as string,",
+						"          nro_control as string,",
+						"          fecha_control as string,",
+						"          peso_nino_kg as string,",
+						"          talla_nino_cm as string,",
+						"          vacuna_aplicada as string,",
+						"          resultado as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          control_pediatrico_id,",
+						"          ci_nino,",
+						"          ci_madre,",
+						"          establecimiento_id,",
+						"          nro_control,",
+						"          fecha_control,",
+						"          peso_nino_kg,",
+						"          talla_nino_cm,",
+						"          vacuna_aplicada,",
+						"          resultado",
+						"     )) ~> sink2",
+						"source3 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          control_prenatal_id as string,",
+						"          ci_beneficiaria as string,",
+						"          establecimiento_id as string,",
+						"          nro_control as string,",
+						"          fecha_control as string,",
+						"          semana_gestacion as string,",
+						"          peso_madre_kg as string,",
+						"          presion_arterial as string,",
+						"          resultado as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          control_prenatal_id,",
+						"          ci_beneficiaria,",
+						"          establecimiento_id,",
+						"          nro_control,",
+						"          fecha_control,",
+						"          semana_gestacion,",
+						"          peso_madre_kg,",
+						"          presion_arterial,",
+						"          resultado",
+						"     )) ~> sink3",
+						"source4 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          inscripcion_id as string,",
+						"          ci_beneficiaria as string,",
+						"          establecimiento_id as string,",
+						"          fecha_inscripcion as string,",
+						"          semana_gestacion as string,",
+						"          estado as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          inscripcion_id,",
+						"          ci_beneficiaria,",
+						"          establecimiento_id,",
+						"          fecha_inscripcion,",
+						"          semana_gestacion,",
+						"          estado",
+						"     )) ~> sink4",
+						"source5 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          pago_id as string,",
+						"          ci_beneficiaria as string,",
+						"          concepto_pago as string,",
+						"          monto_bs as string,",
+						"          fecha_pago as string,",
+						"          estado_pago as string,",
+						"          canal_pago as string,",
+						"          nro_comprobante as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          pago_id,",
+						"          ci_beneficiaria,",
+						"          concepto_pago,",
+						"          monto_bs,",
+						"          fecha_pago,",
+						"          estado_pago,",
+						"          canal_pago,",
+						"          nro_comprobante",
+						"     )) ~> sink5",
+						"source6 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          establecimiento_id as string,",
+						"          codigo_snis as string,",
+						"          nombre as string,",
+						"          tipo as string,",
+						"          nivel_atencion as string,",
+						"          municipio as string,",
+						"          departamento as string,",
+						"          red_salud as string,",
+						"          estado as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          establecimiento_id,",
+						"          codigo_snis,",
+						"          nombre,",
+						"          tipo,",
+						"          nivel_atencion,",
+						"          municipio,",
+						"          departamento,",
+						"          red_salud,",
+						"          estado",
+						"     )) ~> sink6",
+						"source7 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          despacho_id as string,",
+						"          recepcion_id as string,",
+						"          nro_lote as string,",
+						"          almacen_id as string,",
+						"          transportista_id as string,",
+						"          vehiculo_id as string,",
+						"          fecha_despacho as string,",
+						"          cantidad_despachada as string,",
+						"          centro_destino as string,",
+						"          estado as string,",
+						"          responsable as string,",
+						"          nro_guia_despacho as string,",
+						"          fecha_llegada as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          despacho_id,",
+						"          recepcion_id,",
+						"          nro_lote,",
+						"          almacen_id,",
+						"          transportista_id,",
+						"          vehiculo_id,",
+						"          fecha_despacho,",
+						"          cantidad_despachada,",
+						"          centro_destino,",
+						"          estado,",
+						"          responsable,",
+						"          nro_guia_despacho,",
+						"          fecha_llegada",
+						"     )) ~> sink7",
+						"source8 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          parto_id as string,",
+						"          ci_madre as string,",
+						"          ci_recien_nacido as string,",
+						"          establecimiento_id as string,",
+						"          fecha_parto as string,",
+						"          tipo_parto as string,",
+						"          peso_nacimiento_kg as string,",
+						"          talla_nacimiento_cm as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          parto_id,",
+						"          ci_madre,",
+						"          ci_recien_nacido,",
+						"          establecimiento_id,",
+						"          fecha_parto,",
+						"          tipo_parto,",
+						"          peso_nacimiento_kg,",
+						"          talla_nacimiento_cm",
+						"     )) ~> sink8",
+						"source9 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          recepcion_id as string,",
+						"          nro_lote as string,",
+						"          almacen_id as string,",
+						"          transportista_id as string,",
+						"          vehiculo_id as string,",
+						"          fecha_recepcion as string,",
+						"          cantidad_recibida as string,",
+						"          unidad as string,",
+						"          condicion as string,",
+						"          estado as string,",
+						"          responsable as string,",
+						"          nro_guia_remision as string,",
+						"          temperatura_llegada as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          recepcion_id,",
+						"          nro_lote,",
+						"          almacen_id,",
+						"          transportista_id,",
+						"          vehiculo_id,",
+						"          fecha_recepcion,",
+						"          cantidad_recibida,",
+						"          unidad,",
+						"          condicion,",
+						"          estado,",
+						"          responsable,",
+						"          nro_guia_remision,",
+						"          temperatura_llegada",
+						"     )) ~> sink9",
+						"source10 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          ci as string,",
+						"          nombres as string,",
+						"          apellido_paterno as string,",
+						"          apellido_materno as string,",
+						"          fecha_nacimiento as string,",
+						"          genero as string,",
+						"          estado_civil as string,",
+						"          ci_conyuge as string,",
+						"          numero_hijos as string,",
+						"          ci_padre as string,",
+						"          ci_madre as string,",
+						"          profesion as string,",
+						"          nivel_estudios as string,",
+						"          municipio_residencia as string,",
+						"          fecha_emision as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          ci,",
+						"          nombres,",
+						"          apellido_paterno,",
+						"          apellido_materno,",
+						"          fecha_nacimiento,",
+						"          genero,",
+						"          estado_civil,",
+						"          ci_conyuge,",
+						"          numero_hijos,",
+						"          ci_padre,",
+						"          ci_madre,",
+						"          profesion,",
+						"          nivel_estudios,",
+						"          municipio_residencia,",
+						"          fecha_emision",
+						"     )) ~> sink10",
+						"source11 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          afiliacion_id as string,",
+						"          ci_beneficiaria as string,",
+						"          empleador_id as string,",
+						"          caja_id as string,",
+						"          fecha_afiliacion as string,",
+						"          nro_matricula as string,",
+						"          tipo_subsidio as string,",
+						"          estado as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          afiliacion_id,",
+						"          ci_beneficiaria,",
+						"          empleador_id,",
+						"          caja_id,",
+						"          fecha_afiliacion,",
+						"          nro_matricula,",
+						"          tipo_subsidio,",
+						"          estado",
+						"     )) ~> sink11",
+						"source12 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          asignacion_id as string,",
+						"          afiliacion_id as string,",
+						"          mes as string,",
+						"          gestion as string,",
+						"          monto_bs as string,",
+						"          monto_productos as string,",
+						"          monto_carnes as string,",
+						"          estado as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          asignacion_id,",
+						"          afiliacion_id,",
+						"          mes,",
+						"          gestion,",
+						"          monto_bs,",
+						"          monto_productos,",
+						"          monto_carnes,",
+						"          estado",
+						"     )) ~> sink12",
+						"source13 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          certificado_id as string,",
+						"          afiliacion_id as string,",
+						"          fecha_emision as string,",
+						"          semana_gestacion as string,",
+						"          fecha_probable_parto as string,",
+						"          medico_responsable as string,",
+						"          estado as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          certificado_id,",
+						"          afiliacion_id,",
+						"          fecha_emision,",
+						"          semana_gestacion,",
+						"          fecha_probable_parto,",
+						"          medico_responsable,",
+						"          estado",
+						"     )) ~> sink13",
+						"source14 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          empleador_id as string,",
+						"          nit as string,",
+						"          razon_social as string,",
+						"          tipo as string,",
+						"          nro_patronal as string,",
+						"          municipio as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          empleador_id,",
+						"          nit,",
+						"          razon_social,",
+						"          tipo,",
+						"          nro_patronal,",
+						"          municipio",
+						"     )) ~> sink14",
+						"source15 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          entrega_ag_id as string,",
+						"          asignacion_id as string,",
+						"          ci_beneficiaria as string,",
+						"          fecha_entrega as string,",
+						"          productos as string,",
+						"          lote as string,",
+						"          peso_kg as string,",
+						"          punto_entrega as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          entrega_ag_id,",
+						"          asignacion_id,",
+						"          ci_beneficiaria,",
+						"          fecha_entrega,",
+						"          productos,",
+						"          lote,",
+						"          peso_kg,",
+						"          punto_entrega",
+						"     )) ~> sink15",
+						"source16 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          entrega_super_id as string,",
+						"          asignacion_id as string,",
+						"          ci_beneficiaria as string,",
+						"          supermercado_id as string,",
+						"          fecha_retiro as string,",
+						"          tipo_carne as string,",
+						"          cantidad_kg as string,",
+						"          monto_bs as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          entrega_super_id,",
+						"          asignacion_id,",
+						"          ci_beneficiaria,",
+						"          supermercado_id,",
+						"          fecha_retiro,",
+						"          tipo_carne,",
+						"          cantidad_kg,",
+						"          monto_bs",
+						"     )) ~> sink16",
+						"source17 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          boleta_id as string,",
+						"          control_id as string,",
+						"          ci_beneficiaria as string,",
+						"          nro_boleta as string,",
+						"          fecha_emision as string,",
+						"          estado as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          boleta_id,",
+						"          control_id,",
+						"          ci_beneficiaria,",
+						"          nro_boleta,",
+						"          fecha_emision,",
+						"          estado",
+						"     )) ~> sink17",
+						"source18 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          paquete_id as string,",
+						"          nombre as string,",
+						"          contenido as string,",
+						"          peso_estandar_kg as string,",
+						"          costo_estimado_bs as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          paquete_id,",
+						"          nombre,",
+						"          contenido,",
+						"          peso_estandar_kg,",
+						"          costo_estimado_bs",
+						"     )) ~> sink18",
+						"source19 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          control_id as string,",
+						"          ci_beneficiaria as string,",
+						"          establecimiento_id as string,",
+						"          nro_control as string,",
+						"          fecha_control as string,",
+						"          semana_gestacion as string,",
+						"          peso_madre_kg as string,",
+						"          presion_arterial as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          control_id,",
+						"          ci_beneficiaria,",
+						"          establecimiento_id,",
+						"          nro_control,",
+						"          fecha_control,",
+						"          semana_gestacion,",
+						"          peso_madre_kg,",
+						"          presion_arterial",
+						"     )) ~> sink19",
+						"source20 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          entrega_id as string,",
+						"          boleta_id as string,",
+						"          ci_beneficiaria as string,",
+						"          establecimiento_id as string,",
+						"          paquete_id as string,",
+						"          paquete_nombre as string,",
+						"          fecha_entrega as string,",
+						"          lote_produccion as string,",
+						"          peso_paquete_kg as string,",
+						"          fecha_proxima_entrega as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          entrega_id,",
+						"          boleta_id,",
+						"          ci_beneficiaria,",
+						"          establecimiento_id,",
+						"          paquete_id,",
+						"          paquete_nombre,",
+						"          fecha_entrega,",
+						"          lote_produccion,",
+						"          peso_paquete_kg,",
+						"          fecha_proxima_entrega",
+						"     )) ~> sink20",
+						"source21 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          establecimiento_id as string,",
+						"          codigo_snis as string,",
+						"          nombre as string,",
+						"          tipo as string,",
+						"          nivel_atencion as string,",
+						"          municipio as string,",
+						"          departamento as string,",
+						"          red_salud as string,",
+						"          estado as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          establecimiento_id,",
+						"          codigo_snis,",
+						"          nombre,",
+						"          tipo,",
+						"          nivel_atencion,",
+						"          municipio,",
+						"          departamento,",
+						"          red_salud,",
+						"          estado",
+						"     )) ~> sink21",
+						"source22 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          inscripcion_id as string,",
+						"          ci_beneficiaria as string,",
+						"          establecimiento_id as string,",
+						"          fecha_inscripcion as string,",
+						"          semana_gestacion as string,",
+						"          estado as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          inscripcion_id,",
+						"          ci_beneficiaria,",
+						"          establecimiento_id,",
+						"          fecha_inscripcion,",
+						"          semana_gestacion,",
+						"          estado",
+						"     )) ~> sink22",
+						"source23 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          transportista_id as string,",
+						"          razon_social as string,",
+						"          nit as string,",
+						"          municipio as string,",
+						"          contacto as string,",
+						"          telefono as string,",
+						"          estado as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          transportista_id,",
+						"          razon_social,",
+						"          nit,",
+						"          municipio,",
+						"          contacto,",
+						"          telefono,",
+						"          estado",
+						"     )) ~> sink23",
+						"source24 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          vehiculo_id as string,",
+						"          transportista_id as string,",
+						"          descripcion as string,",
+						"          placa as string,",
+						"          tipo as string,",
+						"          capacidad_kg as string,",
+						"          estado as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          vehiculo_id,",
+						"          transportista_id,",
+						"          descripcion,",
+						"          placa,",
+						"          tipo,",
+						"          capacidad_kg,",
+						"          estado",
+						"     )) ~> sink24"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_silver_cargar')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "silver"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "bronze_almacenes",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_bja_controles_pediatricos",
+								"type": "DatasetReference"
+							},
+							"name": "source2"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_bja_controles_prenatales",
+								"type": "DatasetReference"
+							},
+							"name": "source3"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_bja_establecimientos_salud",
+								"type": "DatasetReference"
+							},
+							"name": "source4"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_bja_inscripciones",
+								"type": "DatasetReference"
+							},
+							"name": "source5"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_bja_pagos",
+								"type": "DatasetReference"
+							},
+							"name": "source6"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_partos",
+								"type": "DatasetReference"
+							},
+							"name": "source7"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_despachos",
+								"type": "DatasetReference"
+							},
+							"name": "source8"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_recepciones",
+								"type": "DatasetReference"
+							},
+							"name": "source9"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_segip_personas",
+								"type": "DatasetReference"
+							},
+							"name": "source10"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_spl_afiliaciones",
+								"type": "DatasetReference"
+							},
+							"name": "source11"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_spl_asignaciones_mensuales",
+								"type": "DatasetReference"
+							},
+							"name": "source12"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_spl_certificados_medicos",
+								"type": "DatasetReference"
+							},
+							"name": "source13"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_spl_empleadores",
+								"type": "DatasetReference"
+							},
+							"name": "source14"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_spl_entregas_agencia",
+								"type": "DatasetReference"
+							},
+							"name": "source15"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_spl_entregas_supermercado",
+								"type": "DatasetReference"
+							},
+							"name": "source16"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_sup_boletas",
+								"type": "DatasetReference"
+							},
+							"name": "source17"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_sup_catalogo_paquetes",
+								"type": "DatasetReference"
+							},
+							"name": "source18"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_sup_controles",
+								"type": "DatasetReference"
+							},
+							"name": "source19"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_sup_entregas",
+								"type": "DatasetReference"
+							},
+							"name": "source20"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_sup_establecimientos",
+								"type": "DatasetReference"
+							},
+							"name": "source21"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_sup_inscripciones",
+								"type": "DatasetReference"
+							},
+							"name": "source22"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_transportistas",
+								"type": "DatasetReference"
+							},
+							"name": "source23"
+						},
+						{
+							"dataset": {
+								"referenceName": "bronze_vehiculos",
+								"type": "DatasetReference"
+							},
+							"name": "source24"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "silver_almacenes",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_bja_controles_pediatricos",
+								"type": "DatasetReference"
+							},
+							"name": "sink2"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_bja_controles_prenatales",
+								"type": "DatasetReference"
+							},
+							"name": "sink3"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_bja_establecimientos_salud",
+								"type": "DatasetReference"
+							},
+							"name": "sink4"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_bja_inscripciones",
+								"type": "DatasetReference"
+							},
+							"name": "sink5"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_bja_pagos",
+								"type": "DatasetReference"
+							},
+							"name": "sink6"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_bja_partos",
+								"type": "DatasetReference"
+							},
+							"name": "sink7"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_despachos",
+								"type": "DatasetReference"
+							},
+							"name": "sink8"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_recepciones",
+								"type": "DatasetReference"
+							},
+							"name": "sink9"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_segip_personas",
+								"type": "DatasetReference"
+							},
+							"name": "sink10"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_spl_afiliaciones",
+								"type": "DatasetReference"
+							},
+							"name": "sink11"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_spl_asignaciones_mensuales",
+								"type": "DatasetReference"
+							},
+							"name": "sink12"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_spl_certificados_medicos",
+								"type": "DatasetReference"
+							},
+							"name": "sink13"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_spl_empleadores",
+								"type": "DatasetReference"
+							},
+							"name": "sink14"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_spl_entregas_agencia",
+								"type": "DatasetReference"
+							},
+							"name": "sink15"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_spl_entregas_supermercado",
+								"type": "DatasetReference"
+							},
+							"name": "sink16"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_sup_boletas",
+								"type": "DatasetReference"
+							},
+							"name": "sink17"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_sup_catalogo_paquetes",
+								"type": "DatasetReference"
+							},
+							"name": "sink18"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_sup_controles",
+								"type": "DatasetReference"
+							},
+							"name": "sink19"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_sup_entregas",
+								"type": "DatasetReference"
+							},
+							"name": "sink20"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_sup_establecimientos",
+								"type": "DatasetReference"
+							},
+							"name": "sink21"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_sup_inscripciones",
+								"type": "DatasetReference"
+							},
+							"name": "sink22"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_transportistas",
+								"type": "DatasetReference"
+							},
+							"name": "sink23"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_vehiculos",
+								"type": "DatasetReference"
+							},
+							"name": "sink24"
+						}
+					],
+					"transformations": [
+						{
+							"name": "derivedColumn1"
+						},
+						{
+							"name": "derivedColumn2"
+						},
+						{
+							"name": "derivedColumn3"
+						},
+						{
+							"name": "derivedColumn4"
+						},
+						{
+							"name": "derivedColumn5"
+						},
+						{
+							"name": "derivedColumn6"
+						},
+						{
+							"name": "derivedColumn7"
+						},
+						{
+							"name": "derivedColumn8"
+						},
+						{
+							"name": "derivedColumn9"
+						},
+						{
+							"name": "derivedColumn10"
+						},
+						{
+							"name": "derivedColumn11"
+						},
+						{
+							"name": "derivedColumn12"
+						},
+						{
+							"name": "derivedColumn13"
+						},
+						{
+							"name": "derivedColumn14"
+						},
+						{
+							"name": "derivedColumn15"
+						},
+						{
+							"name": "derivedColumn16"
+						},
+						{
+							"name": "derivedColumn17"
+						},
+						{
+							"name": "derivedColumn18"
+						},
+						{
+							"name": "derivedColumn19"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          almacen_id as string,",
+						"          nombre as string,",
+						"          municipio as string,",
+						"          departamento as string,",
+						"          direccion as string,",
+						"          capacidad_m3 as string,",
+						"          estado as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> source1",
+						"source(output(",
+						"          control_pediatrico_id as string,",
+						"          ci_nino as string,",
+						"          ci_madre as string,",
+						"          establecimiento_id as string,",
+						"          nro_control as string,",
+						"          fecha_control as string,",
+						"          peso_nino_kg as string,",
+						"          talla_nino_cm as string,",
+						"          vacuna_aplicada as string,",
+						"          resultado as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> source2",
+						"source(output(",
+						"          control_prenatal_id as string,",
+						"          ci_beneficiaria as string,",
+						"          establecimiento_id as string,",
+						"          nro_control as string,",
+						"          fecha_control as string,",
+						"          semana_gestacion as string,",
+						"          peso_madre_kg as string,",
+						"          presion_arterial as string,",
+						"          resultado as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> source3",
+						"source(output(",
+						"          establecimiento_id as string,",
+						"          codigo_snis as string,",
+						"          nombre as string,",
+						"          tipo as string,",
+						"          nivel_atencion as string,",
+						"          municipio as string,",
+						"          departamento as string,",
+						"          red_salud as string,",
+						"          estado as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> source4",
+						"source(output(",
+						"          inscripcion_id as string,",
+						"          ci_beneficiaria as string,",
+						"          establecimiento_id as string,",
+						"          fecha_inscripcion as string,",
+						"          semana_gestacion as string,",
+						"          estado as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> source5",
+						"source(output(",
+						"          pago_id as string,",
+						"          ci_beneficiaria as string,",
+						"          concepto_pago as string,",
+						"          monto_bs as string,",
+						"          fecha_pago as string,",
+						"          estado_pago as string,",
+						"          canal_pago as string,",
+						"          nro_comprobante as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> source6",
+						"source(output(",
+						"          parto_id as string,",
+						"          ci_madre as string,",
+						"          ci_recien_nacido as string,",
+						"          establecimiento_id as string,",
+						"          fecha_parto as string,",
+						"          tipo_parto as string,",
+						"          peso_nacimiento_kg as string,",
+						"          talla_nacimiento_cm as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> source7",
+						"source(output(",
+						"          despacho_id as string,",
+						"          recepcion_id as string,",
+						"          nro_lote as string,",
+						"          almacen_id as string,",
+						"          transportista_id as string,",
+						"          vehiculo_id as string,",
+						"          fecha_despacho as string,",
+						"          cantidad_despachada as string,",
+						"          centro_destino as string,",
+						"          estado as string,",
+						"          responsable as string,",
+						"          nro_guia_despacho as string,",
+						"          fecha_llegada as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> source8",
+						"source(output(",
+						"          recepcion_id as string,",
+						"          nro_lote as string,",
+						"          almacen_id as string,",
+						"          transportista_id as string,",
+						"          vehiculo_id as string,",
+						"          fecha_recepcion as string,",
+						"          cantidad_recibida as string,",
+						"          unidad as string,",
+						"          condicion as string,",
+						"          estado as string,",
+						"          responsable as string,",
+						"          nro_guia_remision as string,",
+						"          temperatura_llegada as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> source9",
+						"source(output(",
+						"          ci as string,",
+						"          nombres as string,",
+						"          apellido_paterno as string,",
+						"          apellido_materno as string,",
+						"          fecha_nacimiento as string,",
+						"          genero as string,",
+						"          estado_civil as string,",
+						"          ci_conyuge as string,",
+						"          numero_hijos as string,",
+						"          ci_padre as string,",
+						"          ci_madre as string,",
+						"          profesion as string,",
+						"          nivel_estudios as string,",
+						"          municipio_residencia as string,",
+						"          fecha_emision as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> source10",
+						"source(output(",
+						"          afiliacion_id as string,",
+						"          ci_beneficiaria as string,",
+						"          empleador_id as string,",
+						"          caja_id as string,",
+						"          fecha_afiliacion as string,",
+						"          nro_matricula as string,",
+						"          tipo_subsidio as string,",
+						"          estado as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> source11",
+						"source(output(",
+						"          asignacion_id as string,",
+						"          afiliacion_id as string,",
+						"          mes as string,",
+						"          gestion as string,",
+						"          monto_bs as string,",
+						"          monto_productos as string,",
+						"          monto_carnes as string,",
+						"          estado as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> source12",
+						"source(output(",
+						"          certificado_id as string,",
+						"          afiliacion_id as string,",
+						"          fecha_emision as string,",
+						"          semana_gestacion as string,",
+						"          fecha_probable_parto as string,",
+						"          medico_responsable as string,",
+						"          estado as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> source13",
+						"source(output(",
+						"          empleador_id as string,",
+						"          nit as string,",
+						"          razon_social as string,",
+						"          tipo as string,",
+						"          nro_patronal as string,",
+						"          municipio as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> source14",
+						"source(output(",
+						"          entrega_ag_id as string,",
+						"          asignacion_id as string,",
+						"          ci_beneficiaria as string,",
+						"          fecha_entrega as string,",
+						"          productos as string,",
+						"          lote as string,",
+						"          peso_kg as string,",
+						"          punto_entrega as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> source15",
+						"source(output(",
+						"          entrega_super_id as string,",
+						"          asignacion_id as string,",
+						"          ci_beneficiaria as string,",
+						"          supermercado_id as string,",
+						"          fecha_retiro as string,",
+						"          tipo_carne as string,",
+						"          cantidad_kg as string,",
+						"          monto_bs as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> source16",
+						"source(output(",
+						"          boleta_id as string,",
+						"          control_id as string,",
+						"          ci_beneficiaria as string,",
+						"          nro_boleta as string,",
+						"          fecha_emision as string,",
+						"          estado as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> source17",
+						"source(output(",
+						"          paquete_id as string,",
+						"          nombre as string,",
+						"          contenido as string,",
+						"          peso_estandar_kg as string,",
+						"          costo_estimado_bs as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> source18",
+						"source(output(",
+						"          control_id as string,",
+						"          ci_beneficiaria as string,",
+						"          establecimiento_id as string,",
+						"          nro_control as string,",
+						"          fecha_control as string,",
+						"          semana_gestacion as string,",
+						"          peso_madre_kg as string,",
+						"          presion_arterial as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> source19",
+						"source(output(",
+						"          entrega_id as string,",
+						"          boleta_id as string,",
+						"          ci_beneficiaria as string,",
+						"          establecimiento_id as string,",
+						"          paquete_id as string,",
+						"          paquete_nombre as string,",
+						"          fecha_entrega as string,",
+						"          lote_produccion as string,",
+						"          peso_paquete_kg as string,",
+						"          fecha_proxima_entrega as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> source20",
+						"source(output(",
+						"          establecimiento_id as string,",
+						"          codigo_snis as string,",
+						"          nombre as string,",
+						"          tipo as string,",
+						"          nivel_atencion as string,",
+						"          municipio as string,",
+						"          departamento as string,",
+						"          red_salud as string,",
+						"          estado as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> source21",
+						"source(output(",
+						"          inscripcion_id as string,",
+						"          ci_beneficiaria as string,",
+						"          establecimiento_id as string,",
+						"          fecha_inscripcion as string,",
+						"          semana_gestacion as string,",
+						"          estado as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> source22",
+						"source(output(",
+						"          transportista_id as string,",
+						"          razon_social as string,",
+						"          nit as string,",
+						"          municipio as string,",
+						"          contacto as string,",
+						"          telefono as string,",
+						"          estado as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> source23",
+						"source(output(",
+						"          vehiculo_id as string,",
+						"          transportista_id as string,",
+						"          descripcion as string,",
+						"          placa as string,",
+						"          tipo as string,",
+						"          capacidad_kg as string,",
+						"          estado as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> source24",
+						"source2 derive(ci_nino = upper(regexReplace(regexReplace(trim(ci_nino), '\\\\s+', ''), '-', '')),",
+						"          ci_madre = upper(regexReplace(regexReplace(trim(ci_madre), '\\\\s+', ''), '-', '')),",
+						"          fecha_control = coalesce(     toDate(fecha_control, 'yyyy-MM-dd'),     toDate(fecha_control, 'dd/MM/yyyy'),     toDate(fecha_control, 'dd-MM-yyyy'),     toDate(fecha_control, 'MM/dd/yyyy'),     toDate(fecha_control, 'MM-dd-yyyy') ),",
+						"          nro_control = toInteger(nro_control),",
+						"          peso_nino_kg = toDecimal(regexReplace(toString(peso_nino_kg), '[^0-9.]', '')),",
+						"          talla_nino_cm = toDecimal(regexReplace(toString(talla_nino_cm), '[^0-9.]', '')),",
+						"          vacuna_aplicada = case(\r",
+						"    upper(trim(vacuna_aplicada)) == 'BCG' || lower(trim(vacuna_aplicada)) == 'bcg', 'BCG',\r",
+						"    locate('ANTIPOLIO', upper(trim(vacuna_aplicada))) > 0 && locate('1', vacuna_aplicada) > 0, 'Antipolio 1ra dosis',\r",
+						"    locate('ANTIPOLIO', upper(trim(vacuna_aplicada))) > 0 && locate('2', vacuna_aplicada) > 0, 'Antipolio 2da dosis',\r",
+						"    locate('PENTA', upper(trim(vacuna_aplicada))) > 0 && locate('1', vacuna_aplicada) > 0, 'Pentavalente 1ra dosis',\r",
+						"    locate('PENTA', upper(trim(vacuna_aplicada))) > 0 && locate('2', vacuna_aplicada) > 0, 'Pentavalente 2da dosis',\r",
+						"    locate('PENTA', upper(trim(vacuna_aplicada))) > 0 && locate('3', vacuna_aplicada) > 0, 'Pentavalente 3ra dosis',\r",
+						"    locate('ROTAVIRU', upper(trim(vacuna_aplicada))) > 0, 'Rotavirus 1ra dosis',\r",
+						"    locate('SRP', upper(trim(vacuna_aplicada))) > 0, 'SRP 1ra dosis',\r",
+						"    trim(vacuna_aplicada)\r",
+						"),",
+						"          resultado = case(\r",
+						"    locate('DESNUT', upper(trim(resultado))) > 0, 'Desnutrición Leve',\r",
+						"    locate('BAJO', upper(trim(resultado))) > 0 && locate('PESO', upper(trim(resultado))) > 0, 'Bajo Peso',\r",
+						"    locate('NORM', upper(trim(resultado))) > 0, 'Normal',\r",
+						"    ''\r",
+						")) ~> derivedColumn1",
+						"source3 derive(ci_beneficiaria = upper(regexReplace(regexReplace(trim(ci_beneficiaria), '\\\\s+', ''), '-', '')),",
+						"          fecha_control = coalesce(     toDate(fecha_control, 'yyyy-MM-dd'),     toDate(fecha_control, 'dd/MM/yyyy'),     toDate(fecha_control, 'dd-MM-yyyy'),     toDate(fecha_control, 'MM/dd/yyyy'),     toDate(fecha_control, 'MM-dd-yyyy') ),",
+						"          nro_control = toInteger(nro_control),",
+						"          semana_gestacion = toInteger(semana_gestacion),",
+						"          peso_madre_kg = toDecimal(regexReplace(toString(peso_madre_kg), '[^0-9.]', '')),",
+						"          resultado = case(     locate('ALTO', upper(trim(resultado))) > 0, 'Riesgo Alto',     locate('MODERA', upper(trim(resultado))) > 0 || locate('MDERADO', upper(trim(resultado))) > 0, 'Riesgo Moderado',     locate('BAJO', upper(trim(resultado))) > 0, 'Riesgo Bajo',     locate('NORM', upper(trim(resultado))) > 0, 'Normal',     '' )) ~> derivedColumn2",
+						"source4 derive(departamento = case(     in(['LP', 'La Paz'], trim(departamento)), 'La Paz',     in(['CB', 'Cochabamba'], trim(departamento)), 'Cochabamba',     in(['SC', 'Santa Cruz'], trim(departamento)), 'Santa Cruz',     in(['OR', 'Oruro'], trim(departamento)), 'Oruro',     in(['PT', 'Potosí'], trim(departamento)), 'Potosí',     in(['CH', 'Chuquisaca'], trim(departamento)), 'Chuquisaca',     in(['TJ', 'Tarija'], trim(departamento)), 'Tarija',     in(['BN', 'Beni'], trim(departamento)), 'Beni',     in(['PD', 'Pando'], trim(departamento)), 'Pando',     trim(departamento) )) ~> derivedColumn3",
+						"source5 derive(ci_beneficiaria = upper(regexReplace(regexReplace(trim(ci_beneficiaria), '\\\\s+', ''), '-', '')),",
+						"          fecha_inscripcion = coalesce(     toDate(fecha_inscripcion, 'yyyy-MM-dd'),     toDate(fecha_inscripcion, 'dd/MM/yyyy'),     toDate(fecha_inscripcion, 'dd-MM-yyyy'),     toDate(fecha_inscripcion, 'MM/dd/yyyy'),     toDate(fecha_inscripcion, 'MM-dd-yyyy') ),",
+						"          semana_gestacion = toInteger(semana_gestacion)) ~> derivedColumn4",
+						"source6 derive(ci_beneficiaria = upper(regexReplace(regexReplace(trim(ci_beneficiaria), '\\\\s+', ''), '-', '')),",
+						"          concepto_pago = case(     (locate('PRENATAL', upper(trim(concepto_pago))) > 0 || locate('PRENTAL', upper(trim(concepto_pago))) > 0) && locate('1', concepto_pago) > 0 && locate('2', concepto_pago) == 0 && locate('3', concepto_pago) == 0 && locate('4', concepto_pago) == 0, 'Control Prenatal 1',     (locate('PRENATAL', upper(trim(concepto_pago))) > 0 || locate('PRENTAL', upper(trim(concepto_pago))) > 0) && locate('2', concepto_pago) > 0 && locate('3', concepto_pago) == 0 && locate('4', concepto_pago) == 0, 'Control Prenatal 2',     (locate('PRENATAL', upper(trim(concepto_pago))) > 0 || locate('PRENTAL', upper(trim(concepto_pago))) > 0) && locate('3', concepto_pago) > 0 && locate('4', concepto_pago) == 0, 'Control Prenatal 3',     (locate('PRENATAL', upper(trim(concepto_pago))) > 0 || locate('PRENTAL', upper(trim(concepto_pago))) > 0) && locate('4', concepto_pago) > 0, 'Control Prenatal 4',     locate('INSTIT', upper(trim(concepto_pago))) > 0 || locate('PARTO', upper(trim(concepto_pago))) > 0, 'Parto Institucional',     trim(concepto_pago) ),",
+						"          monto_bs = toDecimal(regexReplace(toString(monto_bs), '[^0-9.]', '')),",
+						"          fecha_pago = coalesce(     toDate(fecha_pago, 'yyyy-MM-dd'),     toDate(fecha_pago, 'dd/MM/yyyy'),     toDate(fecha_pago, 'dd-MM-yyyy'),     toDate(fecha_pago, 'MM/dd/yyyy'),     toDate(fecha_pago, 'MM-dd-yyyy') ),",
+						"          estado_pago = case(     in(['PAGADO', 'Pagado', 'pagado', 'pAGADO'], trim(estado_pago)), 'Pagado',     in(['PENDIENTE', 'Pendiente', 'pendiente', 'pENDIENTE'], trim(estado_pago)), 'Pendiente',     in(['ANULADO', 'Anulado', 'anulado', 'aNULADO'], trim(estado_pago)), 'Anulado',     trim(estado_pago) ),",
+						"          canal_pago = case(     locate('TRANSF', upper(trim(canal_pago))) > 0, 'Transferencia Bancaria',     locate('MOVIL', upper(trim(canal_pago))) > 0 || locate('MÓVIL', upper(trim(canal_pago))) > 0, 'Pago Móvil',     locate('UNION', upper(trim(canal_pago))) > 0 || locate('UNIÓN', upper(trim(canal_pago))) > 0 || locate('UNIN', upper(trim(canal_pago))) > 0, 'Banco Unión',     trim(canal_pago) )) ~> derivedColumn5",
+						"source7 derive(ci_madre = upper(regexReplace(regexReplace(trim(ci_madre), '\\\\s+', ''), '-', '')),",
+						"          ci_recien_nacido = upper(regexReplace(regexReplace(trim(ci_recien_nacido), '\\\\s+', ''), '-', '')),",
+						"          fecha_parto = coalesce(     toDate(fecha_parto, 'yyyy-MM-dd'),     toDate(fecha_parto, 'dd/MM/yyyy'),     toDate(fecha_parto, 'dd-MM-yyyy'),     toDate(fecha_parto, 'MM/dd/yyyy'),     toDate(fecha_parto, 'MM-dd-yyyy') ),",
+						"          tipo_parto = case(     locate('NATUR', upper(trim(tipo_parto))) > 0 || locate('NATRAL', upper(trim(tipo_parto))) > 0, 'Natural',     locate('CES', upper(trim(tipo_parto))) > 0, 'Cesárea',     '' ),",
+						"          peso_nacimiento_kg = toDecimal(regexReplace(toString(peso_nacimiento_kg), '[^0-9.]', '')),",
+						"          talla_nacimiento_cm = toDecimal(regexReplace(toString(talla_nacimiento_cm), '[^0-9.]', ''))) ~> derivedColumn6",
+						"source8 derive(estado = case(     locate('TRANSIT', upper(trim(estado))) > 0, 'En Tránsito',     locate('ENTREG', upper(trim(estado))) > 0, 'Entregado',     locate('DEVUEL', upper(trim(estado))) > 0, 'Devuelto',     locate('DESPACH', upper(trim(estado))) > 0 || locate('DSPACH', upper(trim(estado))) > 0 || locate('DEPACH', upper(trim(estado))) > 0, 'Despachado',     '' ),",
+						"          centro_destino = case(     locate('COBIJA', upper(trim(centro_destino))) > 0, 'Centro Distribución Cobija',     locate('COCHABAMBA', upper(trim(centro_destino))) > 0 && locate('NORTE', upper(trim(centro_destino))) > 0, 'Centro Distribución Cochabamba - Zona Norte',     locate('COCHABAMBA', upper(trim(centro_destino))) > 0 && locate('CENTRAL', upper(trim(centro_destino))) > 0, 'Centro Distribución Cochabamba - Central',     locate('16', trim(centro_destino)) > 0 && locate('JULIO', upper(trim(centro_destino))) > 0, 'Centro Distribución El Alto - 16 de Julio',     locate('SECO', upper(trim(centro_destino))) > 0, 'Centro Distribución El Alto - Río Seco',     locate('SAN PEDRO', upper(trim(centro_destino))) > 0, 'Centro Distribución La Paz - San Pedro',     locate('PAZ', upper(trim(centro_destino))) > 0 && locate('SUR', upper(trim(centro_destino))) > 0, 'Centro Distribución La Paz - Zona Sur',     locate('MONTERO', upper(trim(centro_destino))) > 0, 'Centro Distribución Montero',     locate('ORURO', upper(trim(centro_destino))) > 0, 'Centro Distribución Oruro',     locate('QUILLACOLLO', upper(trim(centro_destino))) > 0, 'Centro Distribución Quillacollo',     locate('EQUIPETROL', upper(trim(centro_destino))) > 0, 'Centro Distribución Santa Cruz - Equipetrol',     locate('3000', trim(centro_destino)) > 0, 'Centro Distribución Santa Cruz - Plan 3000',     locate('SUCRE', upper(trim(centro_destino))) > 0, 'Centro Distribución Sucre',     locate('TARIJA', upper(trim(centro_destino))) > 0, 'Centro Distribución Tarija',     locate('YACUIBA', upper(trim(centro_destino))) > 0, 'Centro Distribución Yacuiba',     trim(centro_destino) ),",
+						"          responsable = case(     locate('ANA GUTIERREZ', upper(trim(responsable))) > 0, 'Lic. Ana Gutierrez V.',     locate('CLAUDIA', upper(trim(responsable))) > 0, 'Lic. Claudia Choque P.',     locate('GABRIELA', upper(trim(responsable))) > 0, 'Lic. Gabriela Mamani R.',     locate('MARIO', upper(trim(responsable))) > 0, 'Lic. Mario Condori H.',     locate('PEDRO', upper(trim(responsable))) > 0, 'Lic. Pedro Quispe M.',     locate('SANDRA', upper(trim(responsable))) > 0, 'Lic. Sandra Flores T.',     locate('VALERIA', upper(trim(responsable))) > 0 || locate('ALERIA', upper(trim(responsable))) > 0, 'Lic. Valeria Condori A.',     locate('CARLOS', upper(trim(responsable))) > 0, 'Tec. Carlos Torrez L.',     locate('DIEGO', upper(trim(responsable))) > 0 || locate('DEIGO', upper(trim(responsable))) > 0, 'Tec. Diego Limachi F.',     locate('FERNANDO', upper(trim(responsable))) > 0, 'Tec. Fernando Poma C.',     locate('JUANA', upper(trim(responsable))) > 0, 'Tec. Juana Apaza N.',     locate('ROBERTO', upper(trim(responsable))) > 0, 'Tec. Roberto Vargas S.',     trim(responsable) ),",
+						"          fecha_despacho = coalesce(     toDate(fecha_despacho, 'yyyy-MM-dd'),     toDate(fecha_despacho, 'dd/MM/yyyy'),     toDate(fecha_despacho, 'dd-MM-yyyy'),     toDate(fecha_despacho, 'MM/dd/yyyy'),     toDate(fecha_despacho, 'MM-dd-yyyy') ),",
+						"          fecha_llegada = coalesce(     toDate(fecha_llegada, 'yyyy-MM-dd'),     toDate(fecha_llegada, 'dd/MM/yyyy'),     toDate(fecha_llegada, 'dd-MM-yyyy'),     toDate(fecha_llegada, 'MM/dd/yyyy'),     toDate(fecha_llegada, 'MM-dd-yyyy') ),",
+						"          cantidad_despachada = toDecimal(regexReplace(toString(cantidad_despachada), '[^0-9.]', ''))) ~> derivedColumn7",
+						"source9 derive(condicion = case(     locate('BUE', upper(trim(condicion))) > 0, 'Bueno',     locate('REG', upper(trim(condicion))) > 0, 'Regular',     locate('DA', upper(trim(condicion))) > 0, 'Dañado',     '' ),",
+						"          estado = case(     locate('VERIF', upper(trim(estado))) > 0, 'En Verificación',     locate('OBSER', upper(trim(estado))) > 0, 'Recibido con Observación',     locate('RECH', upper(trim(estado))) > 0, 'Rechazado',     locate('REC', upper(trim(estado))) > 0, 'Recibido',     '' ),",
+						"          fecha_recepcion = coalesce(     toDate(fecha_recepcion, 'yyyy-MM-dd'),     toDate(fecha_recepcion, 'dd/MM/yyyy'),     toDate(fecha_recepcion, 'dd-MM-yyyy'),     toDate(fecha_recepcion, 'MM/dd/yyyy'),     toDate(fecha_recepcion, 'MM-dd-yyyy') ),",
+						"          cantidad_recibida = toDecimal(regexReplace(toString(cantidad_recibida), '[^0-9.]', '')),",
+						"          temperatura_llegada = toDecimal(regexReplace(toString(temperatura_llegada), '[^0-9.]', ''))) ~> derivedColumn8",
+						"source10 derive(ci = upper(regexReplace(regexReplace(trim(ci), '\\\\s+', ''), '-', '')),",
+						"          ci_conyuge = iif(isNull(ci_conyuge) || trim(ci_conyuge) == '', '',     upper(regexReplace(regexReplace(trim(ci_conyuge), '\\\\s+', ''), '-', ''))),",
+						"          ci_padre = iif(isNull(ci_padre) || trim(ci_padre) == '', '',     upper(regexReplace(regexReplace(trim(ci_padre), '\\\\s+', ''), '-', ''))),",
+						"          ci_madre = iif(isNull(ci_madre) || trim(ci_madre) == '', '',     upper(regexReplace(regexReplace(trim(ci_madre), '\\\\s+', ''), '-', ''))),",
+						"          apellido_materno = coalesce(     toDate(fecha_nacimiento, 'yyyy-MM-dd'),     toDate(fecha_nacimiento, 'dd/MM/yyyy'),     toDate(fecha_nacimiento, 'dd-MM-yyyy'),     toDate(fecha_nacimiento, 'MM/dd/yyyy'),     toDate(fecha_nacimiento, 'MM-dd-yyyy') ),",
+						"          fecha_emision = coalesce(     toDate(fecha_emision, 'yyyy-MM-dd'),     toDate(fecha_emision, 'dd/MM/yyyy'),     toDate(fecha_emision, 'dd-MM-yyyy'),     toDate(fecha_emision, 'MM/dd/yyyy'),     toDate(fecha_emision, 'MM-dd-yyyy') ),",
+						"          genero = upper(trim(genero)),",
+						"          numero_hijos = toInteger(numero_hijos)) ~> derivedColumn9",
+						"source11 derive(ci_beneficiaria = upper(regexReplace(regexReplace(trim(ci_beneficiaria), '\\\\s+', ''), '-', '')),",
+						"          fecha_afiliacion = coalesce(     toDate(fecha_afiliacion, 'yyyy-MM-dd'),     toDate(fecha_afiliacion, 'dd/MM/yyyy'),     toDate(fecha_afiliacion, 'dd-MM-yyyy'),     toDate(fecha_afiliacion, 'MM/dd/yyyy'),     toDate(fecha_afiliacion, 'MM-dd-yyyy') )) ~> derivedColumn10",
+						"source12 derive(estado = case(     in(['ACREDITADO', 'Acreditado', 'acreditado', 'aCREDITADO'], trim(estado)), 'Acreditado',     in(['PENDIENTE', 'Pendiente', 'pendiente', 'pENDIENTE'], trim(estado)), 'Pendiente',     trim(estado) ),",
+						"          mes = toInteger(mes),",
+						"          gestion = toInteger(gestion),",
+						"          monto_bs = toDecimal(regexReplace(toString(monto_bs), '[^0-9.]', '')),",
+						"          monto_productos = toDecimal(regexReplace(toString(monto_productos), '[^0-9.]', '')),",
+						"          monto_carnes = toDecimal(regexReplace(toString(monto_carnes), '[^0-9.]', ''))) ~> derivedColumn11",
+						"source13 derive(fecha_emision = coalesce(     toDate(fecha_emision, 'yyyy-MM-dd'),     toDate(fecha_emision, 'dd/MM/yyyy'),     toDate(fecha_emision, 'dd-MM-yyyy'),     toDate(fecha_emision, 'MM/dd/yyyy'),     toDate(fecha_emision, 'MM-dd-yyyy') ),",
+						"          fecha_probable_parto = coalesce(     toDate(fecha_probable_parto, 'yyyy-MM-dd'),     toDate(fecha_probable_parto, 'dd/MM/yyyy'),     toDate(fecha_probable_parto, 'dd-MM-yyyy'),     toDate(fecha_probable_parto, 'MM/dd/yyyy'),     toDate(fecha_probable_parto, 'MM-dd-yyyy') ),",
+						"          semana_gestacion = toInteger(semana_gestacion)) ~> derivedColumn12",
+						"source15 derive(ci_beneficiaria = upper(regexReplace(regexReplace(trim(ci_beneficiaria), '\\\\s+', ''), '-', '')),",
+						"          fecha_entrega = coalesce(     toDate(fecha_entrega, 'yyyy-MM-dd'),     toDate(fecha_entrega, 'dd/MM/yyyy'),     toDate(fecha_entrega, 'dd-MM-yyyy'),     toDate(fecha_entrega, 'MM/dd/yyyy'),     toDate(fecha_entrega, 'MM-dd-yyyy') ),",
+						"          peso_kg = toDecimal(regexReplace(toString(peso_kg), '[^0-9.]', '')),",
+						"          punto_entrega = case(     locate('COBIJA', upper(trim(punto_entrega))) > 0, 'Centro Distribución Cobija',     locate('COCHABAMBA', upper(trim(punto_entrega))) > 0 && locate('NORTE', upper(trim(punto_entrega))) > 0, 'Centro Distribución Cochabamba - Zona Norte',     locate('COCHABAMBA', upper(trim(punto_entrega))) > 0 && locate('CENTRAL', upper(trim(punto_entrega))) > 0, 'Centro Distribución Cochabamba - Central',     locate('16', trim(punto_entrega)) > 0 && locate('JULIO', upper(trim(punto_entrega))) > 0, 'Centro Distribución El Alto - 16 de Julio',     locate('SECO', upper(trim(punto_entrega))) > 0, 'Centro Distribución El Alto - Río Seco',     locate('SAN PEDRO', upper(trim(punto_entrega))) > 0, 'Centro Distribución La Paz - San Pedro',     locate('PAZ', upper(trim(punto_entrega))) > 0 && locate('SUR', upper(trim(punto_entrega))) > 0, 'Centro Distribución La Paz - Zona Sur',     locate('MONTERO', upper(trim(punto_entrega))) > 0, 'Centro Distribución Montero',     locate('ORURO', upper(trim(punto_entrega))) > 0, 'Centro Distribución Oruro',     locate('POTOSI', upper(trim(punto_entrega))) > 0 || locate('POTOSÍ', upper(trim(punto_entrega))) > 0, 'Centro Distribución Potosí',     locate('QUILLACOLLO', upper(trim(punto_entrega))) > 0, 'Centro Distribución Quillacollo',     locate('EQUIPETROL', upper(trim(punto_entrega))) > 0, 'Centro Distribución Santa Cruz - Equipetrol',     locate('3000', trim(punto_entrega)) > 0, 'Centro Distribución Santa Cruz - Plan 3000',     locate('SUCRE', upper(trim(punto_entrega))) > 0, 'Centro Distribución Sucre',     locate('TARIJA', upper(trim(punto_entrega))) > 0, 'Centro Distribución Tarija',     locate('YACUIBA', upper(trim(punto_entrega))) > 0, 'Centro Distribución Yacuiba',     trim(punto_entrega) )) ~> derivedColumn13",
+						"source16 derive(ci_beneficiaria = upper(regexReplace(regexReplace(trim(ci_beneficiaria), '\\\\s+', ''), '-', '')),",
+						"          fecha_retiro = coalesce(     toDate(fecha_retiro, 'yyyy-MM-dd'),     toDate(fecha_retiro, 'dd/MM/yyyy'),     toDate(fecha_retiro, 'dd-MM-yyyy'),     toDate(fecha_retiro, 'MM/dd/yyyy'),     toDate(fecha_retiro, 'MM-dd-yyyy') ),",
+						"          tipo_carne = case(     locate('POLLO', upper(trim(tipo_carne))) > 0 || locate('PLLO', upper(trim(tipo_carne))) > 0 || locate('PLOLO', upper(trim(tipo_carne))) > 0, 'Pollo',     locate('CERDO', upper(trim(tipo_carne))) > 0 || locate('CEERDO', upper(trim(tipo_carne))) > 0, 'Cerdo',     locate('VACA', upper(trim(tipo_carne))) > 0 || locate('VCAA', upper(trim(tipo_carne))) > 0, 'Carne de Res',     locate('PESCADO', upper(trim(tipo_carne))) > 0 || locate('PSECADO', upper(trim(tipo_carne))) > 0 || locate('PECADO', upper(trim(tipo_carne))) > 0, 'Pescado',     trim(tipo_carne) ),",
+						"          cantidad_kg = toDecimal(regexReplace(toString(cantidad_kg), '[^0-9.]', '')),",
+						"          monto_bs = toDecimal(regexReplace(toString(monto_bs), '[^0-9.]', ''))) ~> derivedColumn14",
+						"source17 derive(ci_beneficiaria = upper(regexReplace(regexReplace(trim(ci_beneficiaria), '\\\\s+', ''), '-', '')),",
+						"          fecha_emision = coalesce(     toDate(fecha_emision, 'yyyy-MM-dd'),     toDate(fecha_emision, 'dd/MM/yyyy'),     toDate(fecha_emision, 'dd-MM-yyyy'),     toDate(fecha_emision, 'MM/dd/yyyy'),     toDate(fecha_emision, 'MM-dd-yyyy') ),",
+						"          estado = case(     in(['VIGENTE', 'Vigente', 'vigente', 'vIGENTE'], trim(estado)), 'Vigente',     in(['CANJEADA', 'Canjeada', 'canjeada', 'cANJEADA'], trim(estado)), 'Canjeada',     in(['VENCIDA', 'Vencida', 'vencida', 'vENCIDA'], trim(estado)), 'Vencida',     in(['ANULADA', 'Anulada', 'anulada', 'aNULADA'], trim(estado)), 'Anulada',     trim(estado) )) ~> derivedColumn15",
+						"source19 derive(ci_beneficiaria = upper(regexReplace(regexReplace(trim(ci_beneficiaria), '\\\\s+', ''), '-', '')),",
+						"          fecha_control = coalesce(     toDate(fecha_control, 'yyyy-MM-dd'),     toDate(fecha_control, 'dd/MM/yyyy'),     toDate(fecha_control, 'dd-MM-yyyy'),     toDate(fecha_control, 'MM/dd/yyyy'),     toDate(fecha_control, 'MM-dd-yyyy') ),",
+						"          nro_control = toInteger(nro_control),",
+						"          semana_gestacion = toInteger(semana_gestacion),",
+						"          peso_madre_kg = toDecimal(regexReplace(toString(peso_madre_kg), '[^0-9.]', ''))) ~> derivedColumn16",
+						"source20 derive(ci_beneficiaria = upper(regexReplace(regexReplace(trim(ci_beneficiaria), '\\\\s+', ''), '-', '')),",
+						"          fecha_entrega = coalesce(     toDate(fecha_entrega, 'yyyy-MM-dd'),     toDate(fecha_entrega, 'dd/MM/yyyy'),     toDate(fecha_entrega, 'dd-MM-yyyy'),     toDate(fecha_entrega, 'MM/dd/yyyy'),     toDate(fecha_entrega, 'MM-dd-yyyy') ),",
+						"          fecha_proxima_entrega = coalesce(     toDate(fecha_proxima_entrega, 'yyyy-MM-dd'),     toDate(fecha_proxima_entrega, 'dd/MM/yyyy'),     toDate(fecha_proxima_entrega, 'dd-MM-yyyy'),     toDate(fecha_proxima_entrega, 'MM/dd/yyyy'),     toDate(fecha_proxima_entrega, 'MM-dd-yyyy') ),",
+						"          peso_paquete_kg = toDecimal(regexReplace(toString(peso_paquete_kg), '[^0-9.]', ''))) ~> derivedColumn17",
+						"source21 derive(departamento = case(     in(['LP', 'La Paz'], trim(departamento)), 'La Paz',     in(['CB', 'Cochabamba'], trim(departamento)), 'Cochabamba',     in(['SC', 'Santa Cruz'], trim(departamento)), 'Santa Cruz',     in(['OR', 'Oruro'], trim(departamento)), 'Oruro',     in(['PT', 'Potosí'], trim(departamento)), 'Potosí',     in(['CH', 'Chuquisaca'], trim(departamento)), 'Chuquisaca',     in(['TJ', 'Tarija'], trim(departamento)), 'Tarija',     in(['BN', 'Beni'], trim(departamento)), 'Beni',     in(['PD', 'Pando'], trim(departamento)), 'Pando',     trim(departamento) )) ~> derivedColumn18",
+						"source22 derive(ci_beneficiaria = upper(regexReplace(regexReplace(trim(ci_beneficiaria), '\\\\s+', ''), '-', '')),",
+						"          fecha_inscripcion = coalesce(     toDate(fecha_inscripcion, 'yyyy-MM-dd'),     toDate(fecha_inscripcion, 'dd/MM/yyyy'),     toDate(fecha_inscripcion, 'dd-MM-yyyy'),     toDate(fecha_inscripcion, 'MM/dd/yyyy'),     toDate(fecha_inscripcion, 'MM-dd-yyyy') ),",
+						"          semana_gestacion = toInteger(semana_gestacion)) ~> derivedColumn19",
+						"source1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          almacen_id as string,",
+						"          nombre as string,",
+						"          municipio as string,",
+						"          departamento as string,",
+						"          direccion as string,",
+						"          capacidad_m3 as decimal(18,2),",
+						"          estado as string,",
+						"          fecha_carga as timestamp",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink1",
+						"derivedColumn1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          control_pediatrico_id as string,",
+						"          ci_nino as string,",
+						"          ci_madre as string,",
+						"          establecimiento_id as string,",
+						"          nro_control as integer,",
+						"          fecha_control as date,",
+						"          peso_nino_kg as decimal(6,2),",
+						"          talla_nino_cm as decimal(6,2),",
+						"          vacuna_aplicada as string,",
+						"          resultado as string,",
+						"          fecha_carga as timestamp",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink2",
+						"derivedColumn2 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          control_prenatal_id as string,",
+						"          ci_beneficiaria as string,",
+						"          establecimiento_id as string,",
+						"          nro_control as integer,",
+						"          fecha_control as date,",
+						"          semana_gestacion as integer,",
+						"          peso_madre_kg as decimal(6,2),",
+						"          presion_arterial as string,",
+						"          resultado as string,",
+						"          fecha_carga as timestamp",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink3",
+						"derivedColumn3 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          establecimiento_id as string,",
+						"          codigo_snis as string,",
+						"          nombre as string,",
+						"          tipo as string,",
+						"          nivel_atencion as string,",
+						"          municipio as string,",
+						"          departamento as string,",
+						"          red_salud as string,",
+						"          estado as string,",
+						"          fecha_carga as timestamp",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink4",
+						"derivedColumn4 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          inscripcion_id as string,",
+						"          ci_beneficiaria as string,",
+						"          establecimiento_id as string,",
+						"          fecha_inscripcion as date,",
+						"          semana_gestacion as integer,",
+						"          estado as string,",
+						"          fecha_carga as timestamp",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink5",
+						"derivedColumn5 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          pago_id as string,",
+						"          ci_beneficiaria as string,",
+						"          concepto_pago as string,",
+						"          monto_bs as decimal(18,2),",
+						"          fecha_pago as date,",
+						"          estado_pago as string,",
+						"          canal_pago as string,",
+						"          nro_comprobante as string,",
+						"          fecha_carga as timestamp",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink6",
+						"derivedColumn6 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          parto_id as string,",
+						"          ci_madre as string,",
+						"          ci_recien_nacido as string,",
+						"          establecimiento_id as string,",
+						"          fecha_parto as date,",
+						"          tipo_parto as string,",
+						"          peso_nacimiento_kg as decimal(6,2),",
+						"          talla_nacimiento_cm as decimal(6,2),",
+						"          fecha_carga as timestamp",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink7",
+						"derivedColumn7 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          despacho_id as string,",
+						"          recepcion_id as string,",
+						"          nro_lote as string,",
+						"          almacen_id as string,",
+						"          transportista_id as string,",
+						"          vehiculo_id as string,",
+						"          fecha_despacho as date,",
+						"          cantidad_despachada as decimal(18,2),",
+						"          centro_destino as string,",
+						"          estado as string,",
+						"          responsable as string,",
+						"          nro_guia_despacho as string,",
+						"          fecha_llegada as date,",
+						"          fecha_carga as timestamp",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink8",
+						"derivedColumn8 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          recepcion_id as string,",
+						"          nro_lote as string,",
+						"          almacen_id as string,",
+						"          transportista_id as string,",
+						"          vehiculo_id as string,",
+						"          fecha_recepcion as date,",
+						"          cantidad_recibida as decimal(18,2),",
+						"          unidad as string,",
+						"          condicion as string,",
+						"          estado as string,",
+						"          responsable as string,",
+						"          nro_guia_remision as string,",
+						"          temperatura_llegada as decimal(6,2),",
+						"          fecha_carga as timestamp",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink9",
+						"derivedColumn9 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          ci as string,",
+						"          nombres as string,",
+						"          apellido_paterno as string,",
+						"          apellido_materno as string,",
+						"          fecha_nacimiento as date,",
+						"          genero as string,",
+						"          estado_civil as string,",
+						"          ci_conyuge as string,",
+						"          numero_hijos as integer,",
+						"          ci_padre as string,",
+						"          ci_madre as string,",
+						"          profesion as string,",
+						"          nivel_estudios as string,",
+						"          municipio_residencia as string,",
+						"          fecha_emision as date,",
+						"          fecha_carga as timestamp",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink10",
+						"derivedColumn10 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          afiliacion_id as string,",
+						"          ci_beneficiaria as string,",
+						"          empleador_id as string,",
+						"          caja_id as string,",
+						"          fecha_afiliacion as date,",
+						"          nro_matricula as string,",
+						"          tipo_subsidio as string,",
+						"          estado as string,",
+						"          fecha_carga as timestamp",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink11",
+						"derivedColumn11 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          asignacion_id as string,",
+						"          afiliacion_id as string,",
+						"          mes as integer,",
+						"          gestion as integer,",
+						"          monto_bs as decimal(18,2),",
+						"          monto_productos as decimal(18,2),",
+						"          monto_carnes as decimal(18,2),",
+						"          estado as string,",
+						"          fecha_carga as timestamp",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink12",
+						"derivedColumn12 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          certificado_id as string,",
+						"          afiliacion_id as string,",
+						"          fecha_emision as date,",
+						"          semana_gestacion as integer,",
+						"          fecha_probable_parto as date,",
+						"          medico_responsable as string,",
+						"          estado as string,",
+						"          fecha_carga as timestamp",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink13",
+						"source14 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          empleador_id as string,",
+						"          nit as string,",
+						"          razon_social as string,",
+						"          tipo as string,",
+						"          nro_patronal as string,",
+						"          municipio as string,",
+						"          fecha_carga as timestamp",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink14",
+						"derivedColumn13 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          entrega_ag_id as string,",
+						"          asignacion_id as string,",
+						"          ci_beneficiaria as string,",
+						"          fecha_entrega as date,",
+						"          productos as string,",
+						"          lote as string,",
+						"          peso_kg as decimal(10,2),",
+						"          punto_entrega as string,",
+						"          fecha_carga as timestamp",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink15",
+						"derivedColumn14 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          entrega_super_id as string,",
+						"          asignacion_id as string,",
+						"          ci_beneficiaria as string,",
+						"          supermercado_id as string,",
+						"          fecha_retiro as date,",
+						"          tipo_carne as string,",
+						"          cantidad_kg as decimal(10,2),",
+						"          monto_bs as decimal(18,2),",
+						"          fecha_carga as timestamp",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink16",
+						"derivedColumn15 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          boleta_id as string,",
+						"          control_id as string,",
+						"          ci_beneficiaria as string,",
+						"          nro_boleta as string,",
+						"          fecha_emision as date,",
+						"          estado as string,",
+						"          fecha_carga as timestamp",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink17",
+						"source18 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          paquete_id as string,",
+						"          nombre as string,",
+						"          contenido as string,",
+						"          peso_estandar_kg as decimal(6,2),",
+						"          costo_estimado_bs as decimal(18,2),",
+						"          fecha_carga as timestamp",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink18",
+						"derivedColumn16 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          control_id as string,",
+						"          ci_beneficiaria as string,",
+						"          establecimiento_id as string,",
+						"          nro_control as integer,",
+						"          fecha_control as date,",
+						"          semana_gestacion as integer,",
+						"          peso_madre_kg as decimal(6,2),",
+						"          presion_arterial as string,",
+						"          fecha_carga as timestamp",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink19",
+						"derivedColumn17 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          entrega_id as string,",
+						"          boleta_id as string,",
+						"          ci_beneficiaria as string,",
+						"          establecimiento_id as string,",
+						"          paquete_id as string,",
+						"          paquete_nombre as string,",
+						"          fecha_entrega as date,",
+						"          lote_produccion as string,",
+						"          peso_paquete_kg as decimal(6,2),",
+						"          fecha_proxima_entrega as date,",
+						"          fecha_carga as timestamp",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink20",
+						"derivedColumn18 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          establecimiento_id as string,",
+						"          codigo_snis as string,",
+						"          nombre as string,",
+						"          tipo as string,",
+						"          nivel_atencion as string,",
+						"          municipio as string,",
+						"          departamento as string,",
+						"          red_salud as string,",
+						"          estado as string,",
+						"          fecha_carga as timestamp",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink21",
+						"derivedColumn19 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          inscripcion_id as string,",
+						"          ci_beneficiaria as string,",
+						"          establecimiento_id as string,",
+						"          fecha_inscripcion as date,",
+						"          semana_gestacion as integer,",
+						"          estado as string,",
+						"          fecha_carga as timestamp",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink22",
+						"source23 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          transportista_id as string,",
+						"          razon_social as string,",
+						"          nit as string,",
+						"          municipio as string,",
+						"          contacto as string,",
+						"          telefono as string,",
+						"          estado as string,",
+						"          fecha_carga as timestamp",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink23",
+						"source24 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          vehiculo_id as string,",
+						"          transportista_id as string,",
+						"          descripcion as string,",
+						"          placa as string,",
+						"          tipo as string,",
+						"          capacidad_kg as decimal(18,2),",
+						"          estado as string,",
+						"          fecha_carga as timestamp",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink24"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_gold_dim_establecimiento')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "gold"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "silver_bja_establecimientos_salud",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_sup_establecimientos",
+								"type": "DatasetReference"
+							},
+							"name": "source2"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_almacenes",
+								"type": "DatasetReference"
+							},
+							"name": "source3"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "gold_dim_establecimiento",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "union1"
+						},
+						{
+							"name": "union2"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          establecimiento_id_origen as string,",
+						"          sistema_origen as string,",
+						"          nombre as string,",
+						"          tipo as string,",
+						"          nivel_atencion as string,",
+						"          municipio as string,",
+						"          departamento as string,",
+						"          red_salud as string,",
+						"          estado as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT\\n    establecimiento_id AS establecimiento_id_origen,\\n    \\'BJA\\' AS sistema_origen,\\n    nombre,\\n    tipo,\\n    nivel_atencion,\\n    municipio,\\n    departamento,\\n    red_salud,\\n    estado\\nFROM silver.bja_establecimientos_salud',",
+						"     format: 'query') ~> source1",
+						"source(output(",
+						"          establecimiento_id_origen as string,",
+						"          sistema_origen as string,",
+						"          nombre as string,",
+						"          tipo as string,",
+						"          nivel_atencion as string,",
+						"          municipio as string,",
+						"          departamento as string,",
+						"          red_salud as string,",
+						"          estado as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT\\n    establecimiento_id AS establecimiento_id_origen,\\n    \\'SUP\\' AS sistema_origen,\\n    nombre,\\n    tipo,\\n    nivel_atencion,\\n    municipio,\\n    departamento,\\n    red_salud,\\n    estado\\nFROM silver.sup_establecimientos',",
+						"     format: 'query') ~> source2",
+						"source(output(",
+						"          establecimiento_id_origen as string,",
+						"          sistema_origen as string,",
+						"          nombre as string,",
+						"          tipo as string,",
+						"          nivel_atencion as string,",
+						"          municipio as string,",
+						"          departamento as string,",
+						"          red_salud as string,",
+						"          estado as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT\\n    almacen_id AS establecimiento_id_origen,\\n    \\'AGENCIA\\' AS sistema_origen,\\n    nombre,\\n    \\'Almacén\\' AS tipo,\\n    CAST(NULL AS VARCHAR(100)) AS nivel_atencion,\\n    municipio,\\n    departamento,\\n    CAST(NULL AS VARCHAR(150)) AS red_salud,\\n    estado\\nFROM silver.almacenes',",
+						"     format: 'query') ~> source3",
+						"source1, source2 union(byName: true)~> union1",
+						"union1, source3 union(byName: true)~> union2",
+						"union2 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          establecimiento_key as integer,",
+						"          establecimiento_id_origen as string,",
+						"          sistema_origen as string,",
+						"          nombre as string,",
+						"          tipo as string,",
+						"          nivel_atencion as string,",
+						"          municipio as string,",
+						"          departamento as string,",
+						"          red_salud as string,",
+						"          estado as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     truncate:true,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          establecimiento_id_origen,",
+						"          sistema_origen,",
+						"          nombre,",
+						"          tipo,",
+						"          nivel_atencion,",
+						"          municipio,",
+						"          departamento,",
+						"          red_salud,",
+						"          estado",
+						"     )) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_gold_dim_fecha')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "gold"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "silver_bja_controles_prenatales",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_bja_controles_pediatricos",
+								"type": "DatasetReference"
+							},
+							"name": "source2"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_bja_partos",
+								"type": "DatasetReference"
+							},
+							"name": "source3"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_bja_pagos",
+								"type": "DatasetReference"
+							},
+							"name": "source4"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_bja_inscripciones",
+								"type": "DatasetReference"
+							},
+							"name": "source5"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_sup_inscripciones",
+								"type": "DatasetReference"
+							},
+							"name": "source6"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_sup_controles",
+								"type": "DatasetReference"
+							},
+							"name": "source7"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_sup_boletas",
+								"type": "DatasetReference"
+							},
+							"name": "source8"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_sup_entregas",
+								"type": "DatasetReference"
+							},
+							"name": "source9"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_sup_entregas",
+								"type": "DatasetReference"
+							},
+							"name": "source10"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_spl_afiliaciones",
+								"type": "DatasetReference"
+							},
+							"name": "source11"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_spl_certificados_medicos",
+								"type": "DatasetReference"
+							},
+							"name": "source12"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_spl_entregas_agencia",
+								"type": "DatasetReference"
+							},
+							"name": "source13"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_spl_entregas_supermercado",
+								"type": "DatasetReference"
+							},
+							"name": "source14"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_recepciones",
+								"type": "DatasetReference"
+							},
+							"name": "source15"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_despachos",
+								"type": "DatasetReference"
+							},
+							"name": "source16"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_despachos",
+								"type": "DatasetReference"
+							},
+							"name": "source17"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_segip_personas",
+								"type": "DatasetReference"
+							},
+							"name": "source18"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_segip_personas",
+								"type": "DatasetReference"
+							},
+							"name": "source19"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "gold_dim_fecha",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "union1"
+						},
+						{
+							"name": "union2"
+						},
+						{
+							"name": "union3"
+						},
+						{
+							"name": "union4"
+						},
+						{
+							"name": "union5"
+						},
+						{
+							"name": "union6"
+						},
+						{
+							"name": "union7"
+						},
+						{
+							"name": "union8"
+						},
+						{
+							"name": "union9"
+						},
+						{
+							"name": "union10"
+						},
+						{
+							"name": "union11"
+						},
+						{
+							"name": "union12"
+						},
+						{
+							"name": "union13"
+						},
+						{
+							"name": "union14"
+						},
+						{
+							"name": "union15"
+						},
+						{
+							"name": "union16"
+						},
+						{
+							"name": "union17"
+						},
+						{
+							"name": "union18"
+						},
+						{
+							"name": "derivedColumn1"
+						},
+						{
+							"name": "aggregate1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          fecha as date",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT fecha_control AS fecha FROM silver.bja_controles_prenatales WHERE fecha_control IS NOT NULL\\n',",
+						"     format: 'query') ~> source1",
+						"source(output(",
+						"          fecha as date",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT fecha_control AS fecha FROM silver.bja_controles_pediatricos WHERE fecha_control IS NOT NULL\\n',",
+						"     format: 'query') ~> source2",
+						"source(output(",
+						"          fecha as date",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT fecha_parto AS fecha FROM silver.bja_partos WHERE fecha_parto IS NOT NULL\\n',",
+						"     format: 'query') ~> source3",
+						"source(output(",
+						"          fecha as date",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT fecha_pago AS fecha FROM silver.bja_pagos WHERE fecha_pago IS NOT NULL\\n',",
+						"     format: 'query') ~> source4",
+						"source(output(",
+						"          fecha as date",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT fecha_inscripcion AS fecha FROM silver.bja_inscripciones WHERE fecha_inscripcion IS NOT NULL\\n',",
+						"     format: 'query') ~> source5",
+						"source(output(",
+						"          fecha as date",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT fecha_inscripcion AS fecha FROM silver.sup_inscripciones WHERE fecha_inscripcion IS NOT NULL\\n',",
+						"     format: 'query') ~> source6",
+						"source(output(",
+						"          fecha as date",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT fecha_control AS fecha FROM silver.sup_controles WHERE fecha_control IS NOT NULL\\n',",
+						"     format: 'query') ~> source7",
+						"source(output(",
+						"          fecha as date",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT fecha_emision AS fecha FROM silver.sup_boletas WHERE fecha_emision IS NOT NULL\\n',",
+						"     format: 'query') ~> source8",
+						"source(output(",
+						"          fecha as date",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT fecha_entrega AS fecha FROM silver.sup_entregas WHERE fecha_entrega IS NOT NULL\\n',",
+						"     format: 'query') ~> source9",
+						"source(output(",
+						"          fecha as date",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT fecha_proxima_entrega AS fecha FROM silver.sup_entregas WHERE fecha_proxima_entrega IS NOT NULL\\n',",
+						"     format: 'query') ~> source10",
+						"source(output(",
+						"          fecha as date",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT fecha_afiliacion AS fecha FROM silver.spl_afiliaciones WHERE fecha_afiliacion IS NOT NULL\\n',",
+						"     format: 'query') ~> source11",
+						"source(output(",
+						"          fecha as date",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT fecha_emision AS fecha FROM silver.spl_certificados_medicos WHERE fecha_emision IS NOT NULL\\n',",
+						"     format: 'query') ~> source12",
+						"source(output(",
+						"          fecha as date",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT fecha_entrega AS fecha FROM silver.spl_entregas_agencia WHERE fecha_entrega IS NOT NULL\\n',",
+						"     format: 'query') ~> source13",
+						"source(output(",
+						"          fecha as date",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT fecha_retiro AS fecha FROM silver.spl_entregas_supermercado WHERE fecha_retiro IS NOT NULL\\n',",
+						"     format: 'query') ~> source14",
+						"source(output(",
+						"          fecha as date",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT fecha_recepcion AS fecha FROM silver.recepciones WHERE fecha_recepcion IS NOT NULL\\n',",
+						"     format: 'query') ~> source15",
+						"source(output(",
+						"          fecha as date",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT fecha_despacho AS fecha FROM silver.despachos WHERE fecha_despacho IS NOT NULL\\n',",
+						"     format: 'query') ~> source16",
+						"source(output(",
+						"          fecha as date",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT fecha_llegada AS fecha FROM silver.despachos WHERE fecha_llegada IS NOT NULL\\n',",
+						"     format: 'query') ~> source17",
+						"source(output(",
+						"          fecha as date",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT fecha_nacimiento AS fecha FROM silver.segip_personas WHERE fecha_nacimiento IS NOT NULL\\n',",
+						"     format: 'query') ~> source18",
+						"source(output(",
+						"          fecha as date",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT fecha_emision AS fecha FROM silver.segip_personas WHERE fecha_emision IS NOT NULL\\n',",
+						"     format: 'query') ~> source19",
+						"source1, source2 union(byName: true)~> union1",
+						"union1, source3 union(byName: true)~> union2",
+						"union2, source4 union(byName: true)~> union3",
+						"union3, source5 union(byName: true)~> union4",
+						"union4, source6 union(byName: true)~> union5",
+						"union5, source7 union(byName: true)~> union6",
+						"union6, source8 union(byName: true)~> union7",
+						"union7, source9 union(byName: true)~> union8",
+						"union8, source10 union(byName: true)~> union9",
+						"union9, source11 union(byName: true)~> union10",
+						"union10, source12 union(byName: true)~> union11",
+						"union11, source13 union(byName: true)~> union12",
+						"union12, source14 union(byName: true)~> union13",
+						"union13, source15 union(byName: true)~> union14",
+						"union14, source16 union(byName: true)~> union15",
+						"union15, source17 union(byName: true)~> union16",
+						"union16, source18 union(byName: true)~> union17",
+						"union17, source19 union(byName: true)~> union18",
+						"aggregate1 derive(fecha_key =   toInteger(concat(toString(year(fecha)), lpad(toString(month(fecha)),2,'0'), lpad(toString(dayOfMonth(fecha)),2,'0'))),",
+						"          anio =   year(fecha),",
+						"          mes =   month(fecha),",
+						"          dia =   dayOfMonth(fecha),",
+						"          nombre_mes = case(       month(fecha) == 1, 'Enero',       month(fecha) == 2, 'Febrero',       month(fecha) == 3, 'Marzo',       month(fecha) == 4, 'Abril',       month(fecha) == 5, 'Mayo',       month(fecha) == 6, 'Junio',       month(fecha) == 7, 'Julio',       month(fecha) == 8, 'Agosto',       month(fecha) == 9, 'Septiembre',       month(fecha) == 10, 'Octubre',       month(fecha) == 11, 'Noviembre',       'Diciembre'   ),",
+						"          trimestre = case(       month(fecha) <= 3, 1,       month(fecha) <= 6, 2,       month(fecha) <= 9, 3,       4   ),",
+						"          nombre_dia =  case(       dayOfWeek(fecha) == 1, 'Domingo',       dayOfWeek(fecha) == 2, 'Lunes',       dayOfWeek(fecha) == 3, 'Martes',       dayOfWeek(fecha) == 4, 'Miercoles',       dayOfWeek(fecha) == 5, 'Jueves',       dayOfWeek(fecha) == 6, 'Viernes',       'Sabado'   ),",
+						"          es_fin_semana = iif(dayOfWeek(fecha) == 1 || dayOfWeek(fecha) == 7, 1, 0)) ~> derivedColumn1",
+						"union18 aggregate(groupBy(fecha),",
+						"     count = count(1)) ~> aggregate1",
+						"derivedColumn1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          fecha_key as integer,",
+						"          fecha as date,",
+						"          anio as integer,",
+						"          mes as integer,",
+						"          dia as integer,",
+						"          nombre_mes as string,",
+						"          trimestre as integer,",
+						"          nombre_dia as string,",
+						"          es_fin_semana as boolean",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     truncate:true,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          fecha_key,",
+						"          fecha,",
+						"          anio,",
+						"          mes,",
+						"          dia,",
+						"          nombre_mes,",
+						"          trimestre,",
+						"          nombre_dia,",
+						"          es_fin_semana",
+						"     )) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_gold_dim_lote')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "gold"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "silver_despachos",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_sup_entregas",
+								"type": "DatasetReference"
+							},
+							"name": "source2"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_spl_entregas_agencia",
+								"type": "DatasetReference"
+							},
+							"name": "source3"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "gold_dim_lote",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "union1"
+						},
+						{
+							"name": "union2"
+						},
+						{
+							"name": "derivedColumn1"
+						},
+						{
+							"name": "aggregate1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          nro_lote as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT nro_lote FROM silver.despachos\\nWHERE nro_lote IS NOT NULL AND nro_lote <> \\'\\' AND nro_lote LIKE \\'%-%-%\\'',",
+						"     format: 'query') ~> source1",
+						"source(output(",
+						"          nro_lote as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT lote_produccion AS nro_lote FROM silver.sup_entregas\\nWHERE lote_produccion IS NOT NULL AND lote_produccion <> \\'\\' AND lote_produccion LIKE \\'%-%-%\\'',",
+						"     format: 'query') ~> source2",
+						"source(output(",
+						"          nro_lote as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT lote AS nro_lote FROM silver.spl_entregas_agencia\\nWHERE lote IS NOT NULL AND lote <> \\'\\' AND lote LIKE \\'%-%-%\\'',",
+						"     format: 'query') ~> source3",
+						"source1, source2 union(byName: true)~> union1",
+						"union1, source3 union(byName: true)~> union2",
+						"aggregate1 derive(proveedor =   left(nro_lote, locate('-', nro_lote) - 1),",
+						"          anio_lote =   toInteger(substring(nro_lote, locate('-', nro_lote) + 1, locate('-', nro_lote, locate('-', nro_lote) + 1) - locate('-', nro_lote) - 1))) ~> derivedColumn1",
+						"union2 aggregate(groupBy(nro_lote),",
+						"     count = count(1)) ~> aggregate1",
+						"derivedColumn1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          lote_key as integer,",
+						"          nro_lote as string,",
+						"          proveedor as string,",
+						"          anio_lote as integer",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     truncate:true,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          nro_lote,",
+						"          proveedor,",
+						"          anio_lote",
+						"     )) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_gold_dim_persona_externos')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "gold"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "silver_bja_inscripciones",
+								"type": "DatasetReference"
+							},
+							"name": "source2"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_bja_pagos",
+								"type": "DatasetReference"
+							},
+							"name": "source3"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_bja_controles_prenatales",
+								"type": "DatasetReference"
+							},
+							"name": "source4"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_bja_controles_pediatricos",
+								"type": "DatasetReference"
+							},
+							"name": "source5"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_bja_controles_pediatricos",
+								"type": "DatasetReference"
+							},
+							"name": "source6"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_bja_partos",
+								"type": "DatasetReference"
+							},
+							"name": "source7"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_bja_partos",
+								"type": "DatasetReference"
+							},
+							"name": "source8"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_sup_inscripciones",
+								"type": "DatasetReference"
+							},
+							"name": "source9"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_sup_boletas",
+								"type": "DatasetReference"
+							},
+							"name": "source10"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_sup_entregas",
+								"type": "DatasetReference"
+							},
+							"name": "source11"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_spl_afiliaciones",
+								"type": "DatasetReference"
+							},
+							"name": "source12"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_spl_entregas_agencia",
+								"type": "DatasetReference"
+							},
+							"name": "source13"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_spl_entregas_supermercado",
+								"type": "DatasetReference"
+							},
+							"name": "source14"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "gold_dim_persona",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "union1"
+						},
+						{
+							"name": "union2"
+						},
+						{
+							"name": "union3"
+						},
+						{
+							"name": "union4"
+						},
+						{
+							"name": "union5"
+						},
+						{
+							"name": "union6"
+						},
+						{
+							"name": "union7"
+						},
+						{
+							"name": "union8"
+						},
+						{
+							"name": "union9"
+						},
+						{
+							"name": "union10"
+						},
+						{
+							"name": "union11"
+						},
+						{
+							"name": "union12"
+						},
+						{
+							"name": "aggregate1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          ci as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT DISTINCT ci_beneficiaria AS ci FROM silver.bja_inscripciones WHERE ci_beneficiaria IS NOT NULL AND ci_beneficiaria NOT IN (SELECT ci FROM silver.segip_personas)',",
+						"     format: 'query') ~> source2",
+						"source(output(",
+						"          ci as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT DISTINCT ci_beneficiaria AS ci FROM silver.bja_pagos WHERE ci_beneficiaria IS NOT NULL AND ci_beneficiaria NOT IN (SELECT ci FROM silver.segip_personas)',",
+						"     format: 'query') ~> source3",
+						"source(output(",
+						"          ci as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT DISTINCT ci_beneficiaria AS ci FROM silver.bja_controles_prenatales WHERE ci_beneficiaria IS NOT NULL AND ci_beneficiaria NOT IN (SELECT ci FROM silver.segip_personas)',",
+						"     format: 'query') ~> source4",
+						"source(output(",
+						"          ci as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT DISTINCT ci_madre AS ci FROM silver.bja_controles_pediatricos WHERE ci_madre IS NOT NULL AND ci_madre NOT IN (SELECT ci FROM silver.segip_personas)',",
+						"     format: 'query') ~> source5",
+						"source(output(",
+						"          ci as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT DISTINCT ci_nino AS ci FROM silver.bja_controles_pediatricos WHERE ci_nino IS NOT NULL AND ci_nino NOT IN (SELECT ci FROM silver.segip_personas)',",
+						"     format: 'query') ~> source6",
+						"source(output(",
+						"          ci as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT DISTINCT ci_madre AS ci FROM silver.bja_partos WHERE ci_madre IS NOT NULL AND ci_madre NOT IN (SELECT ci FROM silver.segip_personas)',",
+						"     format: 'query') ~> source7",
+						"source(output(",
+						"          ci as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT DISTINCT ci_recien_nacido AS ci FROM silver.bja_partos WHERE ci_recien_nacido IS NOT NULL AND ci_recien_nacido NOT IN (SELECT ci FROM silver.segip_personas)',",
+						"     format: 'query') ~> source8",
+						"source(output(",
+						"          ci as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT DISTINCT ci_beneficiaria AS ci FROM silver.sup_inscripciones WHERE ci_beneficiaria IS NOT NULL AND ci_beneficiaria NOT IN (SELECT ci FROM silver.segip_personas)',",
+						"     format: 'query') ~> source9",
+						"source(output(",
+						"          ci as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT DISTINCT ci_beneficiaria AS ci FROM silver.sup_boletas WHERE ci_beneficiaria IS NOT NULL AND ci_beneficiaria NOT IN (SELECT ci FROM silver.segip_personas)',",
+						"     format: 'query') ~> source10",
+						"source(output(",
+						"          ci as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT DISTINCT ci_beneficiaria AS ci FROM silver.sup_entregas WHERE ci_beneficiaria IS NOT NULL AND ci_beneficiaria NOT IN (SELECT ci FROM silver.segip_personas)',",
+						"     format: 'query') ~> source11",
+						"source(output(",
+						"          ci as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT DISTINCT ci_beneficiaria AS ci FROM silver.spl_afiliaciones WHERE ci_beneficiaria IS NOT NULL AND ci_beneficiaria NOT IN (SELECT ci FROM silver.segip_personas)',",
+						"     format: 'query') ~> source12",
+						"source(output(",
+						"          ci as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT DISTINCT ci_beneficiaria AS ci FROM silver.spl_entregas_agencia WHERE ci_beneficiaria IS NOT NULL AND ci_beneficiaria NOT IN (SELECT ci FROM silver.segip_personas)',",
+						"     format: 'query') ~> source13",
+						"source(output(",
+						"          ci as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT DISTINCT ci_beneficiaria AS ci FROM silver.spl_entregas_supermercado WHERE ci_beneficiaria IS NOT NULL AND ci_beneficiaria NOT IN (SELECT ci FROM silver.segip_personas)',",
+						"     format: 'query') ~> source14",
+						"source2, source3 union(byName: true)~> union1",
+						"union1, source4 union(byName: true)~> union2",
+						"union2, source5 union(byName: true)~> union3",
+						"union3, source6 union(byName: true)~> union4",
+						"union4, source7 union(byName: true)~> union5",
+						"union5, source8 union(byName: true)~> union6",
+						"union6, source9 union(byName: true)~> union7",
+						"union7, source10 union(byName: true)~> union8",
+						"union8, source11 union(byName: true)~> union9",
+						"union9, source12 union(byName: true)~> union10",
+						"union10, source13 union(byName: true)~> union11",
+						"union11, source14 union(byName: true)~> union12",
+						"union12 aggregate(groupBy(ci),",
+						"     count = count(1)) ~> aggregate1",
+						"aggregate1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          persona_key as integer,",
+						"          ci as string,",
+						"          nombres as string,",
+						"          apellido_paterno as string,",
+						"          apellido_materno as string,",
+						"          nombre_completo as string,",
+						"          fecha_nacimiento as date,",
+						"          genero as string,",
+						"          estado_civil as string,",
+						"          numero_hijos as integer,",
+						"          municipio_residencia as string,",
+						"          en_segip as boolean",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          ci",
+						"     )) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_gold_dim_persona_segip')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "gold"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "silver_segip_personas",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "gold_dim_persona",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          ci as string,",
+						"          nombres as string,",
+						"          apellido_paterno as string,",
+						"          apellido_materno as string,",
+						"          nombre_completo as string,",
+						"          fecha_nacimiento as date,",
+						"          genero as string,",
+						"          estado_civil as string,",
+						"          numero_hijos as integer,",
+						"          municipio_residencia as string,",
+						"          en_segip as integer",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT\\n    ci,\\n    nombres,\\n    apellido_paterno,\\n    apellido_materno,\\n    CONCAT(ISNULL(nombres,\\'\\'), \\' \\', ISNULL(apellido_paterno,\\'\\'), \\' \\', ISNULL(apellido_materno,\\'\\')) AS nombre_completo,\\n    fecha_nacimiento,\\n    genero,\\n    estado_civil,\\n    numero_hijos,\\n    municipio_residencia,\\n    1 AS en_segip\\nFROM silver.segip_personas\\nWHERE ci IS NOT NULL AND ci <> \\'\\'',",
+						"     format: 'query') ~> source1",
+						"source1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          persona_key as integer,",
+						"          ci as string,",
+						"          nombres as string,",
+						"          apellido_paterno as string,",
+						"          apellido_materno as string,",
+						"          nombre_completo as string,",
+						"          fecha_nacimiento as date,",
+						"          genero as string,",
+						"          estado_civil as string,",
+						"          numero_hijos as integer,",
+						"          municipio_residencia as string,",
+						"          en_segip as boolean",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     truncate:true,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          ci,",
+						"          nombres,",
+						"          apellido_paterno,",
+						"          apellido_materno,",
+						"          nombre_completo,",
+						"          fecha_nacimiento,",
+						"          genero,",
+						"          estado_civil,",
+						"          numero_hijos,",
+						"          municipio_residencia,",
+						"          en_segip",
+						"     )) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_gold_dim_producto')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "gold"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "silver_sup_catalogo_paquetes",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_spl_entregas_supermercado",
+								"type": "DatasetReference"
+							},
+							"name": "source2"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "gold_dim_producto",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "union1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          producto_id_origen as string,",
+						"          sistema_origen as string,",
+						"          nombre as string,",
+						"          categoria as string,",
+						"          contenido as string,",
+						"          peso_kg as decimal(6,2),",
+						"          costo_bs as decimal(18,2)",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT\\n    paquete_id AS producto_id_origen,\\n    \\'SUP_PAQUETE\\' AS sistema_origen,\\n    nombre,\\n    CASE\\n        WHEN nombre LIKE \\'%Prenatal%\\' THEN \\'Paquete Prenatal\\'\\n        WHEN nombre LIKE \\'%Lactancia%\\' THEN \\'Paquete Lactancia\\'\\n        ELSE \\'Otro\\'\\n    END AS categoria,\\n    contenido,\\n    peso_estandar_kg AS peso_kg,\\n    costo_estimado_bs AS costo_bs\\nFROM silver.sup_catalogo_paquetes',",
+						"     format: 'query') ~> source1",
+						"source(output(",
+						"          producto_id_origen as string,",
+						"          sistema_origen as string,",
+						"          nombre as string,",
+						"          categoria as string,",
+						"          contenido as string,",
+						"          peso_kg as decimal(10,2),",
+						"          costo_bs as decimal(18,2)",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT DISTINCT\\n    CAST(NULL AS VARCHAR(50)) AS producto_id_origen,\\n    \\'SPL_CARNE\\' AS sistema_origen,\\n    tipo_carne AS nombre,\\n    \\'Producto Carnico\\' AS categoria,\\n    CAST(NULL AS VARCHAR(500)) AS contenido,\\n    CAST(NULL AS DECIMAL(10,2)) AS peso_kg,\\n    CAST(NULL AS DECIMAL(18,2)) AS costo_bs\\nFROM silver.spl_entregas_supermercado\\nWHERE tipo_carne IS NOT NULL AND tipo_carne <> \\'\\'',",
+						"     format: 'query') ~> source2",
+						"source1, source2 union(byName: true)~> union1",
+						"union1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          producto_key as integer,",
+						"          producto_id_origen as string,",
+						"          sistema_origen as string,",
+						"          nombre as string,",
+						"          categoria as string,",
+						"          contenido as string,",
+						"          peso_kg as decimal(10,2),",
+						"          costo_bs as decimal(18,2)",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     truncate:true,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          producto_id_origen,",
+						"          sistema_origen,",
+						"          nombre,",
+						"          categoria,",
+						"          contenido,",
+						"          peso_kg,",
+						"          costo_bs",
+						"     )) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_gold_dim_ubicacion')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "gold"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "silver_almacenes",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_bja_establecimientos_salud",
+								"type": "DatasetReference"
+							},
+							"name": "source2"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_sup_establecimientos",
+								"type": "DatasetReference"
+							},
+							"name": "source3"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_segip_personas",
+								"type": "DatasetReference"
+							},
+							"name": "source4"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "gold_dim_ubicacion",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "union1"
+						},
+						{
+							"name": "union2"
+						},
+						{
+							"name": "union3"
+						},
+						{
+							"name": "aggregate1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          departamento as string,",
+						"          municipio as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT DISTINCT departamento, municipio FROM silver.almacenes\\nWHERE departamento IS NOT NULL AND municipio IS NOT NULL',",
+						"     format: 'query') ~> source1",
+						"source(output(",
+						"          departamento as string,",
+						"          municipio as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT DISTINCT departamento, municipio FROM silver.bja_establecimientos_salud\\nWHERE departamento IS NOT NULL AND municipio IS NOT NULL',",
+						"     format: 'query') ~> source2",
+						"source(output(",
+						"          departamento as string,",
+						"          municipio as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT DISTINCT departamento, municipio FROM silver.sup_establecimientos\\nWHERE departamento IS NOT NULL AND municipio IS NOT NULL',",
+						"     format: 'query') ~> source3",
+						"source(output(",
+						"          departamento as string,",
+						"          municipio as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT DISTINCT\\n    \\'Sin Especificar\\' AS departamento,\\n    municipio_residencia AS municipio\\nFROM silver.segip_personas\\nWHERE municipio_residencia IS NOT NULL',",
+						"     format: 'query') ~> source4",
+						"source1, source2 union(byName: true)~> union1",
+						"union1, source3 union(byName: true)~> union2",
+						"union2, source4 union(byName: true)~> union3",
+						"union3 aggregate(groupBy(departamento,",
+						"          municipio),",
+						"     count = count(1)) ~> aggregate1",
+						"aggregate1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          ubicacion_key as integer,",
+						"          departamento as string,",
+						"          municipio as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     truncate:true,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          departamento,",
+						"          municipio",
+						"     )) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipe_cargar_datos_bronze')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Data flow1",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "df_bronze_cargar",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source1": {},
+									"source2": {},
+									"source3": {},
+									"source4": {},
+									"source5": {},
+									"source6": {},
+									"source7": {},
+									"source8": {},
+									"source9": {},
+									"source10": {},
+									"source11": {},
+									"source12": {},
+									"source13": {},
+									"source14": {},
+									"source15": {},
+									"source16": {},
+									"source17": {},
+									"source18": {},
+									"source19": {},
+									"source20": {},
+									"source21": {},
+									"source22": {},
+									"source23": {},
+									"source24": {},
+									"sink1": {},
+									"sink2": {},
+									"sink3": {},
+									"sink4": {},
+									"sink5": {},
+									"sink6": {},
+									"sink7": {},
+									"sink8": {},
+									"sink9": {},
+									"sink10": {},
+									"sink11": {},
+									"sink12": {},
+									"sink13": {},
+									"sink14": {},
+									"sink15": {},
+									"sink16": {},
+									"sink17": {},
+									"sink18": {},
+									"sink19": {},
+									"sink20": {},
+									"sink21": {},
+									"sink22": {},
+									"sink23": {},
+									"sink24": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/df_bronze_cargar')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipe_cargar_datos_silver')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Data flow1",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "df_silver_cargar",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source1": {},
+									"source2": {},
+									"source3": {},
+									"source4": {},
+									"source5": {},
+									"source6": {},
+									"source7": {},
+									"source8": {},
+									"source9": {},
+									"source10": {},
+									"source11": {},
+									"source12": {},
+									"source13": {},
+									"source14": {},
+									"source15": {},
+									"source16": {},
+									"source17": {},
+									"source18": {},
+									"source19": {},
+									"source20": {},
+									"source21": {},
+									"source22": {},
+									"source23": {},
+									"source24": {},
+									"sink1": {},
+									"sink2": {},
+									"sink3": {},
+									"sink4": {},
+									"sink5": {},
+									"sink6": {},
+									"sink7": {},
+									"sink8": {},
+									"sink9": {},
+									"sink10": {},
+									"sink11": {},
+									"sink12": {},
+									"sink13": {},
+									"sink14": {},
+									"sink15": {},
+									"sink16": {},
+									"sink17": {},
+									"sink18": {},
+									"sink19": {},
+									"sink20": {},
+									"sink21": {},
+									"sink22": {},
+									"sink23": {},
+									"sink24": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/df_silver_cargar')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/etl_cargar_dimensiones_gold')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "establecimiento",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "df_gold_dim_establecimiento",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source1": {},
+									"source2": {},
+									"source3": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "fecha",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "establecimiento",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "df_gold_dim_fecha",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source1": {},
+									"source2": {},
+									"source3": {},
+									"source4": {},
+									"source5": {},
+									"source6": {},
+									"source7": {},
+									"source8": {},
+									"source9": {},
+									"source10": {},
+									"source11": {},
+									"source12": {},
+									"source13": {},
+									"source14": {},
+									"source15": {},
+									"source16": {},
+									"source17": {},
+									"source18": {},
+									"source19": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "lote",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "fecha",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "df_gold_dim_lote",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source1": {},
+									"source2": {},
+									"source3": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "persona segip",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "lote",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "df_gold_dim_persona_segip",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source1": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "persona externos",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "persona segip",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "df_gold_dim_persona_externos",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source2": {},
+									"source3": {},
+									"source4": {},
+									"source5": {},
+									"source6": {},
+									"source7": {},
+									"source8": {},
+									"source9": {},
+									"source10": {},
+									"source11": {},
+									"source12": {},
+									"source13": {},
+									"source14": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "producto",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "persona externos",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "df_gold_dim_producto",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source1": {},
+									"source2": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "ubicacion",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "producto",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "df_gold_dim_ubicacion",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source1": {},
+									"source2": {},
+									"source3": {},
+									"source4": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/df_gold_dim_establecimiento')]",
+				"[concat(variables('factoryId'), '/dataflows/df_gold_dim_fecha')]",
+				"[concat(variables('factoryId'), '/dataflows/df_gold_dim_lote')]",
+				"[concat(variables('factoryId'), '/dataflows/df_gold_dim_persona_segip')]",
+				"[concat(variables('factoryId'), '/dataflows/df_gold_dim_persona_externos')]",
+				"[concat(variables('factoryId'), '/dataflows/df_gold_dim_producto')]",
+				"[concat(variables('factoryId'), '/dataflows/df_gold_dim_ubicacion')]"
+			]
+		}
+	]
+}

@@ -1,0 +1,182 @@
+{
+	"name": "df_gold_hechos_atenciones_bja",
+	"properties": {
+		"folder": {
+			"name": "gold"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "silver_bja_controles_prenatales",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				},
+				{
+					"dataset": {
+						"referenceName": "silver_bja_controles_pediatricos",
+						"type": "DatasetReference"
+					},
+					"name": "source2"
+				},
+				{
+					"dataset": {
+						"referenceName": "silver_bja_partos",
+						"type": "DatasetReference"
+					},
+					"name": "source3"
+				},
+				{
+					"dataset": {
+						"referenceName": "gold_dim_persona",
+						"type": "DatasetReference"
+					},
+					"name": "source4"
+				},
+				{
+					"dataset": {
+						"referenceName": "gold_dim_establecimiento",
+						"type": "DatasetReference"
+					},
+					"name": "source5"
+				},
+				{
+					"dataset": {
+						"referenceName": "gold_dim_fecha",
+						"type": "DatasetReference"
+					},
+					"name": "source6"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "union1"
+				},
+				{
+					"name": "union2"
+				},
+				{
+					"name": "lookupPersona"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          tipo_atencion as string,",
+				"          ci as string,",
+				"          establecimiento_id as string,",
+				"          fecha_control as date,",
+				"          nro_control as integer,",
+				"          semana_gestacion as integer,",
+				"          peso_kg as decimal(6,2),",
+				"          talla_cm as decimal(5,2),",
+				"          presion_arterial as string,",
+				"          resultado as string,",
+				"          vacuna_aplicada as string,",
+				"          tipo_parto as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT\\n  \\'PRENATAL\\' AS tipo_atencion,\\n  UPPER(TRIM(ci_beneficiaria)) AS ci,\\n  UPPER(TRIM(establecimiento_id)) AS establecimiento_id,\\n  fecha_control,\\n  nro_control,\\n  semana_gestacion,\\n  peso_madre_kg AS peso_kg,\\n  CAST(NULL AS DECIMAL(5,2)) AS talla_cm,\\n  presion_arterial,\\n  resultado,\\n  CAST(NULL AS VARCHAR(100)) AS vacuna_aplicada,\\n  CAST(NULL AS VARCHAR(50)) AS tipo_parto\\nFROM silver.bja_controles_prenatales',",
+				"     format: 'query') ~> source1",
+				"source(output(",
+				"          tipo_atencion as string,",
+				"          ci as string,",
+				"          establecimiento_id as string,",
+				"          fecha_control as date,",
+				"          nro_control as integer,",
+				"          semana_gestacion as integer,",
+				"          peso_kg as decimal(6,2),",
+				"          talla_cm as decimal(6,2),",
+				"          presion_arterial as string,",
+				"          resultado as string,",
+				"          vacuna_aplicada as string,",
+				"          tipo_parto as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT\\n  \\'PEDIATRICO\\' AS tipo_atencion,\\n  UPPER(TRIM(ci_nino)) AS ci,\\n  UPPER(TRIM(establecimiento_id)) AS establecimiento_id,\\n  fecha_control,\\n  nro_control,\\n  CAST(NULL AS INT) AS semana_gestacion,\\n  peso_nino_kg AS peso_kg,\\n  talla_nino_cm AS talla_cm,\\n  CAST(NULL AS VARCHAR(50)) AS presion_arterial,\\n  resultado,\\n  vacuna_aplicada,\\n  CAST(NULL AS VARCHAR(50)) AS tipo_parto\\nFROM silver.bja_controles_pediatricos',",
+				"     format: 'query') ~> source2",
+				"source(output(",
+				"          tipo_atencion as string,",
+				"          ci as string,",
+				"          establecimiento_id as string,",
+				"          fecha_control as date,",
+				"          nro_control as integer,",
+				"          semana_gestacion as integer,",
+				"          peso_kg as decimal(6,2),",
+				"          talla_cm as decimal(6,2),",
+				"          presion_arterial as string,",
+				"          resultado as string,",
+				"          vacuna_aplicada as string,",
+				"          tipo_parto as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT\\n  \\'PARTO\\' AS tipo_atencion,\\n  UPPER(TRIM(ci_madre)) AS ci,\\n  UPPER(TRIM(establecimiento_id)) AS establecimiento_id,\\n  fecha_parto AS fecha_control,\\n  CAST(NULL AS INT) AS nro_control,\\n  CAST(NULL AS INT) AS semana_gestacion,\\n  peso_nacimiento_kg AS peso_kg,\\n  talla_nacimiento_cm AS talla_cm,\\n  CAST(NULL AS VARCHAR(50)) AS presion_arterial,\\n  CAST(NULL AS VARCHAR(100)) AS resultado,\\n  CAST(NULL AS VARCHAR(100)) AS vacuna_aplicada,\\n  tipo_parto\\nFROM silver.bja_partos',",
+				"     format: 'query') ~> source3",
+				"source(output(",
+				"          persona_key as integer,",
+				"          ci as string,",
+				"          nombres as string,",
+				"          apellido_paterno as string,",
+				"          apellido_materno as string,",
+				"          nombre_completo as string,",
+				"          fecha_nacimiento as date,",
+				"          genero as string,",
+				"          estado_civil as string,",
+				"          numero_hijos as integer,",
+				"          municipio_residencia as string,",
+				"          en_segip as boolean",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source4",
+				"source(output(",
+				"          establecimiento_key as integer,",
+				"          establecimiento_id_origen as string,",
+				"          sistema_origen as string,",
+				"          nombre as string,",
+				"          tipo as string,",
+				"          nivel_atencion as string,",
+				"          municipio as string,",
+				"          departamento as string,",
+				"          red_salud as string,",
+				"          estado as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT * FROM gold.dim_establecimiento WHERE sistema_origen = \\'BJA\\'',",
+				"     format: 'query') ~> source5",
+				"source(output(",
+				"          fecha_key as integer,",
+				"          fecha as date,",
+				"          anio as integer,",
+				"          mes as integer,",
+				"          dia as integer,",
+				"          nombre_mes as string,",
+				"          trimestre as integer,",
+				"          nombre_dia as string,",
+				"          es_fin_semana as boolean",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source6",
+				"source1, source2 union(byName: true)~> union1",
+				"union1, source3 union(byName: true)~> union2",
+				"union2, source4 lookup(ERROR_FUNCTION('') == source4@ci,",
+				"     multiple: false,",
+				"     pickup: 'any',",
+				"     broadcast: 'auto')~> lookupPersona"
+			]
+		}
+	}
+}

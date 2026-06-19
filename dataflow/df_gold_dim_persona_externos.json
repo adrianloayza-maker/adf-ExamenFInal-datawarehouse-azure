@@ -1,0 +1,296 @@
+{
+	"name": "df_gold_dim_persona_externos",
+	"properties": {
+		"folder": {
+			"name": "gold"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "silver_bja_inscripciones",
+						"type": "DatasetReference"
+					},
+					"name": "source2"
+				},
+				{
+					"dataset": {
+						"referenceName": "silver_bja_pagos",
+						"type": "DatasetReference"
+					},
+					"name": "source3"
+				},
+				{
+					"dataset": {
+						"referenceName": "silver_bja_controles_prenatales",
+						"type": "DatasetReference"
+					},
+					"name": "source4"
+				},
+				{
+					"dataset": {
+						"referenceName": "silver_bja_controles_pediatricos",
+						"type": "DatasetReference"
+					},
+					"name": "source5"
+				},
+				{
+					"dataset": {
+						"referenceName": "silver_bja_controles_pediatricos",
+						"type": "DatasetReference"
+					},
+					"name": "source6"
+				},
+				{
+					"dataset": {
+						"referenceName": "silver_bja_partos",
+						"type": "DatasetReference"
+					},
+					"name": "source7"
+				},
+				{
+					"dataset": {
+						"referenceName": "silver_bja_partos",
+						"type": "DatasetReference"
+					},
+					"name": "source8"
+				},
+				{
+					"dataset": {
+						"referenceName": "silver_sup_inscripciones",
+						"type": "DatasetReference"
+					},
+					"name": "source9"
+				},
+				{
+					"dataset": {
+						"referenceName": "silver_sup_boletas",
+						"type": "DatasetReference"
+					},
+					"name": "source10"
+				},
+				{
+					"dataset": {
+						"referenceName": "silver_sup_entregas",
+						"type": "DatasetReference"
+					},
+					"name": "source11"
+				},
+				{
+					"dataset": {
+						"referenceName": "silver_spl_afiliaciones",
+						"type": "DatasetReference"
+					},
+					"name": "source12"
+				},
+				{
+					"dataset": {
+						"referenceName": "silver_spl_entregas_agencia",
+						"type": "DatasetReference"
+					},
+					"name": "source13"
+				},
+				{
+					"dataset": {
+						"referenceName": "silver_spl_entregas_supermercado",
+						"type": "DatasetReference"
+					},
+					"name": "source14"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "gold_dim_persona",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "union1"
+				},
+				{
+					"name": "union2"
+				},
+				{
+					"name": "union3"
+				},
+				{
+					"name": "union4"
+				},
+				{
+					"name": "union5"
+				},
+				{
+					"name": "union6"
+				},
+				{
+					"name": "union7"
+				},
+				{
+					"name": "union8"
+				},
+				{
+					"name": "union9"
+				},
+				{
+					"name": "union10"
+				},
+				{
+					"name": "union11"
+				},
+				{
+					"name": "union12"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          ci as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT DISTINCT ci_beneficiaria AS ci FROM silver.bja_inscripciones WHERE ci_beneficiaria IS NOT NULL AND ci_beneficiaria NOT IN (SELECT ci FROM silver.segip_personas)',",
+				"     format: 'query') ~> source2",
+				"source(output(",
+				"          ci as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT DISTINCT ci_beneficiaria AS ci FROM silver.bja_pagos WHERE ci_beneficiaria IS NOT NULL AND ci_beneficiaria NOT IN (SELECT ci FROM silver.segip_personas)',",
+				"     format: 'query') ~> source3",
+				"source(output(",
+				"          ci as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT DISTINCT ci_beneficiaria AS ci FROM silver.bja_controles_prenatales WHERE ci_beneficiaria IS NOT NULL AND ci_beneficiaria NOT IN (SELECT ci FROM silver.segip_personas)',",
+				"     format: 'query') ~> source4",
+				"source(output(",
+				"          ci as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT DISTINCT ci_madre AS ci FROM silver.bja_controles_pediatricos WHERE ci_madre IS NOT NULL AND ci_madre NOT IN (SELECT ci FROM silver.segip_personas)',",
+				"     format: 'query') ~> source5",
+				"source(output(",
+				"          ci as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT DISTINCT ci_nino AS ci FROM silver.bja_controles_pediatricos WHERE ci_nino IS NOT NULL AND ci_nino NOT IN (SELECT ci FROM silver.segip_personas)',",
+				"     format: 'query') ~> source6",
+				"source(output(",
+				"          ci as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT DISTINCT ci_madre AS ci FROM silver.bja_partos WHERE ci_madre IS NOT NULL AND ci_madre NOT IN (SELECT ci FROM silver.segip_personas)',",
+				"     format: 'query') ~> source7",
+				"source(output(",
+				"          ci as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT DISTINCT ci_recien_nacido AS ci FROM silver.bja_partos WHERE ci_recien_nacido IS NOT NULL AND ci_recien_nacido NOT IN (SELECT ci FROM silver.segip_personas)',",
+				"     format: 'query') ~> source8",
+				"source(output(",
+				"          ci as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT DISTINCT ci_beneficiaria AS ci FROM silver.sup_inscripciones WHERE ci_beneficiaria IS NOT NULL AND ci_beneficiaria NOT IN (SELECT ci FROM silver.segip_personas)',",
+				"     format: 'query') ~> source9",
+				"source(output(",
+				"          ci as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT DISTINCT ci_beneficiaria AS ci FROM silver.sup_boletas WHERE ci_beneficiaria IS NOT NULL AND ci_beneficiaria NOT IN (SELECT ci FROM silver.segip_personas)',",
+				"     format: 'query') ~> source10",
+				"source(output(",
+				"          ci as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT DISTINCT ci_beneficiaria AS ci FROM silver.sup_entregas WHERE ci_beneficiaria IS NOT NULL AND ci_beneficiaria NOT IN (SELECT ci FROM silver.segip_personas)',",
+				"     format: 'query') ~> source11",
+				"source(output(",
+				"          ci as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT DISTINCT ci_beneficiaria AS ci FROM silver.spl_afiliaciones WHERE ci_beneficiaria IS NOT NULL AND ci_beneficiaria NOT IN (SELECT ci FROM silver.segip_personas)',",
+				"     format: 'query') ~> source12",
+				"source(output(",
+				"          ci as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT DISTINCT ci_beneficiaria AS ci FROM silver.spl_entregas_agencia WHERE ci_beneficiaria IS NOT NULL AND ci_beneficiaria NOT IN (SELECT ci FROM silver.segip_personas)',",
+				"     format: 'query') ~> source13",
+				"source(output(",
+				"          ci as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT DISTINCT ci_beneficiaria AS ci FROM silver.spl_entregas_supermercado WHERE ci_beneficiaria IS NOT NULL AND ci_beneficiaria NOT IN (SELECT ci FROM silver.segip_personas)',",
+				"     format: 'query') ~> source14",
+				"source2, source3 union(byName: true)~> union1",
+				"union1, source4 union(byName: true)~> union2",
+				"union2, source5 union(byName: true)~> union3",
+				"union3, source6 union(byName: true)~> union4",
+				"union4, source7 union(byName: true)~> union5",
+				"union5, source8 union(byName: true)~> union6",
+				"union6, source9 union(byName: true)~> union7",
+				"union7, source10 union(byName: true)~> union8",
+				"union8, source11 union(byName: true)~> union9",
+				"union9, source12 union(byName: true)~> union10",
+				"union10, source13 union(byName: true)~> union11",
+				"union11, source14 union(byName: true)~> union12",
+				"union12 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          persona_key as integer,",
+				"          ci as string,",
+				"          nombres as string,",
+				"          apellido_paterno as string,",
+				"          apellido_materno as string,",
+				"          nombre_completo as string,",
+				"          fecha_nacimiento as date,",
+				"          genero as string,",
+				"          estado_civil as string,",
+				"          numero_hijos as integer,",
+				"          municipio_residencia as string,",
+				"          en_segip as boolean",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          ci",
+				"     )) ~> sink1"
+			]
+		}
+	}
+}

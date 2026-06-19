@@ -1,0 +1,88 @@
+{
+	"name": "df_gold_dim_persona_segip",
+	"properties": {
+		"folder": {
+			"name": "gold"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "silver_segip_personas",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "gold_dim_persona",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          ci as string,",
+				"          nombres as string,",
+				"          apellido_paterno as string,",
+				"          apellido_materno as string,",
+				"          nombre_completo as string,",
+				"          fecha_nacimiento as date,",
+				"          genero as string,",
+				"          estado_civil as string,",
+				"          numero_hijos as integer,",
+				"          municipio_residencia as string,",
+				"          en_segip as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT\\n    ci,\\n    nombres,\\n    apellido_paterno,\\n    apellido_materno,\\n    CONCAT(ISNULL(nombres,\\'\\'), \\' \\', ISNULL(apellido_paterno,\\'\\'), \\' \\', ISNULL(apellido_materno,\\'\\')) AS nombre_completo,\\n    fecha_nacimiento,\\n    genero,\\n    estado_civil,\\n    numero_hijos,\\n    municipio_residencia,\\n    1 AS en_segip\\nFROM silver.segip_personas\\nWHERE ci IS NOT NULL AND ci <> \\'\\'',",
+				"     format: 'query') ~> source1",
+				"source1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          persona_key as integer,",
+				"          ci as string,",
+				"          nombres as string,",
+				"          apellido_paterno as string,",
+				"          apellido_materno as string,",
+				"          nombre_completo as string,",
+				"          fecha_nacimiento as date,",
+				"          genero as string,",
+				"          estado_civil as string,",
+				"          numero_hijos as integer,",
+				"          municipio_residencia as string,",
+				"          en_segip as boolean",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          ci,",
+				"          nombres,",
+				"          apellido_paterno,",
+				"          apellido_materno,",
+				"          nombre_completo,",
+				"          fecha_nacimiento,",
+				"          genero,",
+				"          estado_civil,",
+				"          numero_hijos,",
+				"          municipio_residencia,",
+				"          en_segip",
+				"     )) ~> sink1"
+			]
+		}
+	}
+}

@@ -1,0 +1,106 @@
+{
+	"name": "df_gold_dim_lote",
+	"properties": {
+		"folder": {
+			"name": "gold"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "silver_despachos",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				},
+				{
+					"dataset": {
+						"referenceName": "silver_sup_entregas",
+						"type": "DatasetReference"
+					},
+					"name": "source2"
+				},
+				{
+					"dataset": {
+						"referenceName": "silver_spl_entregas_agencia",
+						"type": "DatasetReference"
+					},
+					"name": "source3"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "gold_dim_lote",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "union1"
+				},
+				{
+					"name": "union2"
+				},
+				{
+					"name": "derivedColumn1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          nro_lote as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT nro_lote FROM silver.despachos\\nWHERE nro_lote IS NOT NULL AND nro_lote <> \\'\\' AND nro_lote LIKE \\'%-%-%\\'',",
+				"     format: 'query') ~> source1",
+				"source(output(",
+				"          nro_lote as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT lote_produccion AS nro_lote FROM silver.sup_entregas\\nWHERE lote_produccion IS NOT NULL AND lote_produccion <> \\'\\' AND lote_produccion LIKE \\'%-%-%\\'',",
+				"     format: 'query') ~> source2",
+				"source(output(",
+				"          nro_lote as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT lote AS nro_lote FROM silver.spl_entregas_agencia\\nWHERE lote IS NOT NULL AND lote <> \\'\\' AND lote LIKE \\'%-%-%\\'',",
+				"     format: 'query') ~> source3",
+				"source1, source2 union(byName: true)~> union1",
+				"union1, source3 union(byName: true)~> union2",
+				"union2 derive(proveedor =   left(nro_lote, locate('-', nro_lote) - 1),",
+				"          anio_lote =   toInteger(substring(nro_lote, locate('-', nro_lote) + 1, locate('-', nro_lote, locate('-', nro_lote) + 1) - locate('-', nro_lote) - 1))) ~> derivedColumn1",
+				"derivedColumn1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          lote_key as integer,",
+				"          nro_lote as string,",
+				"          proveedor as string,",
+				"          anio_lote as integer",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          nro_lote,",
+				"          proveedor,",
+				"          anio_lote",
+				"     )) ~> sink1"
+			]
+		}
+	}
+}

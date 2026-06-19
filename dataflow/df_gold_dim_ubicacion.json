@@ -1,0 +1,122 @@
+{
+	"name": "df_gold_dim_ubicacion",
+	"properties": {
+		"folder": {
+			"name": "gold"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "silver_almacenes",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				},
+				{
+					"dataset": {
+						"referenceName": "silver_bja_establecimientos_salud",
+						"type": "DatasetReference"
+					},
+					"name": "source2"
+				},
+				{
+					"dataset": {
+						"referenceName": "silver_sup_establecimientos",
+						"type": "DatasetReference"
+					},
+					"name": "source3"
+				},
+				{
+					"dataset": {
+						"referenceName": "silver_segip_personas",
+						"type": "DatasetReference"
+					},
+					"name": "source4"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "gold_dim_ubicacion",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "union1"
+				},
+				{
+					"name": "union2"
+				},
+				{
+					"name": "union3"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          departamento as string,",
+				"          municipio as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT DISTINCT departamento, municipio FROM silver.almacenes\\nWHERE departamento IS NOT NULL AND municipio IS NOT NULL',",
+				"     format: 'query') ~> source1",
+				"source(output(",
+				"          departamento as string,",
+				"          municipio as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT DISTINCT departamento, municipio FROM silver.bja_establecimientos_salud\\nWHERE departamento IS NOT NULL AND municipio IS NOT NULL',",
+				"     format: 'query') ~> source2",
+				"source(output(",
+				"          departamento as string,",
+				"          municipio as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT DISTINCT departamento, municipio FROM silver.sup_establecimientos\\nWHERE departamento IS NOT NULL AND municipio IS NOT NULL',",
+				"     format: 'query') ~> source3",
+				"source(output(",
+				"          departamento as string,",
+				"          municipio as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT DISTINCT\\n    \\'Sin Especificar\\' AS departamento,\\n    municipio_residencia AS municipio\\nFROM silver.segip_personas\\nWHERE municipio_residencia IS NOT NULL',",
+				"     format: 'query') ~> source4",
+				"source1, source2 union(byName: true)~> union1",
+				"union1, source3 union(byName: true)~> union2",
+				"union2, source4 union(byName: true)~> union3",
+				"union3 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          ubicacion_key as integer,",
+				"          departamento as string,",
+				"          municipio as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          departamento,",
+				"          municipio",
+				"     )) ~> sink1"
+			]
+		}
+	}
+}

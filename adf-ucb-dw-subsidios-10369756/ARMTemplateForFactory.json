@@ -8673,7 +8673,7 @@
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     query: 'SELECT DISTINCT\\n  CASE\\n    WHEN UPPER(TRIM(tipo_carne)) LIKE \\'%POL%\\' OR UPPER(TRIM(tipo_carne)) LIKE \\'P_LOL\\' THEN \\'Pollo\\'\\n    WHEN UPPER(TRIM(tipo_carne)) LIKE \\'%CERD%\\' OR UPPER(TRIM(tipo_carne)) LIKE \\'%CEDO%\\' \\n         OR UPPER(TRIM(tipo_carne)) LIKE \\'%CEDR%\\' OR UPPER(TRIM(tipo_carne)) LIKE \\'%CRD%\\' \\n         OR UPPER(TRIM(tipo_carne)) LIKE \\'%CERO%\\' OR UPPER(TRIM(tipo_carne)) LIKE \\'%CREDO%\\' THEN \\'Cerdo\\'\\n    WHEN UPPER(TRIM(tipo_carne)) LIKE \\'%PESC%\\' OR UPPER(TRIM(tipo_carne)) LIKE \\'%PSCA%\\' \\n         OR UPPER(TRIM(tipo_carne)) LIKE \\'%PESA%\\' OR UPPER(TRIM(tipo_carne)) LIKE \\'%PESD%\\' THEN \\'Pescado\\'\\n    WHEN UPPER(TRIM(tipo_carne)) LIKE \\'%VAC%\\' OR UPPER(TRIM(tipo_carne)) LIKE \\'VA_\\' THEN \\'Carne de Res\\'\\n    WHEN UPPER(TRIM(tipo_carne)) = \\'CARNE DE RES\\' THEN \\'Carne de Res\\'\\n    ELSE NULL\\n  END AS nombre,\\n  \\'Producto Carnico\\' AS categoria,\\n  \\'SPL_CARNE\\' AS sistema_origen,\\n  CAST(NULL AS VARCHAR(50)) AS producto_id_origen,\\n  CAST(NULL AS VARCHAR(200)) AS contenido,\\n  CAST(NULL AS DECIMAL(10,2)) AS peso_kg,\\n  CAST(NULL AS DECIMAL(10,2)) AS costo_bs\\nFROM silver.spl_entregas_supermercado\\nWHERE tipo_carne IS NOT NULL AND tipo_carne <> \\'\\'',",
+						"     query: 'SELECT * FROM (\\n  SELECT DISTINCT\\n    CASE\\n      WHEN UPPER(TRIM(tipo_carne)) LIKE \\'%POL%\\' OR UPPER(TRIM(tipo_carne)) LIKE \\'P_LOL\\' THEN \\'Pollo\\'\\n      WHEN UPPER(TRIM(tipo_carne)) LIKE \\'%CERD%\\' OR UPPER(TRIM(tipo_carne)) LIKE \\'%CEDO%\\' \\n           OR UPPER(TRIM(tipo_carne)) LIKE \\'%CEDR%\\' OR UPPER(TRIM(tipo_carne)) LIKE \\'%CRD%\\' \\n           OR UPPER(TRIM(tipo_carne)) LIKE \\'%CERO%\\' OR UPPER(TRIM(tipo_carne)) LIKE \\'%CREDO%\\' THEN \\'Cerdo\\'\\n      WHEN UPPER(TRIM(tipo_carne)) LIKE \\'%PESC%\\' OR UPPER(TRIM(tipo_carne)) LIKE \\'%PSCA%\\' \\n           OR UPPER(TRIM(tipo_carne)) LIKE \\'%PESA%\\' OR UPPER(TRIM(tipo_carne)) LIKE \\'%PESD%\\' THEN \\'Pescado\\'\\n      WHEN UPPER(TRIM(tipo_carne)) LIKE \\'%VAC%\\' OR UPPER(TRIM(tipo_carne)) LIKE \\'VA_\\' THEN \\'Carne de Res\\'\\n      WHEN UPPER(TRIM(tipo_carne)) = \\'CARNE DE RES\\' THEN \\'Carne de Res\\'\\n      ELSE NULL\\n    END AS nombre,\\n    \\'Producto Carnico\\' AS categoria,\\n    \\'SPL_CARNE\\' AS sistema_origen,\\n    CAST(NULL AS VARCHAR(50)) AS producto_id_origen,\\n    CAST(NULL AS VARCHAR(200)) AS contenido,\\n    CAST(NULL AS DECIMAL(10,2)) AS peso_kg,\\n    CAST(NULL AS DECIMAL(10,2)) AS costo_bs\\n  FROM silver.spl_entregas_supermercado\\n  WHERE tipo_carne IS NOT NULL AND tipo_carne <> \\'\\'\\n) t\\nWHERE nombre IS NOT NULL',",
 						"     format: 'query') ~> source2",
 						"source1, source2 union(byName: true)~> union1",
 						"union1 sink(allowSchemaDrift: true,",
@@ -11559,6 +11559,659 @@
 				"[concat(variables('factoryId'), '/datasets/gold_dim_persona')]",
 				"[concat(variables('factoryId'), '/datasets/gold_dim_fecha')]",
 				"[concat(variables('factoryId'), '/datasets/gold_hechos_pagos_bja')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Data flow1",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "df_gold_dim_producto",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source1": {},
+									"source2": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/df_gold_dim_producto')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_gold_hechos_retiros_spl')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "gold"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "silver_spl_entregas_agencia",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_spl_entregas_supermercado",
+								"type": "DatasetReference"
+							},
+							"name": "source2"
+						},
+						{
+							"dataset": {
+								"referenceName": "gold_dim_persona",
+								"type": "DatasetReference"
+							},
+							"name": "source3"
+						},
+						{
+							"dataset": {
+								"referenceName": "gold_dim_lote",
+								"type": "DatasetReference"
+							},
+							"name": "source4"
+						},
+						{
+							"dataset": {
+								"referenceName": "gold_dim_producto",
+								"type": "DatasetReference"
+							},
+							"name": "source5"
+						},
+						{
+							"dataset": {
+								"referenceName": "gold_dim_fecha",
+								"type": "DatasetReference"
+							},
+							"name": "source6"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "gold_hechos_retiros_spl",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "union1"
+						},
+						{
+							"name": "lookup1"
+						},
+						{
+							"name": "lookup2"
+						},
+						{
+							"name": "lookup3"
+						},
+						{
+							"name": "derivedColumn1"
+						},
+						{
+							"name": "lookup4"
+						},
+						{
+							"name": "select1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          canal as string,",
+						"          ci as string,",
+						"          nro_lote as string,",
+						"          tipo_carne as string,",
+						"          fecha_retiro as date,",
+						"          productos_detalle as string,",
+						"          peso_kg as decimal(10,2),",
+						"          cantidad_kg as decimal(10,2),",
+						"          monto_bs as decimal(10,2)",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT\\n  \\'AGENCIA\\' AS canal,\\n  UPPER(TRIM(ci_beneficiaria)) AS ci,\\n  UPPER(TRIM(lote)) AS nro_lote,\\n  CAST(NULL AS VARCHAR(50)) AS tipo_carne,\\n  fecha_entrega AS fecha_retiro,\\n  productos AS productos_detalle,\\n  peso_kg,\\n  CAST(NULL AS DECIMAL(10,2)) AS cantidad_kg,\\n  CAST(NULL AS DECIMAL(10,2)) AS monto_bs\\nFROM silver.spl_entregas_agencia',",
+						"     format: 'query') ~> source1",
+						"source(output(",
+						"          canal as string,",
+						"          ci as string,",
+						"          nro_lote as string,",
+						"          tipo_carne as string,",
+						"          fecha_retiro as date,",
+						"          productos_detalle as string,",
+						"          peso_kg as decimal(10,2),",
+						"          cantidad_kg as decimal(10,2),",
+						"          monto_bs as decimal(18,2)",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT\\n  \\'SUPERMERCADO\\' AS canal,\\n  UPPER(TRIM(ci_beneficiaria)) AS ci,\\n  CAST(NULL AS VARCHAR(50)) AS nro_lote,\\n  CASE\\n    WHEN UPPER(TRIM(tipo_carne)) LIKE \\'%POL%\\' OR UPPER(TRIM(tipo_carne)) LIKE \\'P_LOL\\' THEN \\'Pollo\\'\\n    WHEN UPPER(TRIM(tipo_carne)) LIKE \\'%CERD%\\' OR UPPER(TRIM(tipo_carne)) LIKE \\'%CEDO%\\' \\n         OR UPPER(TRIM(tipo_carne)) LIKE \\'%CEDR%\\' OR UPPER(TRIM(tipo_carne)) LIKE \\'%CRD%\\' \\n         OR UPPER(TRIM(tipo_carne)) LIKE \\'%CERO%\\' OR UPPER(TRIM(tipo_carne)) LIKE \\'%CREDO%\\' THEN \\'Cerdo\\'\\n    WHEN UPPER(TRIM(tipo_carne)) LIKE \\'%PESC%\\' OR UPPER(TRIM(tipo_carne)) LIKE \\'%PSCA%\\' \\n         OR UPPER(TRIM(tipo_carne)) LIKE \\'%PESA%\\' OR UPPER(TRIM(tipo_carne)) LIKE \\'%PESD%\\' THEN \\'Pescado\\'\\n    WHEN UPPER(TRIM(tipo_carne)) LIKE \\'%VAC%\\' OR UPPER(TRIM(tipo_carne)) LIKE \\'VA_\\' THEN \\'Carne de Res\\'\\n    WHEN UPPER(TRIM(tipo_carne)) = \\'CARNE DE RES\\' THEN \\'Carne de Res\\'\\n    ELSE NULL\\n  END AS tipo_carne,\\n  fecha_retiro,\\n  CAST(NULL AS VARCHAR(200)) AS productos_detalle,\\n  CAST(NULL AS DECIMAL(10,2)) AS peso_kg,\\n  cantidad_kg,\\n  monto_bs\\nFROM silver.spl_entregas_supermercado',",
+						"     format: 'query') ~> source2",
+						"source(output(",
+						"          persona_key as integer,",
+						"          ci as string,",
+						"          nombres as string,",
+						"          apellido_paterno as string,",
+						"          apellido_materno as string,",
+						"          nombre_completo as string,",
+						"          fecha_nacimiento as date,",
+						"          genero as string,",
+						"          estado_civil as string,",
+						"          numero_hijos as integer,",
+						"          municipio_residencia as string,",
+						"          en_segip as boolean",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> source3",
+						"source(output(",
+						"          lote_key as integer,",
+						"          nro_lote as string,",
+						"          proveedor as string,",
+						"          anio_lote as integer",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> source4",
+						"source(output(",
+						"          producto_key as integer,",
+						"          producto_id_origen as string,",
+						"          sistema_origen as string,",
+						"          nombre as string,",
+						"          categoria as string,",
+						"          contenido as string,",
+						"          peso_kg as decimal(10,2),",
+						"          costo_bs as decimal(18,2)",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT * FROM gold.dim_producto WHERE sistema_origen = \\'SPL_CARNE\\'',",
+						"     format: 'query') ~> source5",
+						"source(output(",
+						"          fecha_key as integer,",
+						"          fecha as date,",
+						"          anio as integer,",
+						"          mes as integer,",
+						"          dia as integer,",
+						"          nombre_mes as string,",
+						"          trimestre as integer,",
+						"          nombre_dia as string,",
+						"          es_fin_semana as boolean",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> source6",
+						"source1, source2 union(byName: true)~> union1",
+						"union1, source3 lookup(union1@ci == source3@ci,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> lookup1",
+						"lookup1, source4 lookup(union1@nro_lote == source4@nro_lote,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> lookup2",
+						"lookup2, source5 lookup(tipo_carne == nombre,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> lookup3",
+						"lookup3 derive(fecha_key_busqueda = toInteger(toString(fecha_retiro, 'yyyyMMdd'))) ~> derivedColumn1",
+						"derivedColumn1, source6 lookup(fecha_key_busqueda == fecha_key,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> lookup4",
+						"lookup4 select(mapColumn(",
+						"          canal,",
+						"          ci = union1@ci,",
+						"          nro_lote = union1@nro_lote,",
+						"          tipo_carne,",
+						"          fecha_retiro,",
+						"          productos_detalle,",
+						"          peso_kg = union1@peso_kg,",
+						"          cantidad_kg,",
+						"          monto_bs,",
+						"          persona_key,",
+						"          ci = source3@ci,",
+						"          nombres,",
+						"          apellido_paterno,",
+						"          apellido_materno,",
+						"          nombre_completo,",
+						"          fecha_nacimiento,",
+						"          genero,",
+						"          estado_civil,",
+						"          numero_hijos,",
+						"          municipio_residencia,",
+						"          en_segip,",
+						"          lote_key,",
+						"          nro_lote = source4@nro_lote,",
+						"          proveedor,",
+						"          anio_lote,",
+						"          producto_key,",
+						"          producto_id_origen,",
+						"          sistema_origen,",
+						"          nombre,",
+						"          categoria,",
+						"          contenido,",
+						"          peso_kg = source5@peso_kg,",
+						"          costo_bs,",
+						"          fecha_key_busqueda,",
+						"          fecha_key,",
+						"          fecha,",
+						"          anio,",
+						"          mes,",
+						"          dia,",
+						"          nombre_mes,",
+						"          trimestre,",
+						"          nombre_dia,",
+						"          es_fin_semana",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select1",
+						"select1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          retiro_key as integer,",
+						"          canal as string,",
+						"          persona_key as integer,",
+						"          establecimiento_key as integer,",
+						"          producto_key as integer,",
+						"          lote_key as integer,",
+						"          fecha_key as integer,",
+						"          productos_detalle as string,",
+						"          peso_kg as decimal(10,2),",
+						"          cantidad_kg as decimal(10,2),",
+						"          monto_bs as decimal(18,2)",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          canal,",
+						"          persona_key,",
+						"          producto_key,",
+						"          lote_key,",
+						"          fecha_key,",
+						"          productos_detalle,",
+						"          peso_kg,",
+						"          cantidad_kg,",
+						"          monto_bs",
+						"     )) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/silver_spl_entregas_agencia')]",
+				"[concat(variables('factoryId'), '/datasets/silver_spl_entregas_supermercado')]",
+				"[concat(variables('factoryId'), '/datasets/gold_dim_persona')]",
+				"[concat(variables('factoryId'), '/datasets/gold_dim_lote')]",
+				"[concat(variables('factoryId'), '/datasets/gold_dim_producto')]",
+				"[concat(variables('factoryId'), '/datasets/gold_dim_fecha')]",
+				"[concat(variables('factoryId'), '/datasets/gold_hechos_retiros_spl')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_gold_hechos_trazabilidad_integral')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "gold"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "silver_despachos",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						},
+						{
+							"dataset": {
+								"referenceName": "silver_despachos",
+								"type": "DatasetReference"
+							},
+							"name": "source2"
+						},
+						{
+							"dataset": {
+								"referenceName": "gold_dim_lote",
+								"type": "DatasetReference"
+							},
+							"name": "source3"
+						},
+						{
+							"dataset": {
+								"referenceName": "gold_dim_persona",
+								"type": "DatasetReference"
+							},
+							"name": "source4"
+						},
+						{
+							"dataset": {
+								"referenceName": "gold_dim_establecimiento",
+								"type": "DatasetReference"
+							},
+							"name": "source5"
+						},
+						{
+							"dataset": {
+								"referenceName": "gold_dim_fecha",
+								"type": "DatasetReference"
+							},
+							"name": "source6"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "gold_hechos_trazabilidad_integral",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "union1"
+						},
+						{
+							"name": "lookup1"
+						},
+						{
+							"name": "lookup2"
+						},
+						{
+							"name": "derivedColumn1"
+						},
+						{
+							"name": "lookup3"
+						},
+						{
+							"name": "select1"
+						},
+						{
+							"name": "lookup4"
+						},
+						{
+							"name": "select2"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          nro_lote as string,",
+						"          ci as string,",
+						"          sistema_destino as string,",
+						"          centro_destino as string,",
+						"          fecha_despacho as date,",
+						"          fecha_entrega as date",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT\\n  UPPER(TRIM(d.nro_lote)) AS nro_lote,\\n  UPPER(TRIM(e.ci_beneficiaria)) AS ci,\\n  \\'SUP\\' AS sistema_destino,\\n  d.centro_destino,\\n  d.fecha_despacho,\\n  e.fecha_entrega\\nFROM silver.despachos d\\nINNER JOIN silver.sup_entregas e\\n  ON UPPER(TRIM(d.nro_lote)) = UPPER(TRIM(e.lote_produccion))',",
+						"     format: 'query') ~> source1",
+						"source(output(",
+						"          nro_lote as string,",
+						"          ci as string,",
+						"          sistema_destino as string,",
+						"          centro_destino as string,",
+						"          fecha_despacho as date,",
+						"          fecha_entrega as date",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT\\n  UPPER(TRIM(d.nro_lote)) AS nro_lote,\\n  UPPER(TRIM(e.ci_beneficiaria)) AS ci,\\n  \\'SPL\\' AS sistema_destino,\\n  d.centro_destino,\\n  d.fecha_despacho,\\n  e.fecha_entrega\\nFROM silver.despachos d\\nINNER JOIN silver.spl_entregas_agencia e\\n  ON UPPER(TRIM(d.nro_lote)) = UPPER(TRIM(e.lote))',",
+						"     format: 'query') ~> source2",
+						"source(output(",
+						"          lote_key as integer,",
+						"          nro_lote as string,",
+						"          proveedor as string,",
+						"          anio_lote as integer",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> source3",
+						"source(output(",
+						"          persona_key as integer,",
+						"          ci as string,",
+						"          nombres as string,",
+						"          apellido_paterno as string,",
+						"          apellido_materno as string,",
+						"          nombre_completo as string,",
+						"          fecha_nacimiento as date,",
+						"          genero as string,",
+						"          estado_civil as string,",
+						"          numero_hijos as integer,",
+						"          municipio_residencia as string,",
+						"          en_segip as boolean",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> source4",
+						"source(output(",
+						"          establecimiento_key as integer,",
+						"          establecimiento_id_origen as string,",
+						"          sistema_origen as string,",
+						"          nombre as string,",
+						"          tipo as string,",
+						"          nivel_atencion as string,",
+						"          municipio as string,",
+						"          departamento as string,",
+						"          red_salud as string,",
+						"          estado as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT * FROM gold.dim_establecimiento WHERE sistema_origen = \\'AGENCIA\\'',",
+						"     format: 'query') ~> source5",
+						"source(output(",
+						"          fecha_key as integer,",
+						"          fecha as date,",
+						"          anio as integer,",
+						"          mes as integer,",
+						"          dia as integer,",
+						"          nombre_mes as string,",
+						"          trimestre as integer,",
+						"          nombre_dia as string,",
+						"          es_fin_semana as boolean",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> source6",
+						"source1, source2 union(byName: true)~> union1",
+						"union1, source3 lookup(union1@nro_lote == source3@nro_lote,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> lookup1",
+						"lookup1, source4 lookup(union1@ci == source4@ci,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> lookup2",
+						"lookup2 derive(fecha_despacho_key_busqueda = toInteger(toString(fecha_despacho, 'yyyyMMdd')),",
+						"          fecha_entrega_key_busqueda = toInteger(toString(fecha_entrega, 'yyyyMMdd'))) ~> derivedColumn1",
+						"derivedColumn1, source6 lookup(fecha_despacho_key_busqueda == fecha_key,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> lookup3",
+						"lookup3 select(mapColumn(",
+						"          nro_lote = union1@nro_lote,",
+						"          ci = union1@ci,",
+						"          sistema_destino,",
+						"          centro_destino,",
+						"          fecha_despacho,",
+						"          fecha_entrega,",
+						"          lote_key,",
+						"          nro_lote = source3@nro_lote,",
+						"          proveedor,",
+						"          anio_lote,",
+						"          persona_key,",
+						"          ci = source4@ci,",
+						"          nombres,",
+						"          apellido_paterno,",
+						"          apellido_materno,",
+						"          nombre_completo,",
+						"          fecha_nacimiento,",
+						"          genero,",
+						"          estado_civil,",
+						"          numero_hijos,",
+						"          municipio_residencia,",
+						"          en_segip,",
+						"          fecha_despacho_key_busqueda,",
+						"          fecha_entrega_key_busqueda,",
+						"          fecha_despacho_key = fecha_key,",
+						"          fecha,",
+						"          anio,",
+						"          mes,",
+						"          dia,",
+						"          nombre_mes,",
+						"          trimestre,",
+						"          nombre_dia,",
+						"          es_fin_semana",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select1",
+						"select1, source6 lookup(fecha_entrega_key_busqueda == fecha_key,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> lookup4",
+						"lookup4 select(mapColumn(",
+						"          nro_lote,",
+						"          ci,",
+						"          sistema_destino,",
+						"          centro_destino,",
+						"          fecha_despacho,",
+						"          fecha_entrega,",
+						"          lote_key,",
+						"          proveedor,",
+						"          anio_lote,",
+						"          persona_key,",
+						"          nombres,",
+						"          apellido_paterno,",
+						"          apellido_materno,",
+						"          nombre_completo,",
+						"          fecha_nacimiento,",
+						"          genero,",
+						"          estado_civil,",
+						"          numero_hijos,",
+						"          municipio_residencia,",
+						"          en_segip,",
+						"          fecha_despacho_key_busqueda,",
+						"          fecha_entrega_key_busqueda,",
+						"          fecha_despacho_key,",
+						"          fecha = select1@fecha,",
+						"          anio = select1@anio,",
+						"          mes = select1@mes,",
+						"          dia = select1@dia,",
+						"          nombre_mes = select1@nombre_mes,",
+						"          trimestre = select1@trimestre,",
+						"          nombre_dia = select1@nombre_dia,",
+						"          es_fin_semana = select1@es_fin_semana,",
+						"          fecha_entrega_key = fecha_key,",
+						"          fecha = source6@fecha,",
+						"          anio = source6@anio,",
+						"          mes = source6@mes,",
+						"          dia = source6@dia,",
+						"          nombre_mes = source6@nombre_mes,",
+						"          trimestre = source6@trimestre,",
+						"          nombre_dia = source6@nombre_dia,",
+						"          es_fin_semana = source6@es_fin_semana",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select2",
+						"select2 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          trazabilidad_key as integer,",
+						"          lote_key as integer,",
+						"          persona_key as integer,",
+						"          sistema_destino as string,",
+						"          establecimiento_key as integer,",
+						"          centro_destino_despacho as string,",
+						"          fecha_despacho_key as integer,",
+						"          fecha_entrega_key as integer",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     truncate:true,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          lote_key,",
+						"          persona_key,",
+						"          sistema_destino,",
+						"          fecha_despacho_key,",
+						"          fecha_entrega_key,",
+						"          centro_destino_despacho = centro_destino",
+						"     )) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/silver_despachos')]",
+				"[concat(variables('factoryId'), '/datasets/gold_dim_lote')]",
+				"[concat(variables('factoryId'), '/datasets/gold_dim_persona')]",
+				"[concat(variables('factoryId'), '/datasets/gold_dim_establecimiento')]",
+				"[concat(variables('factoryId'), '/datasets/gold_dim_fecha')]",
+				"[concat(variables('factoryId'), '/datasets/gold_hechos_trazabilidad_integral')]"
 			]
 		}
 	]

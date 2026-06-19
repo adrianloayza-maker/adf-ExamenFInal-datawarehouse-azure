@@ -121,7 +121,6 @@
 				"     skipDuplicateMapOutputs: true,",
 				"     errorHandlingOption: 'stopOnFirstError',",
 				"     mapColumn(",
-				"          establecimiento_key = establecimiento_id_origen,",
 				"          establecimiento_id_origen,",
 				"          sistema_origen,",
 				"          nombre,",

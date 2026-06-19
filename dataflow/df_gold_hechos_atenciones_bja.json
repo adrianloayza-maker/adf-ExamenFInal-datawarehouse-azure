@@ -50,7 +50,15 @@
 					"name": "source6"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "gold_hechos_atenciones_bja",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
 			"transformations": [
 				{
 					"name": "union1"
@@ -60,6 +68,15 @@
 				},
 				{
 					"name": "lookupPersona"
+				},
+				{
+					"name": "lookupEstablecimiento"
+				},
+				{
+					"name": "lookupFecha"
+				},
+				{
+					"name": "derivedColumn1"
 				}
 			],
 			"scriptLines": [
@@ -172,10 +189,59 @@
 				"     format: 'table') ~> source6",
 				"source1, source2 union(byName: true)~> union1",
 				"union1, source3 union(byName: true)~> union2",
-				"union2, source4 lookup(ERROR_FUNCTION('') == source4@ci,",
+				"union2, source4 lookup(union2@ci == source4@ci,",
 				"     multiple: false,",
 				"     pickup: 'any',",
-				"     broadcast: 'auto')~> lookupPersona"
+				"     broadcast: 'auto')~> lookupPersona",
+				"lookupPersona, source5 lookup(establecimiento_id == establecimiento_id_origen,",
+				"     multiple: false,",
+				"     pickup: 'any',",
+				"     broadcast: 'auto')~> lookupEstablecimiento",
+				"derivedColumn1, source6 lookup(fecha_key_busqueda == fecha_key,",
+				"     multiple: false,",
+				"     pickup: 'any',",
+				"     broadcast: 'auto')~> lookupFecha",
+				"lookupEstablecimiento derive(fecha_key_busqueda = toInteger(toString(fecha_control, 'yyyyMMdd'))) ~> derivedColumn1",
+				"lookupFecha sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          atencion_key as integer,",
+				"          tipo_atencion as string,",
+				"          persona_key as integer,",
+				"          establecimiento_key as integer,",
+				"          fecha_key as integer,",
+				"          nro_control as integer,",
+				"          semana_gestacion as integer,",
+				"          peso_kg as decimal(6,2),",
+				"          talla_cm as decimal(6,2),",
+				"          presion_arterial as string,",
+				"          resultado as string,",
+				"          vacuna_aplicada as string,",
+				"          tipo_parto as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          tipo_atencion,",
+				"          persona_key,",
+				"          establecimiento_key,",
+				"          fecha_key,",
+				"          nro_control,",
+				"          semana_gestacion,",
+				"          peso_kg,",
+				"          talla_cm,",
+				"          presion_arterial,",
+				"          resultado,",
+				"          vacuna_aplicada,",
+				"          tipo_parto",
+				"     )) ~> sink1"
 			]
 		}
 	}

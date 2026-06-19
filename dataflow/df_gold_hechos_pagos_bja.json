@@ -1,0 +1,178 @@
+{
+	"name": "df_gold_hechos_pagos_bja",
+	"properties": {
+		"folder": {
+			"name": "gold"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "silver_bja_pagos",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				},
+				{
+					"dataset": {
+						"referenceName": "gold_dim_persona",
+						"type": "DatasetReference"
+					},
+					"name": "source2"
+				},
+				{
+					"dataset": {
+						"referenceName": "gold_dim_fecha",
+						"type": "DatasetReference"
+					},
+					"name": "source3"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "gold_hechos_pagos_bja",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "lookup1"
+				},
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "lookup2"
+				},
+				{
+					"name": "select1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          ci as string,",
+				"          fecha_pago as date,",
+				"          concepto_pago as string,",
+				"          monto_bs as decimal(18,2),",
+				"          estado_pago as string,",
+				"          canal_pago as string,",
+				"          nro_comprobante as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT\\n  UPPER(TRIM(ci_beneficiaria)) AS ci,\\n  fecha_pago,\\n  concepto_pago,\\n  monto_bs,\\n  estado_pago,\\n  canal_pago,\\n  nro_comprobante\\nFROM silver.bja_pagos',",
+				"     format: 'query') ~> source1",
+				"source(output(",
+				"          persona_key as integer,",
+				"          ci as string,",
+				"          nombres as string,",
+				"          apellido_paterno as string,",
+				"          apellido_materno as string,",
+				"          nombre_completo as string,",
+				"          fecha_nacimiento as date,",
+				"          genero as string,",
+				"          estado_civil as string,",
+				"          numero_hijos as integer,",
+				"          municipio_residencia as string,",
+				"          en_segip as boolean",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source2",
+				"source(output(",
+				"          fecha_key as integer,",
+				"          fecha as date,",
+				"          anio as integer,",
+				"          mes as integer,",
+				"          dia as integer,",
+				"          nombre_mes as string,",
+				"          trimestre as integer,",
+				"          nombre_dia as string,",
+				"          es_fin_semana as boolean",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source3",
+				"source1, source2 lookup(source1@ci == source2@ci,",
+				"     multiple: false,",
+				"     pickup: 'any',",
+				"     broadcast: 'auto')~> lookup1",
+				"lookup1 derive(fecha_key_busqueda = toInteger(toString(fecha_pago, 'yyyyMMdd'))) ~> derivedColumn1",
+				"derivedColumn1, source3 lookup(fecha_key_busqueda == fecha_key,",
+				"     multiple: false,",
+				"     pickup: 'any',",
+				"     broadcast: 'auto')~> lookup2",
+				"lookup2 select(mapColumn(",
+				"          ci = source1@ci,",
+				"          fecha_pago,",
+				"          concepto_pago,",
+				"          monto_bs,",
+				"          estado_pago,",
+				"          canal_pago,",
+				"          nro_comprobante,",
+				"          persona_key,",
+				"          ci = source2@ci,",
+				"          nombres,",
+				"          apellido_paterno,",
+				"          apellido_materno,",
+				"          nombre_completo,",
+				"          fecha_nacimiento,",
+				"          genero,",
+				"          estado_civil,",
+				"          numero_hijos,",
+				"          municipio_residencia,",
+				"          en_segip,",
+				"          fecha_key_busqueda,",
+				"          fecha_key,",
+				"          fecha,",
+				"          anio,",
+				"          mes,",
+				"          dia,",
+				"          nombre_mes,",
+				"          trimestre,",
+				"          nombre_dia,",
+				"          es_fin_semana",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          pago_key as integer,",
+				"          persona_key as integer,",
+				"          fecha_key as integer,",
+				"          concepto_pago as string,",
+				"          monto_bs as decimal(18,2),",
+				"          estado_pago as string,",
+				"          canal_pago as string,",
+				"          nro_comprobante as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          persona_key,",
+				"          fecha_key,",
+				"          concepto_pago,",
+				"          monto_bs,",
+				"          estado_pago,",
+				"          canal_pago,",
+				"          nro_comprobante",
+				"     )) ~> sink1"
+			]
+		}
+	}
+}

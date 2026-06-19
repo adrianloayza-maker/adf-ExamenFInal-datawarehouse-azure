@@ -1,0 +1,252 @@
+{
+	"name": "df_gold_hechos_movimientos_agencia",
+	"properties": {
+		"folder": {
+			"name": "gold"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "silver_despachos",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				},
+				{
+					"dataset": {
+						"referenceName": "silver_recepciones",
+						"type": "DatasetReference"
+					},
+					"name": "source2"
+				},
+				{
+					"dataset": {
+						"referenceName": "gold_dim_lote",
+						"type": "DatasetReference"
+					},
+					"name": "source3"
+				},
+				{
+					"dataset": {
+						"referenceName": "gold_dim_establecimiento",
+						"type": "DatasetReference"
+					},
+					"name": "source4"
+				},
+				{
+					"dataset": {
+						"referenceName": "gold_dim_fecha",
+						"type": "DatasetReference"
+					},
+					"name": "source5"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "gold_hechos_movimientos_agencia",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "union1"
+				},
+				{
+					"name": "lookup1"
+				},
+				{
+					"name": "lookup2"
+				},
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "lookup3"
+				},
+				{
+					"name": "select1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          tipo_movimiento as string,",
+				"          nro_lote as string,",
+				"          almacen_id as string,",
+				"          transportista_id as string,",
+				"          vehiculo_id as string,",
+				"          fecha_movimiento as date,",
+				"          cantidad as decimal(18,2),",
+				"          unidad as string,",
+				"          condicion as string,",
+				"          centro_destino as string,",
+				"          estado as string,",
+				"          responsable as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT\\n  \\'DESPACHO\\' AS tipo_movimiento,\\n  UPPER(TRIM(nro_lote)) AS nro_lote,\\n  UPPER(TRIM(almacen_id)) AS almacen_id,\\n  transportista_id,\\n  vehiculo_id,\\n  fecha_despacho AS fecha_movimiento,\\n  cantidad_despachada AS cantidad,\\n  CAST(NULL AS VARCHAR(50)) AS unidad,\\n  CAST(NULL AS VARCHAR(100)) AS condicion,\\n  centro_destino,\\n  estado,\\n  responsable\\nFROM silver.despachos',",
+				"     format: 'query') ~> source1",
+				"source(output(",
+				"          tipo_movimiento as string,",
+				"          nro_lote as string,",
+				"          almacen_id as string,",
+				"          transportista_id as string,",
+				"          vehiculo_id as string,",
+				"          fecha_movimiento as date,",
+				"          cantidad as decimal(18,2),",
+				"          unidad as string,",
+				"          condicion as string,",
+				"          centro_destino as string,",
+				"          estado as string,",
+				"          responsable as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT\\n  \\'RECEPCION\\' AS tipo_movimiento,\\n  UPPER(TRIM(nro_lote)) AS nro_lote,\\n  UPPER(TRIM(almacen_id)) AS almacen_id,\\n  transportista_id,\\n  vehiculo_id,\\n  fecha_recepcion AS fecha_movimiento,\\n  cantidad_recibida AS cantidad,\\n  unidad,\\n  condicion,\\n  CAST(NULL AS VARCHAR(100)) AS centro_destino,\\n  estado,\\n  responsable\\nFROM silver.recepciones',",
+				"     format: 'query') ~> source2",
+				"source(output(",
+				"          lote_key as integer,",
+				"          nro_lote as string,",
+				"          proveedor as string,",
+				"          anio_lote as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source3",
+				"source(output(",
+				"          establecimiento_key as integer,",
+				"          establecimiento_id_origen as string,",
+				"          sistema_origen as string,",
+				"          nombre as string,",
+				"          tipo as string,",
+				"          nivel_atencion as string,",
+				"          municipio as string,",
+				"          departamento as string,",
+				"          red_salud as string,",
+				"          estado as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT * FROM gold.dim_establecimiento WHERE sistema_origen = \\'AGENCIA\\'',",
+				"     format: 'query') ~> source4",
+				"source(output(",
+				"          fecha_key as integer,",
+				"          fecha as date,",
+				"          anio as integer,",
+				"          mes as integer,",
+				"          dia as integer,",
+				"          nombre_mes as string,",
+				"          trimestre as integer,",
+				"          nombre_dia as string,",
+				"          es_fin_semana as boolean",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source5",
+				"source1, source2 union(byName: true)~> union1",
+				"union1, source3 lookup(union1@nro_lote == source3@nro_lote,",
+				"     multiple: false,",
+				"     pickup: 'any',",
+				"     broadcast: 'auto')~> lookup1",
+				"lookup1, source4 lookup(almacen_id == establecimiento_id_origen,",
+				"     multiple: false,",
+				"     pickup: 'any',",
+				"     broadcast: 'auto')~> lookup2",
+				"lookup2 derive({fecha_key_busqueda } = toInteger(toString(fecha_movimiento, 'yyyyMMdd'))) ~> derivedColumn1",
+				"derivedColumn1, source5 lookup({fecha_key_busqueda } == fecha_key,",
+				"     multiple: false,",
+				"     pickup: 'any',",
+				"     broadcast: 'auto')~> lookup3",
+				"lookup3 select(mapColumn(",
+				"          tipo_movimiento,",
+				"          nro_lote = union1@nro_lote,",
+				"          almacen_id,",
+				"          transportista_id,",
+				"          vehiculo_id,",
+				"          fecha_movimiento,",
+				"          cantidad,",
+				"          unidad,",
+				"          condicion,",
+				"          centro_destino,",
+				"          estado = union1@estado,",
+				"          responsable,",
+				"          lote_key,",
+				"          nro_lote = source3@nro_lote,",
+				"          proveedor,",
+				"          anio_lote,",
+				"          establecimiento_key,",
+				"          establecimiento_id_origen,",
+				"          sistema_origen,",
+				"          nombre,",
+				"          tipo,",
+				"          nivel_atencion,",
+				"          municipio,",
+				"          departamento,",
+				"          red_salud,",
+				"          estado = source4@estado,",
+				"          {fecha_key_busqueda },",
+				"          fecha_key,",
+				"          fecha,",
+				"          anio,",
+				"          mes,",
+				"          dia,",
+				"          nombre_mes,",
+				"          trimestre,",
+				"          nombre_dia,",
+				"          es_fin_semana",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          movimiento_key as integer,",
+				"          tipo_movimiento as string,",
+				"          lote_key as integer,",
+				"          almacen_key as integer,",
+				"          transportista_id as string,",
+				"          vehiculo_id as string,",
+				"          fecha_key as integer,",
+				"          cantidad as decimal(18,2),",
+				"          unidad as string,",
+				"          condicion as string,",
+				"          centro_destino as string,",
+				"          estado as string,",
+				"          responsable as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          tipo_movimiento,",
+				"          lote_key,",
+				"          almacen_key = establecimiento_key,",
+				"          transportista_id,",
+				"          vehiculo_id,",
+				"          fecha_key,",
+				"          cantidad,",
+				"          unidad,",
+				"          condicion,",
+				"          centro_destino,",
+				"          estado,",
+				"          responsable",
+				"     )) ~> sink1"
+			]
+		}
+	}
+}

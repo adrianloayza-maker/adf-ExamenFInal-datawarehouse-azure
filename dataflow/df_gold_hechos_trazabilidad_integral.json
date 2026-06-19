@@ -1,0 +1,307 @@
+{
+	"name": "df_gold_hechos_trazabilidad_integral",
+	"properties": {
+		"folder": {
+			"name": "gold"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "silver_despachos",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				},
+				{
+					"dataset": {
+						"referenceName": "silver_despachos",
+						"type": "DatasetReference"
+					},
+					"name": "source2"
+				},
+				{
+					"dataset": {
+						"referenceName": "gold_dim_lote",
+						"type": "DatasetReference"
+					},
+					"name": "source3"
+				},
+				{
+					"dataset": {
+						"referenceName": "gold_dim_persona",
+						"type": "DatasetReference"
+					},
+					"name": "source4"
+				},
+				{
+					"dataset": {
+						"referenceName": "gold_dim_establecimiento",
+						"type": "DatasetReference"
+					},
+					"name": "source5"
+				},
+				{
+					"dataset": {
+						"referenceName": "gold_dim_fecha",
+						"type": "DatasetReference"
+					},
+					"name": "source6"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "gold_hechos_trazabilidad_integral",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "union1"
+				},
+				{
+					"name": "lookup1"
+				},
+				{
+					"name": "lookup2"
+				},
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "lookup3"
+				},
+				{
+					"name": "select1"
+				},
+				{
+					"name": "lookup4"
+				},
+				{
+					"name": "select2"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          nro_lote as string,",
+				"          ci as string,",
+				"          sistema_destino as string,",
+				"          centro_destino as string,",
+				"          fecha_despacho as date,",
+				"          fecha_entrega as date",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT\\n  UPPER(TRIM(d.nro_lote)) AS nro_lote,\\n  UPPER(TRIM(e.ci_beneficiaria)) AS ci,\\n  \\'SUP\\' AS sistema_destino,\\n  d.centro_destino,\\n  d.fecha_despacho,\\n  e.fecha_entrega\\nFROM silver.despachos d\\nINNER JOIN silver.sup_entregas e\\n  ON UPPER(TRIM(d.nro_lote)) = UPPER(TRIM(e.lote_produccion))',",
+				"     format: 'query') ~> source1",
+				"source(output(",
+				"          nro_lote as string,",
+				"          ci as string,",
+				"          sistema_destino as string,",
+				"          centro_destino as string,",
+				"          fecha_despacho as date,",
+				"          fecha_entrega as date",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT\\n  UPPER(TRIM(d.nro_lote)) AS nro_lote,\\n  UPPER(TRIM(e.ci_beneficiaria)) AS ci,\\n  \\'SPL\\' AS sistema_destino,\\n  d.centro_destino,\\n  d.fecha_despacho,\\n  e.fecha_entrega\\nFROM silver.despachos d\\nINNER JOIN silver.spl_entregas_agencia e\\n  ON UPPER(TRIM(d.nro_lote)) = UPPER(TRIM(e.lote))',",
+				"     format: 'query') ~> source2",
+				"source(output(",
+				"          lote_key as integer,",
+				"          nro_lote as string,",
+				"          proveedor as string,",
+				"          anio_lote as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source3",
+				"source(output(",
+				"          persona_key as integer,",
+				"          ci as string,",
+				"          nombres as string,",
+				"          apellido_paterno as string,",
+				"          apellido_materno as string,",
+				"          nombre_completo as string,",
+				"          fecha_nacimiento as date,",
+				"          genero as string,",
+				"          estado_civil as string,",
+				"          numero_hijos as integer,",
+				"          municipio_residencia as string,",
+				"          en_segip as boolean",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source4",
+				"source(output(",
+				"          establecimiento_key as integer,",
+				"          establecimiento_id_origen as string,",
+				"          sistema_origen as string,",
+				"          nombre as string,",
+				"          tipo as string,",
+				"          nivel_atencion as string,",
+				"          municipio as string,",
+				"          departamento as string,",
+				"          red_salud as string,",
+				"          estado as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT * FROM gold.dim_establecimiento WHERE sistema_origen = \\'AGENCIA\\'',",
+				"     format: 'query') ~> source5",
+				"source(output(",
+				"          fecha_key as integer,",
+				"          fecha as date,",
+				"          anio as integer,",
+				"          mes as integer,",
+				"          dia as integer,",
+				"          nombre_mes as string,",
+				"          trimestre as integer,",
+				"          nombre_dia as string,",
+				"          es_fin_semana as boolean",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source6",
+				"source1, source2 union(byName: true)~> union1",
+				"union1, source3 lookup(union1@nro_lote == source3@nro_lote,",
+				"     multiple: false,",
+				"     pickup: 'any',",
+				"     broadcast: 'auto')~> lookup1",
+				"lookup1, source4 lookup(union1@ci == source4@ci,",
+				"     multiple: false,",
+				"     pickup: 'any',",
+				"     broadcast: 'auto')~> lookup2",
+				"lookup2 derive(fecha_despacho_key_busqueda = toInteger(toString(fecha_despacho, 'yyyyMMdd')),",
+				"          fecha_entrega_key_busqueda = toInteger(toString(fecha_entrega, 'yyyyMMdd'))) ~> derivedColumn1",
+				"derivedColumn1, source6 lookup(fecha_despacho_key_busqueda == fecha_key,",
+				"     multiple: false,",
+				"     pickup: 'any',",
+				"     broadcast: 'auto')~> lookup3",
+				"lookup3 select(mapColumn(",
+				"          nro_lote = union1@nro_lote,",
+				"          ci = union1@ci,",
+				"          sistema_destino,",
+				"          centro_destino,",
+				"          fecha_despacho,",
+				"          fecha_entrega,",
+				"          lote_key,",
+				"          nro_lote = source3@nro_lote,",
+				"          proveedor,",
+				"          anio_lote,",
+				"          persona_key,",
+				"          ci = source4@ci,",
+				"          nombres,",
+				"          apellido_paterno,",
+				"          apellido_materno,",
+				"          nombre_completo,",
+				"          fecha_nacimiento,",
+				"          genero,",
+				"          estado_civil,",
+				"          numero_hijos,",
+				"          municipio_residencia,",
+				"          en_segip,",
+				"          fecha_despacho_key_busqueda,",
+				"          fecha_entrega_key_busqueda,",
+				"          fecha_despacho_key = fecha_key,",
+				"          fecha,",
+				"          anio,",
+				"          mes,",
+				"          dia,",
+				"          nombre_mes,",
+				"          trimestre,",
+				"          nombre_dia,",
+				"          es_fin_semana",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1, source6 lookup(fecha_entrega_key_busqueda == fecha_key,",
+				"     multiple: false,",
+				"     pickup: 'any',",
+				"     broadcast: 'auto')~> lookup4",
+				"lookup4 select(mapColumn(",
+				"          nro_lote,",
+				"          ci,",
+				"          sistema_destino,",
+				"          centro_destino,",
+				"          fecha_despacho,",
+				"          fecha_entrega,",
+				"          lote_key,",
+				"          proveedor,",
+				"          anio_lote,",
+				"          persona_key,",
+				"          nombres,",
+				"          apellido_paterno,",
+				"          apellido_materno,",
+				"          nombre_completo,",
+				"          fecha_nacimiento,",
+				"          genero,",
+				"          estado_civil,",
+				"          numero_hijos,",
+				"          municipio_residencia,",
+				"          en_segip,",
+				"          fecha_despacho_key_busqueda,",
+				"          fecha_entrega_key_busqueda,",
+				"          fecha_despacho_key,",
+				"          fecha = select1@fecha,",
+				"          anio = select1@anio,",
+				"          mes = select1@mes,",
+				"          dia = select1@dia,",
+				"          nombre_mes = select1@nombre_mes,",
+				"          trimestre = select1@trimestre,",
+				"          nombre_dia = select1@nombre_dia,",
+				"          es_fin_semana = select1@es_fin_semana,",
+				"          fecha_entrega_key = fecha_key,",
+				"          fecha = source6@fecha,",
+				"          anio = source6@anio,",
+				"          mes = source6@mes,",
+				"          dia = source6@dia,",
+				"          nombre_mes = source6@nombre_mes,",
+				"          trimestre = source6@trimestre,",
+				"          nombre_dia = source6@nombre_dia,",
+				"          es_fin_semana = source6@es_fin_semana",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select2",
+				"select2 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          trazabilidad_key as integer,",
+				"          lote_key as integer,",
+				"          persona_key as integer,",
+				"          sistema_destino as string,",
+				"          establecimiento_key as integer,",
+				"          centro_destino_despacho as string,",
+				"          fecha_despacho_key as integer,",
+				"          fecha_entrega_key as integer",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          lote_key,",
+				"          persona_key,",
+				"          sistema_destino,",
+				"          fecha_despacho_key,",
+				"          fecha_entrega_key,",
+				"          centro_destino_despacho = centro_destino",
+				"     )) ~> sink1"
+			]
+		}
+	}
+}

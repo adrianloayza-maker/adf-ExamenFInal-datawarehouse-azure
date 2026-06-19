@@ -54,6 +54,9 @@
 				},
 				{
 					"name": "union3"
+				},
+				{
+					"name": "aggregate1"
 				}
 			],
 			"scriptLines": [
@@ -96,7 +99,9 @@
 				"source1, source2 union(byName: true)~> union1",
 				"union1, source3 union(byName: true)~> union2",
 				"union2, source4 union(byName: true)~> union3",
-				"union3 sink(allowSchemaDrift: true,",
+				"union3 aggregate(groupBy(departamento,",
+				"          municipio)) ~> aggregate1",
+				"aggregate1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          ubicacion_key as integer,",

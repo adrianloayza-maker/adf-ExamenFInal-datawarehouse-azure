@@ -47,6 +47,9 @@
 				},
 				{
 					"name": "derivedColumn1"
+				},
+				{
+					"name": "aggregate1"
 				}
 			],
 			"scriptLines": [
@@ -76,8 +79,9 @@
 				"     format: 'query') ~> source3",
 				"source1, source2 union(byName: true)~> union1",
 				"union1, source3 union(byName: true)~> union2",
-				"union2 derive(proveedor =   left(nro_lote, locate('-', nro_lote) - 1),",
+				"aggregate1 derive(proveedor =   left(nro_lote, locate('-', nro_lote) - 1),",
 				"          anio_lote =   toInteger(substring(nro_lote, locate('-', nro_lote) + 1, locate('-', nro_lote, locate('-', nro_lote) + 1) - locate('-', nro_lote) - 1))) ~> derivedColumn1",
+				"union2 aggregate(groupBy(nro_lote)) ~> aggregate1",
 				"derivedColumn1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",

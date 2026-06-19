@@ -144,6 +144,9 @@
 				},
 				{
 					"name": "union12"
+				},
+				{
+					"name": "aggregate1"
 				}
 			],
 			"scriptLines": [
@@ -263,7 +266,8 @@
 				"union9, source12 union(byName: true)~> union10",
 				"union10, source13 union(byName: true)~> union11",
 				"union11, source14 union(byName: true)~> union12",
-				"union12 sink(allowSchemaDrift: true,",
+				"union12 aggregate(groupBy(ci)) ~> aggregate1",
+				"aggregate1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          persona_key as integer,",
